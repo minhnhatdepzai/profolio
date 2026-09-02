@@ -30,7 +30,7 @@ For a first manual deployment, authenticate Wrangler and run:
 
 ```bash
 npx wrangler login
-VITE_SITE_URL=https://your-worker.your-subdomain.workers.dev npm run deploy:cloudflare
+VITE_SITE_URL=https://leminhnhat-portfolio.lnhat1938.workers.dev npm run deploy:cloudflare
 ```
 
 For Git-connected Workers Builds, use these settings:
@@ -46,6 +46,9 @@ robots.txt and sitemap.xml use the final Worker or custom domain:
 ```text
 VITE_SITE_URL=https://your-final-domain.example
 ```
+
+The current production Worker is `leminhnhat-portfolio`, available at
+`https://leminhnhat-portfolio.lnhat1938.workers.dev/`.
 
 To test the Cloudflare build locally without deploying:
 

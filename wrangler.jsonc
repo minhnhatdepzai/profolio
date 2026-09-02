@@ -2,7 +2,7 @@
   // Lê Minh Nhật — Creative Developer Portfolio
   // npm run build && npx wrangler deploy
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "le-minh-nhat-portfolio",
+  "name": "leminhnhat-portfolio",
   "compatibility_date": "2026-09-02",
   "assets": {
     "directory": "./dist",

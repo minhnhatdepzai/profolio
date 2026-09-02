@@ -4,7 +4,7 @@ import { existsSync, writeFileSync } from 'node:fs';
 import path from 'path';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 
-const DEFAULT_SITE_URL = 'https://minhnhatdepzai.github.io/profolio';
+const DEFAULT_SITE_URL = 'https://leminhnhat-portfolio.lnhat1938.workers.dev';
 
 function deploymentMetadata(siteUrl: string): Plugin {
   return {
