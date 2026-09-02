@@ -1,89 +1,89 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
-import { Home, User, Briefcase, GraduationCap, Code, Award, Mail } from 'lucide-react';
-import { motion } from 'motion/react';
 
 const navItems = [
-  { id: 'hero', icon: Home, label: { en: 'Home', vi: 'Trang chủ' } },
-  { id: 'about', icon: User, label: { en: 'About', vi: 'Giới thiệu' } },
-  { id: 'experience', icon: Briefcase, label: { en: 'Experience', vi: 'Kinh nghiệm' } },
-  { id: 'education', icon: GraduationCap, label: { en: 'Education', vi: 'Học vấn' } },
-  { id: 'projects', icon: Code, label: { en: 'Projects', vi: 'Dự án' } },
-  { id: 'awards', icon: Award, label: { en: 'Awards', vi: 'Giải thưởng' } },
-  { id: 'contact', icon: Mail, label: { en: 'Contact', vi: 'Liên hệ' } }
+  { id: 'selected-work', label: { en: 'Work', vi: 'Dự án' } },
+  { id: 'capabilities', label: { en: 'Capabilities', vi: 'Năng lực' } },
+  { id: 'journey', label: { en: 'Journey', vi: 'Hành trình' } },
+  { id: 'archive', label: { en: 'Archive', vi: 'Lưu trữ' } },
+  { id: 'contact', label: { en: 'Contact', vi: 'Liên hệ' } },
 ];
 
-export const DesktopNav = () => {
+export const Navigation = () => {
   const { getStr } = useLanguage();
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState('hero');
 
-  const handleScroll = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  useEffect(() => {
+    const sections = ['hero', 'selected-work', 'capabilities', 'journey', 'archive', 'contact']
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.isIntersecting && setActive(entry.target.id)),
+      { rootMargin: '-42% 0px -48% 0px' },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    document.body.classList.add('nav-is-open');
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.classList.remove('nav-is-open');
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
+
+  const goTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setOpen(false);
   };
 
   return (
-    <nav className="hidden md:flex fixed top-0 w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/10 px-6 py-4 justify-between items-center">
-      <div className="text-xl font-bold tracking-tight text-white/90">
-        Lê Minh <span className="text-blue-500">Nhật</span>
-      </div>
-      
-      <div className="flex items-center gap-6">
-        <ul className="flex items-center gap-6">
-          {navItems.map(item => (
-            <li key={item.id}>
-              <button
-                onClick={() => handleScroll(item.id)}
-                className="text-sm font-medium text-white/70 hover:text-white transition-colors"
-                aria-label={getStr(item.label)}
-              >
-                {getStr(item.label)}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <div className="w-px h-6 bg-white/20 mx-2" />
-        <LanguageToggle />
-      </div>
-    </nav>
-  );
-};
+    <header className="nav-wrap">
+      <button className="brand" onClick={() => goTo('hero')} title={getStr({ en: 'Back to top', vi: 'Về đầu trang' })} data-cursor="focus">
+        <span className="brand__mark" aria-hidden="true"><i>L</i><i>N</i></span>
+        <span className="brand__name">Lê Minh Nhật</span>
+      </button>
 
-export const MobileNav = () => {
-  const { getStr } = useLanguage();
-
-  const handleScroll = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  return (
-    <>
-      {/* Mobile Top Bar */}
-      <div className="md:hidden fixed top-0 w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/10 px-4 py-3 flex justify-between items-center">
-        <div className="text-lg font-bold tracking-tight text-white/90">
-          Lê Minh <span className="text-blue-500">Nhật</span>
-        </div>
-        <LanguageToggle />
-      </div>
-
-      {/* Mobile Bottom Bar */}
-      <nav className="md:hidden fixed bottom-0 w-full z-50 bg-black/80 backdrop-blur-lg border-t border-white/10 pb-safe">
-        <ul className="flex items-center justify-around px-2 py-3 overflow-x-auto gap-2 no-scrollbar">
-          {navItems.map(item => (
-            <li key={item.id} className="flex-shrink-0">
-              <button
-                onClick={() => handleScroll(item.id)}
-                className="flex flex-col items-center justify-center w-14 h-12 rounded-xl text-white/50 hover:text-white hover:bg-white/10 transition-all"
-                aria-label={getStr(item.label)}
-              >
-                <item.icon size={20} />
-                <span className="text-[10px] mt-1 hidden sm:block whitespace-nowrap">{getStr(item.label)}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
+      <nav className={`nav-panel ${open ? 'is-open' : ''}`} aria-label="Main navigation">
+        {navItems.map((item, index) => (
+          <button
+            key={item.id}
+            className={active === item.id ? 'is-active' : ''}
+            onClick={() => goTo(item.id)}
+          >
+            <span>0{index + 2}</span>
+            {getStr(item.label)}
+          </button>
+        ))}
       </nav>
-    </>
+
+      <div className="nav-actions">
+        <LanguageToggle />
+        <a className="nav-contact" href="mailto:lnhat1938@gmail.com" data-cursor="focus">
+          <span>{getStr({ en: 'Start a conversation', vi: 'Bắt đầu trao đổi' })}</span>
+          <ArrowUpRight size={15} />
+        </a>
+        <button
+          className="menu-button"
+          onClick={() => setOpen((value) => !value)}
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+        >
+          {open ? <X size={19} /> : <Menu size={19} />}
+        </button>
+      </div>
+    </header>
   );
 };
+
+export const DesktopNav = Navigation;
+export const MobileNav = () => null;

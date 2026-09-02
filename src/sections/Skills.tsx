@@ -1,79 +1,66 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { skills } from '../data/cv';
+import { Bot, Braces, Component, Database, Layers3, PenTool, ScanFace, Smartphone } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
+const capabilities = [
+  {
+    number: '01',
+    title: { en: 'Product engineering', vi: 'Kỹ thuật sản phẩm' },
+    text: { en: 'Responsive interfaces, mobile journeys and the state systems that make them dependable.', vi: 'Giao diện responsive, hành trình mobile và hệ thống trạng thái giúp sản phẩm vận hành tin cậy.' },
+    tools: ['React', 'TypeScript', 'React Native', 'Node.js'],
+    icon: Component,
+  },
+  {
+    number: '02',
+    title: { en: 'AI & computer vision', vi: 'AI & thị giác máy tính' },
+    text: { en: 'Inference pipelines, quality gates and visual models with honest uncertainty boundaries.', vi: 'Pipeline inference, cổng kiểm định chất lượng và mô hình thị giác với ranh giới bất định rõ ràng.' },
+    tools: ['Python', 'PyTorch', 'FastAPI', 'OpenCV'],
+    icon: ScanFace,
+  },
+  {
+    number: '03',
+    title: { en: 'Interactive worlds', vi: 'Thế giới tương tác' },
+    text: { en: '3D scenes, motion systems, browser games and audiovisual storytelling that serve the idea.', vi: 'Scene 3D, motion system, game trình duyệt và kể chuyện nghe nhìn phục vụ đúng ý tưởng.' },
+    tools: ['Three.js', 'WebGL', 'GSAP', 'Web Audio'],
+    icon: Layers3,
+  },
+  {
+    number: '04',
+    title: { en: 'Systems & delivery', vi: 'Hệ thống & triển khai' },
+    text: { en: 'APIs, data models, Linux workflows and cloud delivery from prototype to working demo.', vi: 'API, mô hình dữ liệu, quy trình Linux và triển khai cloud từ prototype đến demo hoạt động.' },
+    tools: ['MongoDB', 'PostgreSQL', 'Cloudflare', 'Linux'],
+    icon: Database,
+  },
+];
+
+const signalIcons = [Braces, Smartphone, Bot, PenTool];
+
 export const Skills = () => {
-  const { getStr } = useLanguage();
-
-  // Continually floating animation variance
-  const getFloatingAnimation = (index: number) => ({
-    y: [-3, 3, -3],
-    transition: {
-      duration: 3 + (index % 3), // Varied duration
-      repeat: Infinity,
-      ease: "easeInOut",
-      delay: index * 0.1 // Staggered start
-    }
-  });
-
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, scale: 0.8, y: 30 },
-    show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
-  };
+  const { lang } = useLanguage();
 
   return (
-    <section id="skills" className="py-20 px-6 max-w-5xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8 }}
-      >
-        <h2 className="text-3xl md:text-5xl font-bold mb-10 text-white tracking-tight">
-          {getStr({ en: "Skills", vi: "Kỹ năng" })}
-          <span className="text-blue-500">.</span>
-        </h2>
+    <section id="capabilities" className="capabilities-section section-pad">
+      <header className="section-heading section-heading--split" data-reveal>
+        <div>
+          <span className="eyebrow">03 · {lang === 'vi' ? 'NĂNG LỰC' : 'CAPABILITIES'}</span>
+          <h2>{lang === 'vi' ? 'Ý tưởng dẫn đường. Công nghệ tạo lực.' : 'Ideas lead. Technology gives them force.'}</h2>
+        </div>
+        <p>{lang === 'vi' ? 'Một bộ công cụ đa ngành để đi từ khái niệm đến trải nghiệm có thể sử dụng.' : 'A cross-disciplinary toolkit for moving from concept to a usable experience.'}</p>
+      </header>
 
-        <motion.div 
-          className="flex flex-wrap gap-4"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {skills.map((skill, index) => (
-            <motion.div
-              key={index}
-              variants={item}
-              className="relative group cursor-default"
-            >
-              {/* Inner animated wrapper for the floating effect so the hover pop effect doesn't conflict */}
-              <motion.div 
-                animate={getFloatingAnimation(index)}
-              >
-                <motion.div
-                  whileHover={{ y: -5, scale: 1.1, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                  className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-gray-200 font-medium transition-colors shadow-lg overflow-hidden relative"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 -translate-x-[100%] group-hover:translate-x-[100%] transition-all duration-700 pointer-events-none" />
-                  <span className="relative z-10">{skill}</span>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
+      <div className="capability-grid">
+        {capabilities.map(({ number, title, text, tools, icon: Icon }, index) => {
+          const Signal = signalIcons[index];
+          return (
+            <article className="capability-card" key={number} data-reveal>
+              <div className="capability-card__top"><span>{number}</span><Icon aria-hidden="true" /></div>
+              <div className="capability-card__signal" aria-hidden="true"><Signal /></div>
+              <h3>{title[lang]}</h3>
+              <p>{text[lang]}</p>
+              <ul>{tools.map((tool) => <li key={tool}>{tool}</li>)}</ul>
+            </article>
+          );
+        })}
+      </div>
     </section>
   );
 };

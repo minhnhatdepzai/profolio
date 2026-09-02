@@ -1,245 +1,207 @@
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { projects } from '../data/cv';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { ArrowDownRight, ArrowUpRight, Film, Github, Play, X } from 'lucide-react';
+import { featuredProjects, type FeaturedProject } from '../data/projects';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Github, ExternalLink, PlayCircle, Search, X } from 'lucide-react';
+
+const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
+  const { getStr } = useLanguage();
+
+  if (project.media) {
+    return (
+      <div className={`artifact artifact--real artifact--real-${project.slug}`}>
+        <div className="artifact-label">{getStr(project.media.label)} / {project.order}</div>
+        <div className="artifact-real__type" aria-hidden="true">{project.title}</div>
+        <figure className="artifact-real__screen">
+          <img
+            src={`${import.meta.env.BASE_URL}${project.media.file}`}
+            alt={getStr(project.media.alt)}
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption><i />{project.media.source}</figcaption>
+        </figure>
+        <span className="artifact-real__proof">{getStr({ en: 'SOURCE-VERIFIED MEDIA', vi: 'MEDIA ĐÃ XÁC MINH NGUỒN' })}</span>
+      </div>
+    );
+  }
+
+  if (project.slug === 'japano') {
+    return (
+      <div className="artifact artifact--japano">
+        <div className="artifact-label">MEDIA PENDING / 01</div>
+        <div className="japano-word">JPN</div>
+        <div className="japano-phone japano-phone--front"><span>AI FIT</span><i /><i /><strong>YOUR LOOK</strong></div>
+        <div className="japano-phone japano-phone--back"><span>STORE</span><i /><i /></div>
+        <div className="artifact-orbit"><span>SHOP</span><span>TRY</span><span>EXPLORE</span></div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'math-lab') {
+    return (
+      <div className="artifact artifact--math">
+        <div className="artifact-label">SEMANTIC SCENE / 02</div>
+        <div className="math-formula">x² + y² = r²</div>
+        <svg className="math-graph" viewBox="0 0 420 300" role="img" aria-label="Animated coordinate system">
+          <path d="M20 150H400M210 20V280" className="math-axis" />
+          <path d="M45 245C105 235 115 65 210 105S305 245 385 58" className="math-curve" />
+          <circle cx="210" cy="105" r="7" />
+        </svg>
+        <div className="math-bars"><i /><i /><i /><i /></div>
+        <div className="math-step">MODEL → PLAN → SCENE</div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'kho') {
+    return (
+      <div className="artifact artifact--kho">
+        <div className="artifact-label">LANGBIANG / 03</div>
+        <div className="kho-sun" />
+        <div className="kho-gong"><i /><i /><i /></div>
+        <svg className="kho-mountain" viewBox="0 0 600 360" aria-hidden="true">
+          <path d="M-20 345L115 165L190 260L320 62L470 244L620 118V380H-20Z" />
+          <path d="M-20 360L145 238L265 310L420 160L620 295V380H-20Z" />
+        </svg>
+        <div className="kho-card">FLAG<br />CARD <strong>08</strong></div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'picko247') {
+    return (
+      <div className="artifact artifact--picko">
+        <div className="artifact-label">RALLY ENGINE / 04</div>
+        <div className="picko-score"><span>LIVE</span><strong>24</strong><i>:</i><strong>17</strong></div>
+        <div className="picko-court"><i className="picko-ball" /></div>
+        <div className="picko-type">RALLY<br />247</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="artifact artifact--happy artifact--pending">
+      <div className="artifact-label">SOURCE VERIFIED / 05</div>
+      <div className="pending-cross" aria-hidden="true" />
+      <div className="pending-title">REAL<br />MEDIA<br /><i>PENDING</i></div>
+      <div className="pending-modules"><span>VOICE ROOMS</span><span>ACCESSIBILITY</span><span>2D / 3D GAMES</span></div>
+      <p>{getStr({ en: 'No fabricated interface preview.', vi: 'Không dùng ảnh giao diện giả.' })}</p>
+    </div>
+  );
+};
+
+const LinkIcon = ({ kind }: { kind: 'demo' | 'github' | 'video' }) => {
+  if (kind === 'github') return <Github aria-hidden="true" />;
+  if (kind === 'video') return <Film aria-hidden="true" />;
+  return <Play aria-hidden="true" />;
+};
 
 export const Projects = () => {
   const { getStr, lang } = useLanguage();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [openSlug, setOpenSlug] = useState<FeaturedProject['slug'] | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const openProject = featuredProjects.find((project) => project.slug === openSlug);
 
-  // Extract tag frequencies for tag cloud
-  const tagStats = useMemo(() => {
-    const counts: Record<string, number> = {};
-    projects.forEach(category => {
-      category.items.forEach(item => {
-        if (item.tags) {
-          item.tags.forEach(tag => {
-            counts[tag] = (counts[tag] || 0) + 1;
-          });
-        }
-      });
-    });
-    
-    const stats = Object.entries(counts).map(([tag, count]) => ({ tag, count }));
-    const max = Math.max(...stats.map(s => s.count), 1);
-    const min = Math.min(...stats.map(s => s.count), 0);
-    // Sort tags alphabetically for the cloud, or by count. Alphabetical usually looks more like a cloud.
-    return { stats: stats.sort((a, b) => a.tag.localeCompare(b.tag)), max, min };
+  useEffect(() => {
+    const slug = location.hash.replace('#case-', '') as FeaturedProject['slug'];
+    if (featuredProjects.some((project) => project.slug === slug)) setOpenSlug(slug);
   }, []);
 
-  const getTagStyle = (count: number, isSelected: boolean) => {
-    const { min, max } = tagStats;
-    const ratio = max === min ? 0.5 : (count - min) / (max - min);
-    // Font size ranges from 12px to 24px
-    const fontSize = 12 + ratio * 12;
-    // Base opacity ranges from 0.6 to 1
-    const opacity = isSelected ? 1 : 0.6 + ratio * 0.4;
-    
-    return {
-      fontSize: `${fontSize}px`,
-      opacity,
-    };
-  };
-
-  const filteredProjects = projects.map(category => {
-    const filteredItems = category.items.filter(item => {
-      const name = getStr(item.name).toLowerCase();
-      const desc = getStr(item.desc).toLowerCase();
-      const query = searchQuery.toLowerCase();
-      const matchesSearch = name.includes(query) || desc.includes(query);
-      const matchesTag = selectedTag ? item.tags?.includes(selectedTag) : true;
-      return matchesSearch && matchesTag;
-    });
-    return { ...category, items: filteredItems };
-  }).filter(category => category.items.length > 0);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (openProject && !dialog.open) {
+      dialog.showModal();
+      document.body.classList.add('dialog-is-open');
+      history.replaceState(null, '', `#case-${openProject.slug}`);
+    } else if (!openProject && dialog.open) {
+      dialog.close();
     }
-  };
+    return () => document.body.classList.remove('dialog-is-open');
+  }, [openProject]);
 
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.9, y: 20 },
-    show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+  const closeCase = () => {
+    setOpenSlug(null);
+    document.body.classList.remove('dialog-is-open');
+    history.replaceState(null, '', `${location.pathname}${location.search}`);
   };
 
   return (
-    <section id="projects" className="py-20 px-6 max-w-6xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8 }}
-        className="mb-10"
-      >
-        <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
-          {getStr({ en: "Projects", vi: "Dự án" })}
-          <span className="text-blue-500">.</span>
-        </h2>
-      </motion.div>
-
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="mb-12"
-      >
-        <div className="relative max-w-md mb-6">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <Search size={20} className="text-gray-500" />
-          </div>
-          <input 
-            type="text" 
-            placeholder={lang === 'vi' ? "Tìm kiếm dự án..." : "Search projects..."}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-10 py-3 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:border-blue-500/50 text-white placeholder:text-gray-500 transition-colors"
-          />
-          {searchQuery && (
-            <button 
-              onClick={() => setSearchQuery('')}
-              className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-white"
-            >
-              <X size={18} />
-            </button>
-          )}
+    <section id="selected-work" className="projects-section">
+      <header className="projects-heading section-pad" data-reveal>
+        <div>
+          <span className="eyebrow">02 · {lang === 'vi' ? 'DỰ ÁN TRỌNG TÂM' : 'SELECTED WORK'}</span>
+          <h2>{lang === 'vi' ? 'Năm sản phẩm. Năm thế giới riêng.' : 'Five products. Five distinct worlds.'}</h2>
         </div>
+        <p>2025—2026<br />{lang === 'vi' ? 'THIẾT KẾ · CODE · TRIỂN KHAI' : 'DESIGN · CODE · DELIVERY'}</p>
+      </header>
 
-        {/* Tag Cloud Filter */}
-        <div className="flex flex-wrap items-center justify-center gap-3 p-6 bg-white/5 border border-white/10 rounded-3xl">
-          <button
-            onClick={() => setSelectedTag(null)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              selectedTag === null
-                ? 'bg-blue-500 text-white shadow-[0_0_15px_rgba(59,130,246,0.4)] md:hover:scale-105'
-                : 'bg-black/30 text-gray-400 hover:text-white hover:bg-white/10 md:hover:scale-105'
-            }`}
+      <div className="case-list">
+        {featuredProjects.map((project) => (
+          <article
+            id={`work-${project.slug}`}
+            className={`case-study case-study--${project.slug}`}
+            key={project.slug}
+            style={{ '--accent': project.accent, '--accent-soft': project.accentSoft, '--case-ink': project.ink } as CSSProperties}
           >
-            {lang === 'vi' ? "Tất cả dự án" : "All Projects"}
-          </button>
-          
-          <div className="w-px h-8 bg-white/10 mx-2 hidden md:block" />
-          
-          {tagStats.stats.map(({ tag, count }) => (
-            <button
-              key={tag}
-              onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
-              style={getTagStyle(count, selectedTag === tag)}
-              className={`px-4 py-2 rounded-full font-medium transition-all duration-300 leading-none md:hover:scale-110 ${
-                selectedTag === tag
-                  ? 'bg-blue-500/20 text-blue-300 border border-blue-500/50 shadow-[0_0_10px_rgba(59,130,246,0.2)]'
-                  : 'bg-transparent text-gray-300 border border-white/10 hover:border-white/30 hover:bg-white/10 hover:text-white hover:!opacity-100'
-              }`}
-              title={`${count} project${count > 1 ? 's' : ''}`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </motion.div>
+            <div className="case-study__artifact">
+              <div className="case-study__artifact-inner"><ProjectArtifact project={project} /></div>
+            </div>
 
-      {filteredProjects.length === 0 && (
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center py-20 text-gray-500 bg-white/5 rounded-3xl border border-white/5"
-        >
-          <p>{lang === 'vi' ? "Không tìm thấy dự án nào phù hợp." : "No projects found matching your search."}</p>
-        </motion.div>
-      )}
+            <div className="case-study__content">
+              <div className="case-study__meta" data-reveal>
+                <span>{project.order}</span>
+                <span>{project.year}</span>
+                <span className={`status status--${project.status}`}><i />{getStr(project.statusLabel)}</span>
+              </div>
+              <p className="case-study__eyebrow" data-reveal>{getStr(project.eyebrow)}</p>
+              <h3 data-reveal>{project.title}</h3>
+              <blockquote data-reveal>{getStr(project.statement)}</blockquote>
+              <p className="case-study__summary" data-reveal>{getStr(project.summary)}</p>
 
-      <div className="space-y-20">
-        {filteredProjects.map((category, catIdx) => (
-          <div key={category.category.en}>
-            <h3 className="text-2xl font-bold text-gray-400 mb-8 pb-4 border-b border-white/10 uppercase tracking-widest text-sm">
-              {getStr(category.category)}
-            </h3>
-            
-            <motion.div 
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-50px" }}
-            >
-              <AnimatePresence mode="popLayout">
-                {category.items.map((project) => (
-                  <motion.div
-                    key={project.name.en}
-                    layout="position"
-                    variants={itemVariants}
-                    initial="hidden"
-                    animate="show"
-                    exit={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    className="bg-gradient-to-br from-white/5 to-white/0 border border-white/10 p-6 rounded-3xl flex flex-col hover:border-blue-500/30 hover:shadow-[0_10px_30px_rgba(59,130,246,0.1)] transition-all group"
-                  >
-                    <div className="flex-1 mb-6">
-                      <h4 className="text-xl font-bold text-white mb-3 leading-tight group-hover:text-blue-400 transition-colors">{getStr(project.name)}</h4>
-                      
-                      {/* Project Tags */}
-                      {project.tags && project.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mb-4">
-                          {project.tags.map((tag, tIdx) => (
-                            <span key={tIdx} className="text-[10px] font-semibold text-gray-400 bg-black/50 px-2 py-1 rounded-md border border-white/5 group-hover:border-white/20 transition-colors">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+              <div className="case-study__triptych" data-reveal>
+                <div><span>{lang === 'vi' ? 'BÀI TOÁN' : 'PROBLEM'}</span><p>{getStr(project.problem)}</p></div>
+                <div><span>{lang === 'vi' ? 'HỆ THỐNG' : 'SYSTEM'}</span><p>{getStr(project.solution)}</p></div>
+                <div><span>{lang === 'vi' ? 'ĐÓNG GÓP' : 'CONTRIBUTION'}</span><p>{getStr(project.contribution)}</p></div>
+              </div>
 
-                      <p className="text-gray-400 text-sm leading-relaxed">
-                        {getStr(project.desc)}
-                      </p>
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-3 mt-auto pt-4 border-t border-white/5 group-hover:border-white/10 transition-colors">
-                      {project.links?.map((link, lIdx) => (
-                        <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          key={lIdx}
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-xs font-medium text-gray-300 hover:text-white bg-black/40 px-3 py-1.5 rounded-full"
-                        >
-                          {link.label.toLowerCase().includes('github') || link.label.toLowerCase().includes('repo') ? (
-                            <Github size={14} />
-                          ) : (
-                            <ExternalLink size={14} />
-                          )}
-                          {link.label}
-                        </motion.a>
-                      ))}
-                      {project.demos?.map((demo, dIdx) => (
-                        <motion.a
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          key={dIdx}
-                          href={demo.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-xs font-medium text-blue-300 hover:text-blue-100 bg-blue-500/20 px-3 py-1.5 rounded-full"
-                        >
-                          <PlayCircle size={14} />
-                          {demo.label}
-                        </motion.a>
-                      ))}
-                    </div>
-                  </motion.div>
+              <div className="case-study__stack" data-reveal>{project.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
+              <div className="case-study__actions" data-reveal>
+                <button onClick={() => setOpenSlug(project.slug)} data-cursor="view">
+                  {lang === 'vi' ? 'Mở system brief' : 'Open system brief'}<ArrowDownRight />
+                </button>
+                {project.links.map((link) => (
+                  <a key={link.url} href={link.url} target="_blank" rel="noreferrer" data-cursor={link.kind === 'video' ? 'play' : 'view'}>
+                    <LinkIcon kind={link.kind} />{getStr(link.label)}<ArrowUpRight />
+                  </a>
                 ))}
-              </AnimatePresence>
-            </motion.div>
-          </div>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
+
+      <dialog ref={dialogRef} className="case-dialog" onClose={closeCase} onCancel={(event) => { event.preventDefault(); closeCase(); }}>
+        {openProject && (
+          <div className="case-dialog__inner" style={{ '--accent': openProject.accent } as CSSProperties}>
+            <button className="case-dialog__close" onClick={closeCase} aria-label={lang === 'vi' ? 'Đóng case study' : 'Close case study'}><X /></button>
+            <div className="case-dialog__visual"><ProjectArtifact project={openProject} /></div>
+            <div className="case-dialog__copy">
+              <span>{openProject.order} / SYSTEM BRIEF</span>
+              <h2>{openProject.title}</h2>
+              <p>{getStr(openProject.summary)}</p>
+              <h3>{lang === 'vi' ? 'Điểm đáng chú ý' : 'What makes it matter'}</h3>
+              <ol>{openProject.highlights.map((highlight, index) => <li key={index}><span>0{index + 1}</span>{getStr(highlight)}</li>)}</ol>
+              <div className="case-dialog__links">
+                {openProject.links.map((link) => (
+                  <a key={link.url} href={link.url} target="_blank" rel="noreferrer"><LinkIcon kind={link.kind} />{getStr(link.label)}<ArrowUpRight /></a>
+                ))}
+                {!openProject.links.length && <p className="media-note">{lang === 'vi' ? 'Ảnh thật và demo JAPANO sẽ được bổ sung khi bạn gửi media.' : 'Real JAPANO imagery and demo will be added when media is supplied.'}</p>}
+              </div>
+            </div>
+          </div>
+        )}
+      </dialog>
     </section>
   );
 };

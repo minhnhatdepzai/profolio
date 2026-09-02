@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { Lang, LangStr } from '../data/cv';
+import { createContext, useContext, useState, type ReactNode, useEffect } from 'react';
+import type { Lang, LangStr } from '../data/cv';
 
 interface LanguageContextType {
   lang: Lang;
@@ -10,14 +10,18 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>(() => {
+    const savedLang = localStorage.getItem('portfolio_lang');
+    if (savedLang === 'en' || savedLang === 'vi') return savedLang;
+    return navigator.language.toLowerCase().startsWith('vi') ? 'vi' : 'en';
+  });
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('portfolio_lang') as Lang;
-    if (savedLang === 'en' || savedLang === 'vi') {
-      setLang(savedLang);
-    }
-  }, []);
+    document.documentElement.lang = lang;
+    document.title = lang === 'vi'
+      ? 'Lê Minh Nhật — Creative Developer | Web, Mobile & AI'
+      : 'Le Minh Nhat — Creative Developer | Web, Mobile & AI';
+  }, [lang]);
 
   const toggleLang = () => {
     setLang(prev => {

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#080908"/><stop offset="1" stop-color="#1d1732"/></linearGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#f0eee6" stroke-opacity=".09"/></pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="995" cy="158" r="206" fill="none" stroke="#7761ff" stroke-width="2" opacity=".55"/>
+  <circle cx="995" cy="158" r="136" fill="none" stroke="#c9ff4a" stroke-width="2" opacity=".8"/>
+  <text x="72" y="82" fill="#c9ff4a" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LÊ MINH NHẬT · PORTFOLIO 2026</text>
+  <text x="66" y="290" fill="#f0eee6" font-family="Arial,sans-serif" font-size="112" font-weight="900" letter-spacing="-8">BUILDING WORLDS</text>
+  <text x="66" y="405" fill="none" stroke="#f0eee6" stroke-width="2" font-family="Arial,sans-serif" font-size="112" font-weight="900" letter-spacing="-8">THAT WORK.</text>
+  <text x="72" y="545" fill="#f0eee6" opacity=".6" font-family="Arial,sans-serif" font-size="20" letter-spacing="3">WEB / MOBILE / AI / INTERACTIVE</text>
+  <rect x="1078" y="502" width="58" height="58" rx="29" fill="#c9ff4a"/>
+  <text x="1091" y="539" fill="#080908" font-family="Arial,sans-serif" font-size="22" font-weight="900">LN</text>
+</svg>

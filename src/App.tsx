@@ -1,45 +1,34 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React from 'react';
 import { LanguageProvider } from './contexts/LanguageContext';
-import { DesktopNav, MobileNav } from './components/Navigation';
+import { Navigation } from './components/Navigation';
+import { ThreeWorld } from './components/ThreeWorld';
+import { ScrollExperience } from './components/ScrollExperience';
+import { Cursor } from './components/Cursor';
 import { Hero } from './sections/Hero';
 import { About } from './sections/About';
-import { Skills } from './sections/Skills';
 import { Experience } from './sections/Experience';
-import { Education } from './sections/Education';
+import { Skills } from './sections/Skills';
 import { Projects } from './sections/Projects';
-import { Awards } from './sections/Awards';
+import { Archive } from './sections/Archive';
 import { Footer } from './sections/Footer';
 
 export default function App() {
   return (
     <LanguageProvider>
-      <div className="min-h-screen font-sans selection:bg-blue-500/30 selection:text-white">
-        <DesktopNav />
-        <MobileNav />
-        
-        <main>
-          <Hero />
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <About />
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <Experience />
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <Education />
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <Skills />
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <Projects />
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <Awards />
-        </main>
-
-        <Footer />
-      </div>
+      <ScrollExperience />
+      <Cursor />
+      <ThreeWorld />
+      <a className="skip-link" href="#selected-work">Skip to selected work</a>
+      <div className="scroll-progress" aria-hidden="true"><span className="scroll-progress__bar" /></div>
+      <Navigation />
+      <main className="site-shell">
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Experience />
+        <Archive />
+      </main>
+      <Footer />
     </LanguageProvider>
   );
 }
