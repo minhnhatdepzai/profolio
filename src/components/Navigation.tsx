@@ -11,6 +11,18 @@ const navItems = [
   { id: 'contact', label: { en: 'Contact', vi: 'Liên hệ' } },
 ];
 
+const cvFileName = 'Le-Minh-Nhat-CV-EN.docx';
+const cvPath = `${import.meta.env.BASE_URL}cv/${cvFileName}`;
+
+const downloadEnglishCv = () => {
+  const anchor = document.createElement('a');
+  anchor.href = cvPath;
+  anchor.download = cvFileName;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+};
+
 export const Navigation = () => {
   const { getStr } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -68,7 +80,16 @@ export const Navigation = () => {
 
       <div className="nav-actions">
         <LanguageToggle />
-        <a className="nav-contact" href="mailto:lnhat1938@gmail.com" data-cursor="focus">
+        <a
+          className="nav-contact"
+          href="mailto:lnhat1938@gmail.com"
+          onClick={downloadEnglishCv}
+          title={getStr({
+            en: 'Opens your mail app and downloads the English CV',
+            vi: 'Mở ứng dụng email và tải CV tiếng Anh về máy',
+          })}
+          data-cursor="focus"
+        >
           <span>{getStr({ en: 'Start a conversation', vi: 'Bắt đầu trao đổi' })}</span>
           <ArrowUpRight size={15} />
         </a>
