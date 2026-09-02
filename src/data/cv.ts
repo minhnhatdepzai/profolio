@@ -11,8 +11,8 @@ export const personalInfo = {
   github: "minhnhatdepzai",
   githubLink: "https://github.com/minhnhatdepzai",
   profile: {
-    en: "An enthusiastic IT candidate with 4 months of internship experience as a Business Analyst. I am interested in exploring IT fields such as AI and React Native, and I am always willing to learn, adapt, and improve my technical skills in a professional environment.",
-    vi: "Một ứng viên CNTT nhiệt huyết với 4 tháng kinh nghiệm thực tập ở vị trí Business Analyst (Phân tích Nghiệp vụ). Tôi quan tâm đến việc khám phá các lĩnh vực CNTT như AI và React Native, và luôn sẵn lòng học hỏi, thích nghi cũng như cải thiện kỹ năng kỹ thuật của mình trong môi trường chuyên nghiệp."
+    en: "An enthusiastic IT candidate with 3 months of probationary product-development experience and 4 months of internship experience as a Business Analyst. I build practical Web, Mobile and AI-powered learning experiences, and I am always willing to learn, adapt and improve in a professional environment.",
+    vi: "Một ứng viên CNTT nhiệt huyết với 3 tháng kinh nghiệm thử việc phát triển sản phẩm và 4 tháng thực tập ở vị trí Business Analyst. Tôi tập trung xây dựng các trải nghiệm Web, Mobile và sản phẩm học tập ứng dụng AI có tính thực tiễn, đồng thời luôn sẵn lòng học hỏi, thích nghi và phát triển trong môi trường chuyên nghiệp."
   } as LangStr
 };
 
@@ -33,6 +33,25 @@ export const skills = [
 ];
 
 export const experience = [
+  {
+    company: "Công ty TNHH Công nghệ Giáo dục STEM",
+    role: { en: "PROBATIONARY DEVELOPER", vi: "LẬP TRÌNH VIÊN THỬ VIỆC" } as LangStr,
+    period: { en: "MAY 2026 - AUGUST 2026 · 3 MONTHS", vi: "THÁNG 5/2026 - THÁNG 8/2026 · 3 THÁNG" } as LangStr,
+    responsibilities: [
+      {
+        en: "Developed Math Lab, an interactive learning product designed to make mathematical concepts easier to explore and understand",
+        vi: "Phát triển Math Lab, sản phẩm học tập tương tác giúp người học khám phá và hiểu các khái niệm toán học trực quan hơn"
+      },
+      {
+        en: "Built digital Chemistry Lab experiences supporting interactive science learning and experimentation",
+        vi: "Xây dựng trải nghiệm Phòng thí nghiệm Hóa học số, hỗ trợ học tập và thực hành khoa học theo hướng tương tác"
+      },
+      {
+        en: "Implemented the frontend website for the Smart Classroom product, focusing on clear interfaces and responsive use across devices",
+        vi: "Phát triển website frontend cho sản phẩm Phòng học thông minh, tập trung vào giao diện rõ ràng và khả năng hiển thị tốt trên nhiều thiết bị"
+      }
+    ]
+  },
   {
     company: "Mesh - Smart Workplace",
     role: { en: "BUSINESS ANALYST", vi: "CHUYÊN VIÊN PHÂN TÍCH NGHIỆP VỤ" } as LangStr,
