@@ -16,7 +16,45 @@ npm run lint
 npm run build
 ```
 
-The production base path is `/profolio/` for GitHub Pages.
+The default production target is Cloudflare Workers Static Assets at the domain root. A separate
+`npm run build:github` command keeps the legacy `/profolio/` GitHub Pages build
+available when needed.
+
+## Deploy to Cloudflare Workers
+
+The repository includes `wrangler.jsonc` and Cloudflare `_headers`, following the
+same static-assets deployment pattern as PICKO247. The Worker configuration uses
+`dist` as its asset directory and falls back to `index.html` for SPA routes.
+
+For a first manual deployment, authenticate Wrangler and run:
+
+```bash
+npx wrangler login
+VITE_SITE_URL=https://your-worker.your-subdomain.workers.dev npm run deploy:cloudflare
+```
+
+For Git-connected Workers Builds, use these settings:
+
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Non-production branch deploy command: `npx wrangler versions upload`
+- Root directory: `/`
+
+Set the public URL as a build environment variable so canonical, Open Graph,
+robots.txt and sitemap.xml use the final Worker or custom domain:
+
+```text
+VITE_SITE_URL=https://your-final-domain.example
+```
+
+To test the Cloudflare build locally without deploying:
+
+```bash
+npm run cloudflare:dev
+```
+
+Do not commit Cloudflare API tokens or `.env` files. Only `.env.example` is
+intended for source control.
 
 ## Featured work
 

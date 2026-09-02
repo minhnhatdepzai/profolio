@@ -1,5 +1,5 @@
-import { Award, BriefcaseBusiness, GraduationCap } from 'lucide-react';
-import { certificates, education, experience, prizes } from '../data/cv';
+import { Award, BriefcaseBusiness, GraduationCap, Lightbulb, ShieldCheck } from 'lucide-react';
+import { education, experience, initiatives, prizes } from '../data/cv';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export const Experience = () => {
@@ -38,13 +38,30 @@ export const Experience = () => {
               <strong>{getStr(item.school)}</strong>
             </article>
           ))}
-          {certificates.map((certificate) => (
-            <article className="journey-card journey-card--compact" key={certificate.period} data-reveal>
-              <span>{lang === 'vi' ? 'Chứng chỉ' : 'Certificate'}</span>
-              <h3>{getStr(certificate.name)}</h3>
-              <p>{certificate.period}</p>
-            </article>
-          ))}
+        </div>
+      </div>
+
+      <div className="initiatives" data-reveal>
+        <div className="initiatives__heading">
+          <span>02</span>
+          <div>
+            <p>{lang === 'vi' ? 'SÁNG KIẾN TỰ TỔ CHỨC' : 'SELF-ORGANIZED INITIATIVES'}</p>
+            <h3>{lang === 'vi' ? 'Tự học sâu hơn bằng cách chia sẻ lại.' : 'Learn deeper by teaching it forward.'}</h3>
+          </div>
+        </div>
+        <div className="initiatives__grid">
+          {initiatives.map((initiative, index) => {
+            const Icon = index === 0 ? Lightbulb : ShieldCheck;
+            return (
+              <article className="initiative-card" key={initiative.title.en} data-reveal>
+                <div className="initiative-card__top"><span>0{index + 1}</span><Icon aria-hidden="true" /></div>
+                <p>{getStr(initiative.role)}</p>
+                <h4>{getStr(initiative.title)}</h4>
+                <div className="initiative-card__description">{getStr(initiative.description)}</div>
+                <ul>{initiative.topics.map((topic) => <li key={topic}>{topic}</li>)}</ul>
+              </article>
+            );
+          })}
         </div>
       </div>
 

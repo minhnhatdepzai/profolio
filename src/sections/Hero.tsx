@@ -38,7 +38,7 @@ export const Hero = () => {
           </p>
           <div className="hero-actions">
             <button className="primary-cta" onClick={goToWork} data-cursor="focus">
-              {lang === 'vi' ? 'Khám phá dự án' : 'Explore selected work'}
+              {lang === 'vi' ? 'Khám phá dự án mới nhất' : 'Explore latest work'}
               <ArrowDownRight size={18} />
             </button>
             <a className="text-link" href={personalInfo.githubLink} target="_blank" rel="noreferrer" data-cursor="focus">

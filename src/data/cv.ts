@@ -60,8 +60,37 @@ export const education = [
   }
 ];
 
-export const certificates = [
-  { name: { en: "IELTS 4.5", vi: "IELTS 4.5" } as LangStr, period: "Oct 2024 - Oct 2026" }
+export const initiatives = [
+  {
+    title: {
+      en: "Vibe Coding for Learning Tutor",
+      vi: "Tutor Vibe Coding trong học tập"
+    } as LangStr,
+    role: {
+      en: "Self-organized learning initiative",
+      vi: "Sáng kiến học tập tự tổ chức"
+    } as LangStr,
+    description: {
+      en: "Designed and facilitated a tutoring session on using Vibe Coding for ideation, rapid prototyping and critical review in learning workflows.",
+      vi: "Tự xây dựng nội dung và tổ chức buổi tutor về cách ứng dụng Vibe Coding vào lên ý tưởng, tạo prototype nhanh và phản biện kết quả trong quá trình học tập."
+    } as LangStr,
+    topics: ["Vibe Coding", "AI-assisted Learning", "Prototyping"]
+  },
+  {
+    title: {
+      en: "Information Security Seminar",
+      vi: "Seminar An toàn thông tin"
+    } as LangStr,
+    role: {
+      en: "Self-researched and organized seminar",
+      vi: "Seminar tự nghiên cứu và tổ chức"
+    } as LangStr,
+    description: {
+      en: "Researched, prepared and delivered a seminar on Broken Authentication, Linux foundations and defensive security practices.",
+      vi: "Tự nghiên cứu, chuẩn bị nội dung và tổ chức seminar về Broken Authentication, nền tảng Linux và các nguyên tắc phòng vệ an toàn thông tin."
+    } as LangStr,
+    topics: ["Broken Authentication", "Linux", "Cybersecurity"]
+  }
 ];
 
 export const projects = [
@@ -153,6 +182,9 @@ export const projects = [
 ];
 
 export const prizes = [
+  { en: "Identity Award in the Bản địa Khởi sinh competition.", vi: "Giải Bản sắc — Cuộc thi Bản địa Khởi sinh." } as LangStr,
+  { en: "First Prize in the Poly Web Game Championship.", vi: "Giải Nhất — Cuộc thi Poly Web Game Championship." } as LangStr,
+  { en: "Top 8 in the Poly Coder Web Design Hackathon.", vi: "Top 8 — Cuộc thi Hackathon Web Design Poly Coder." } as LangStr,
   { en: "Second prize in the FPT Polytechnic Language School competition.", vi: "Giải Nhì cuộc thi Trường Ngoại ngữ FPT Polytechnic." } as LangStr,
   { en: "Impressive award in The Lead's Face competition, FPT Polytechnic Soft Skills Club.", vi: "Giải Ấn tượng cuộc thi Gương mặt Thủ lĩnh, CLB Kỹ năng mềm FPT Polytechnic." } as LangStr,
   { en: "Top 5 in the FPT Polytechnic UI-UX competition.", vi: "Top 5 chung cuộc - Cuộc thi UI-UX FPT Polytechnic." } as LangStr,

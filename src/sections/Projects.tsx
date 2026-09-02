@@ -130,7 +130,7 @@ export const Projects = () => {
     <section id="selected-work" className="projects-section">
       <header className="projects-heading section-pad" data-reveal>
         <div>
-          <span className="eyebrow">02 · {lang === 'vi' ? 'DỰ ÁN TRỌNG TÂM' : 'SELECTED WORK'}</span>
+          <span className="eyebrow">02 · {lang === 'vi' ? 'DỰ ÁN MỚI NHẤT' : 'LATEST WORK'}</span>
           <h2>{lang === 'vi' ? 'Năm sản phẩm. Năm thế giới riêng.' : 'Five products. Five distinct worlds.'}</h2>
         </div>
         <p>2025—2026<br />{lang === 'vi' ? 'THIẾT KẾ · CODE · TRIỂN KHAI' : 'DESIGN · CODE · DELIVERY'}</p>

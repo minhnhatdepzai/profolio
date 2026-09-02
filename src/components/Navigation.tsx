@@ -4,7 +4,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
 
 const navItems = [
-  { id: 'selected-work', label: { en: 'Work', vi: 'Dự án' } },
+  { id: 'selected-work', label: { en: 'Latest work', vi: 'Dự án mới nhất' } },
   { id: 'capabilities', label: { en: 'Capabilities', vi: 'Năng lực' } },
   { id: 'journey', label: { en: 'Journey', vi: 'Hành trình' } },
   { id: 'archive', label: { en: 'Archive', vi: 'Lưu trữ' } },

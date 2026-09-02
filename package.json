@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
+    "build:github": "VITE_BASE_PATH=/profolio/ VITE_SITE_URL=https://minhnhatdepzai.github.io/profolio vite build",
     "preview": "vite preview",
+    "cloudflare:dev": "npm run build && npx wrangler dev",
+    "deploy:cloudflare": "npm run build && npx wrangler deploy",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
   },

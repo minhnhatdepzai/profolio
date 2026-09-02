@@ -11,7 +11,8 @@ export const ThreeWorld = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const lightweightMode = window.innerWidth < 760 || (navigator.hardwareConcurrency ?? 4) <= 2;
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const lightweightMode = window.innerWidth < 760 || coarsePointer || (navigator.hardwareConcurrency ?? 4) <= 2;
     if (!canvas || reducedMotion || lightweightMode) return;
 
     const idleWindow = window as IdleWindow;
