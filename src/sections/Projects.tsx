@@ -7,13 +7,17 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   const { getStr } = useLanguage();
 
   if (project.media) {
+    const mediaSource = /^https?:\/\//.test(project.media.file)
+      ? project.media.file
+      : `${import.meta.env.BASE_URL}${project.media.file}`;
+
     return (
       <div className={`artifact artifact--real artifact--real-${project.slug}`}>
         <div className="artifact-label">{getStr(project.media.label)} / {project.order}</div>
         <div className="artifact-real__type" aria-hidden="true">{project.title}</div>
         <figure className="artifact-real__screen">
           <img
-            src={`${import.meta.env.BASE_URL}${project.media.file}`}
+            src={mediaSource}
             alt={getStr(project.media.alt)}
             loading="lazy"
             decoding="async"
@@ -28,7 +32,7 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   if (project.slug === 'japano') {
     return (
       <div className="artifact artifact--japano">
-        <div className="artifact-label">MEDIA PENDING / 01</div>
+        <div className="artifact-label">AI COMMERCE / {project.order}</div>
         <div className="japano-word">JPN</div>
         <div className="japano-phone japano-phone--front"><span>AI FIT</span><i /><i /><strong>YOUR LOOK</strong></div>
         <div className="japano-phone japano-phone--back"><span>STORE</span><i /><i /></div>
@@ -37,10 +41,24 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
     );
   }
 
+  if (project.slug === 'saigon-77') {
+    return (
+      <div className="artifact artifact--saigon">
+        <div className="artifact-label">CITY SYSTEM / {project.order}</div>
+        <div className="saigon-sun" />
+        <div className="saigon-skyline" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /></div>
+        <div className="saigon-road" aria-hidden="true"><i /><i /><i /></div>
+        <div className="saigon-route"><i /><i /><i /><span>ROUTE</span></div>
+        <div className="saigon-type">SAIGON<strong>// 77</strong></div>
+        <div className="saigon-hud"><span>WALK</span><span>DRIVE</span><span>MISSION</span></div>
+      </div>
+    );
+  }
+
   if (project.slug === 'math-lab') {
     return (
       <div className="artifact artifact--math">
-        <div className="artifact-label">SEMANTIC SCENE / 02</div>
+        <div className="artifact-label">SEMANTIC SCENE / {project.order}</div>
         <div className="math-formula">x² + y² = r²</div>
         <svg className="math-graph" viewBox="0 0 420 300" role="img" aria-label="Animated coordinate system">
           <path d="M20 150H400M210 20V280" className="math-axis" />
@@ -53,10 +71,23 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
     );
   }
 
+  if (project.slug === 'smart-classroom') {
+    return (
+      <div className="artifact artifact--smart-classroom">
+        <div className="artifact-label">SMART CLASSROOM / {project.order}</div>
+        <div className="classroom-board"><span>EDUVISION</span><strong>AI</strong><i /></div>
+        <div className="classroom-desks" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
+        <div className="classroom-camera"><i /></div>
+        <div className="classroom-scan" aria-hidden="true" />
+        <div className="classroom-signals"><span>VISION</span><span>AGENT</span><span>DIGITAL TWIN</span></div>
+      </div>
+    );
+  }
+
   if (project.slug === 'kho') {
     return (
       <div className="artifact artifact--kho">
-        <div className="artifact-label">LANGBIANG / 03</div>
+        <div className="artifact-label">LANGBIANG / {project.order}</div>
         <div className="kho-sun" />
         <div className="kho-gong"><i /><i /><i /></div>
         <svg className="kho-mountain" viewBox="0 0 600 360" aria-hidden="true">
@@ -71,7 +102,7 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   if (project.slug === 'picko247') {
     return (
       <div className="artifact artifact--picko">
-        <div className="artifact-label">RALLY ENGINE / 04</div>
+        <div className="artifact-label">RALLY ENGINE / {project.order}</div>
         <div className="picko-score"><span>LIVE</span><strong>24</strong><i>:</i><strong>17</strong></div>
         <div className="picko-court"><i className="picko-ball" /></div>
         <div className="picko-type">RALLY<br />247</div>
@@ -79,9 +110,26 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
     );
   }
 
+  if (project.slug === 'vehicle-counting') {
+    return (
+      <div className="artifact artifact--vehicle-counting">
+        <div className="artifact-label">VISION PIPELINE / {project.order}</div>
+        <div className="traffic-feed">
+          <div className="traffic-lanes" aria-hidden="true"><i /><i /></div>
+          <div className="traffic-box traffic-box--car"><span>ID 17 · CAR</span></div>
+          <div className="traffic-box traffic-box--bike"><span>ID 08 · BIKE</span></div>
+          <div className="traffic-box traffic-box--bus"><span>ID 24 · BUS</span></div>
+          <div className="traffic-line"><span>COUNT LINE</span></div>
+        </div>
+        <div className="traffic-count"><span>UP</span><strong>—</strong><span>DOWN</span><strong>—</strong></div>
+        <div className="traffic-model">YOLOv8 × ByteTrack</div>
+      </div>
+    );
+  }
+
   return (
     <div className="artifact artifact--happy artifact--pending">
-      <div className="artifact-label">SOURCE VERIFIED / 05</div>
+      <div className="artifact-label">SOURCE VERIFIED / {project.order}</div>
       <div className="pending-cross" aria-hidden="true" />
       <div className="pending-title">REAL<br />MEDIA<br /><i>PENDING</i></div>
       <div className="pending-modules"><span>VOICE ROOMS</span><span>ACCESSIBILITY</span><span>2D / 3D GAMES</span></div>
@@ -131,7 +179,7 @@ export const Projects = () => {
       <header className="projects-heading section-pad" data-reveal>
         <div>
           <span className="eyebrow">02 · {lang === 'vi' ? 'DỰ ÁN MỚI NHẤT' : 'LATEST WORK'}</span>
-          <h2>{lang === 'vi' ? 'Năm sản phẩm. Năm thế giới riêng.' : 'Five products. Five distinct worlds.'}</h2>
+          <h2>{lang === 'vi' ? 'Tám sản phẩm. Tám thế giới riêng.' : 'Eight products. Eight distinct worlds.'}</h2>
         </div>
         <p>2025—2026<br />{lang === 'vi' ? 'THIẾT KẾ · CODE · TRIỂN KHAI' : 'DESIGN · CODE · DELIVERY'}</p>
       </header>

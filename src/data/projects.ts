@@ -9,7 +9,7 @@ export interface ProjectLink {
 }
 
 export interface FeaturedProject {
-  slug: 'japano' | 'math-lab' | 'kho' | 'picko247' | 'happytoplay';
+  slug: 'japano' | 'saigon-77' | 'math-lab' | 'smart-classroom' | 'kho' | 'picko247' | 'happytoplay' | 'vehicle-counting';
   order: string;
   year: string;
   title: string;
@@ -62,8 +62,8 @@ export const featuredProjects: FeaturedProject[] = [
       en: 'Product engineering across mobile, storefront, backend integration, AI orchestration and technical presentation.',
       vi: 'Kỹ thuật sản phẩm xuyên suốt mobile, storefront, tích hợp backend, điều phối AI và trình bày kỹ thuật.',
     },
-    status: 'pending',
-    statusLabel: { en: 'Media & public demo pending', vi: 'Đang chờ media và demo công khai' },
+    status: 'video',
+    statusLabel: { en: 'Video demo available', vi: 'Có video demo' },
     accent: '#ef4938',
     accentSoft: '#f5c4cf',
     ink: '#281016',
@@ -74,11 +74,68 @@ export const featuredProjects: FeaturedProject[] = [
       { en: 'Body estimates remain ranges with evidence and user-entered measurements win.', vi: 'Số đo từ ảnh luôn là khoảng có bằng chứng; số đo người dùng nhập được ưu tiên.' },
       { en: 'FASHN is inference; the trained artifact is a separate FLUX.2 fit-refinement LoRA.', vi: 'FASHN là inference; artifact được huấn luyện là LoRA fit-refinement riêng trên FLUX.2.' },
     ],
-    links: [],
+    links: [
+      {
+        label: { en: 'Watch JAPANO app demo', vi: 'Xem demo ứng dụng JAPANO' },
+        url: 'https://youtu.be/D8jqwvPUfFc?si=MZTFf8joSed97OcD',
+        kind: 'video',
+      },
+    ],
+    media: {
+      file: 'https://i.ytimg.com/vi/D8jqwvPUfFc/maxresdefault.jpg',
+      alt: {
+        en: 'JAPANO mobile application demo video cover supplied by the project owner.',
+        vi: 'Ảnh bìa video demo ứng dụng JAPANO do chủ dự án cung cấp.',
+      },
+      label: { en: 'APP DEMO VIDEO', vi: 'VIDEO DEMO ỨNG DỤNG' },
+      source: 'youtu.be/D8jqwvPUfFc',
+    },
+  },
+  {
+    slug: 'saigon-77',
+    order: '02',
+    year: '2026',
+    title: 'SAIGON // 77',
+    eyebrow: { en: 'Browser-native 3D open world', vi: 'Thế giới mở 3D trên trình duyệt' },
+    statement: {
+      en: 'A living city slice — walk it, drive it, survive it.',
+      vi: 'Một lát cắt thành phố sống động — đi bộ, lái xe và sinh tồn.',
+    },
+    summary: {
+      en: 'A desktop-first WebGL open-world vertical slice inspired by contemporary Ho Chi Minh City, with an explorable city, traffic, pedestrians, missions, vehicles and instanced activities.',
+      vi: 'Vertical slice thế giới mở WebGL, ưu tiên desktop và lấy cảm hứng từ TP.HCM đương đại, với thành phố có thể khám phá, giao thông, người đi bộ, nhiệm vụ, phương tiện và các hoạt động riêng.',
+    },
+    problem: {
+      en: 'A dense open-world experience must keep navigation, simulation and progression readable without overwhelming a browser renderer.',
+      vi: 'Một trải nghiệm thế giới mở dày đặc phải giữ điều hướng, mô phỏng và tiến trình rõ ràng mà không làm quá tải trình duyệt.',
+    },
+    solution: {
+      en: 'Original procedural city systems, adaptive graphics, local career persistence and a shared settlement loop connect street play with seven playable activities.',
+      vi: 'Hệ thống thành phố procedural nguyên bản, đồ họa thích ứng, lưu tiến trình local và vòng lặp phần thưởng chung kết nối đường phố với bảy hoạt động có thể chơi.',
+    },
+    contribution: {
+      en: 'World and gameplay systems, driving and NPC behavior, mission architecture, performance adaptation and browser validation.',
+      vi: 'Hệ thống thế giới và gameplay, lái xe và hành vi NPC, kiến trúc nhiệm vụ, thích ứng hiệu năng và kiểm thử trên trình duyệt.',
+    },
+    status: 'private',
+    statusLabel: { en: 'Private source repository', vi: 'Kho mã nguồn riêng tư' },
+    accent: '#ffd32a',
+    accentSoft: '#d84b32',
+    ink: '#24100b',
+    stack: ['React', 'TypeScript', 'Three.js', 'React Three Fiber', 'WebGL 2', 'IndexedDB', 'Playwright'],
+    highlights: [
+      { en: 'Walking, driving, traffic, pedestrians, street interactions and city missions share one playable world.', vi: 'Đi bộ, lái xe, giao thông, người đi bộ, tương tác đường phố và nhiệm vụ cùng tồn tại trong một thế giới chơi được.' },
+      { en: 'Seven activities include racing, construction escape, memory bridge, football, prop hunt and maze combat.', vi: 'Bảy hoạt động gồm đua xe, vượt công trường, cầu trí nhớ, bóng đá, núp lốt đồ vật và đấu mê cung.' },
+      { en: 'Automatic graphics respond to the actual renderer and sustained frame performance.', vi: 'Đồ họa tự động phản ứng theo renderer thực tế và hiệu năng khung hình duy trì.' },
+      { en: 'The project uses original procedural systems and explicitly excludes extracted commercial-game assets.', vi: 'Dự án dùng hệ thống procedural nguyên bản và loại trừ rõ ràng asset trích xuất từ game thương mại.' },
+    ],
+    links: [
+      { label: { en: 'View private repository', vi: 'Mở kho mã nguồn riêng tư' }, url: 'https://github.com/minhnhatdepzai/saigon-77-open-world', kind: 'github' },
+    ],
   },
   {
     slug: 'math-lab',
-    order: '02',
+    order: '03',
     year: '2026',
     title: 'MATH VISION LAB',
     eyebrow: { en: 'Explainable EdTech', vi: 'EdTech trực quan và giải thích được' },
@@ -132,8 +189,50 @@ export const featuredProjects: FeaturedProject[] = [
     },
   },
   {
+    slug: 'smart-classroom',
+    order: '04',
+    year: '2026',
+    title: 'EDUVISION AI',
+    eyebrow: { en: 'Cinematic smart-classroom story', vi: 'Câu chuyện lớp học thông minh cinematic' },
+    statement: {
+      en: 'Scroll through the classroom. See where AI quietly helps.',
+      vi: 'Cuộn qua lớp học. Nhìn thấy nơi AI hỗ trợ một cách âm thầm.',
+    },
+    summary: {
+      en: 'A cinematic product experience for the EduVision AI smart classroom, using a code-built Three.js scene to connect vision, teaching, 3D learning, remote control and digital-twin concepts.',
+      vi: 'Trải nghiệm sản phẩm cinematic cho lớp học thông minh EduVision AI, dùng cảnh Three.js dựng bằng code để kết nối AI Vision, giảng dạy, học tập 3D, điều khiển từ xa và digital twin.',
+    },
+    problem: {
+      en: 'A conventional landing page can name classroom features, but it cannot show how people, cameras, teaching tools and AI relate in space and time.',
+      vi: 'Landing page thông thường có thể kể tên tính năng, nhưng khó cho thấy con người, camera, công cụ dạy học và AI liên kết trong không gian lẫn thời gian.',
+    },
+    solution: {
+      en: 'A scroll-driven 3D classroom with camera keyframes, procedural characters, visual system states and graceful model fallbacks.',
+      vi: 'Lớp học 3D điều khiển theo cuộn với camera keyframe, nhân vật procedural, các trạng thái trực quan của hệ thống và fallback model an toàn.',
+    },
+    contribution: {
+      en: 'Creative direction, procedural 3D, character systems, scroll choreography, responsive behavior and deployment setup.',
+      vi: 'Định hướng sáng tạo, 3D procedural, hệ nhân vật, biên đạo cuộn, responsive và thiết lập triển khai.',
+    },
+    status: 'source',
+    statusLabel: { en: 'Public source available', vi: 'Có mã nguồn công khai' },
+    accent: '#6ff7d2',
+    accentSoft: '#173f52',
+    ink: '#071c27',
+    stack: ['Three.js', 'JavaScript', 'WebGL', 'GLTFLoader', 'Procedural 3D', 'Cloudflare Workers'],
+    highlights: [
+      { en: 'Eleven scroll chapters move from a logo portal into a complete AI-classroom story.', vi: 'Mười một chương cuộn đi từ cổng logo tới câu chuyện lớp học AI hoàn chỉnh.' },
+      { en: 'Teacher and student systems combine a rigged teacher model with procedural fallbacks.', vi: 'Hệ giáo viên và học sinh kết hợp model giáo viên có rig với fallback procedural.' },
+      { en: 'Vision, AI agent, solar-system learning, PTZ control and digital twin become spatial scenes.', vi: 'Vision, AI agent, mô hình Hệ Mặt Trời, điều khiển PTZ và digital twin trở thành các cảnh không gian.' },
+      { en: 'Character detail scales before construction to keep the scene practical across hardware.', vi: 'Độ chi tiết nhân vật được chọn trước khi dựng để cảnh phù hợp với nhiều cấu hình phần cứng.' },
+    ],
+    links: [
+      { label: { en: 'Explore source', vi: 'Xem mã nguồn' }, url: 'https://github.com/minhnhatdepzai/smartroom', kind: 'github' },
+    ],
+  },
+  {
     slug: 'kho',
-    order: '03',
+    order: '05',
     year: '2026',
     title: "K’HO DIGITAL HERITAGE",
     eyebrow: { en: 'Cultural storytelling & tourism', vi: 'Kể chuyện văn hóa và du lịch' },
@@ -185,7 +284,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'picko247',
-    order: '04',
+    order: '06',
     year: '2026',
     title: 'PICKO 247',
     eyebrow: { en: 'Sports, data & play', vi: 'Thể thao, dữ liệu và game' },
@@ -237,7 +336,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'happytoplay',
-    order: '05',
+    order: '07',
     year: '2026',
     title: 'HAPPYTOPLAY',
     eyebrow: { en: 'Inclusive social game hub', vi: 'Nền tảng social game hòa nhập' },
@@ -277,6 +376,48 @@ export const featuredProjects: FeaturedProject[] = [
       { label: { en: 'Explore source', vi: 'Xem mã nguồn' }, url: 'https://github.com/minhnhatdepzai/GameJamFPTPolytechnic', kind: 'github' },
     ],
   },
+  {
+    slug: 'vehicle-counting',
+    order: '08',
+    year: '2026',
+    title: 'VEHICLE COUNTING',
+    eyebrow: { en: 'Computer vision traffic prototype', vi: 'Prototype thị giác máy tính giao thông' },
+    statement: {
+      en: 'Detect the road. Track the motion. Count each crossing once.',
+      vi: 'Nhận diện mặt đường. Theo dõi chuyển động. Đếm mỗi lượt cắt qua đúng một lần.',
+    },
+    summary: {
+      en: 'A documented computer-vision prototype for detecting and tracking people and vehicle classes in video, then counting directional crossings and exporting annotated results.',
+      vi: 'Prototype thị giác máy tính có tài liệu hướng dẫn để nhận diện và theo dõi người cùng các nhóm phương tiện trong video, đếm lượt cắt theo hướng và xuất kết quả đã chú thích.',
+    },
+    problem: {
+      en: 'Frame-by-frame detections alone double-count moving objects and do not explain traffic direction.',
+      vi: 'Nhận diện từng khung hình riêng lẻ dễ đếm trùng vật thể đang di chuyển và không cho biết hướng giao thông.',
+    },
+    solution: {
+      en: 'YOLOv8 detections are persisted with ByteTrack IDs and evaluated against a line zone, with separate per-class up/down totals.',
+      vi: 'Kết quả YOLOv8 được duy trì bằng ID ByteTrack và kiểm tra qua line zone, với tổng lượt lên/xuống riêng cho từng lớp.',
+    },
+    contribution: {
+      en: 'Prototype design, detection/tracking pipeline, directional counting logic, annotations and reproducible setup guide.',
+      vi: 'Thiết kế prototype, pipeline nhận diện/theo dõi, logic đếm theo hướng, lớp chú thích và hướng dẫn thiết lập có thể lặp lại.',
+    },
+    status: 'source',
+    statusLabel: { en: 'Public prototype guide', vi: 'Hướng dẫn prototype công khai' },
+    accent: '#ff7a31',
+    accentSoft: '#d8e0e2',
+    ink: '#142024',
+    stack: ['Python', 'YOLOv8', 'ByteTrack', 'OpenCV', 'Supervision', 'NumPy'],
+    highlights: [
+      { en: 'Tracks people, bicycles, cars, motorcycles, buses and trucks.', vi: 'Theo dõi người, xe đạp, ô tô, xe máy, xe buýt và xe tải.' },
+      { en: 'Persistent tracker IDs prevent repeat counts for the same crossing direction.', vi: 'ID theo dõi được duy trì để tránh đếm lặp cùng một hướng cắt.' },
+      { en: 'Annotated MP4 output includes boxes, traces, labels, the line zone and live totals.', vi: 'Video MP4 đầu ra có bounding box, vệt di chuyển, nhãn, line zone và tổng đếm trực tiếp.' },
+      { en: 'The current repository is a compact implementation guide, not a packaged production service.', vi: 'Repository hiện là hướng dẫn triển khai gọn, chưa phải dịch vụ production đóng gói.' },
+    ],
+    links: [
+      { label: { en: 'Open prototype guide', vi: 'Mở hướng dẫn prototype' }, url: 'https://github.com/minhnhatdepzai/Count_vehicles', kind: 'github' },
+    ],
+  },
 ];
 
 export interface ArchiveProject {
@@ -287,11 +428,9 @@ export interface ArchiveProject {
 }
 
 export const archiveProjects: ArchiveProject[] = [
-  { name: 'SmartRoom', category: 'Web & Mobile', year: '2026', url: 'https://github.com/minhnhatdepzai/smartroom' },
   { name: 'AI for Deaf People', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/AI_for_deaf_people' },
   { name: 'Đại Chiến Ngôn Ngữ', category: 'Games', year: '2026', url: 'https://github.com/minhnhatdepzai/DaiChienNgonNgu' },
   { name: 'Realtime Translation', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/translate_web_realtime' },
-  { name: 'Vehicle Counting', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/Count_vehicles' },
   { name: 'Face Mask Detection', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/Face_mask' },
   { name: 'Face Detection', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/Face_detective' },
   { name: 'Pygame Driving', category: 'Games', year: '2026', url: 'https://github.com/minhnhatdepzai/Basic_Python_Pygame_library' },
