@@ -1,12 +1,14 @@
 import { ArrowUp, ArrowUpRight, Facebook, Github, Mail, Phone, Youtube } from 'lucide-react';
 import { personalInfo } from '../data/cv';
 import { useLanguage } from '../contexts/LanguageContext';
+import { BotanicalGarden } from '../components/BotanicalGarden';
 
-export const Footer = () => {
+export const Footer = ({ gardenPaused = false }: { gardenPaused?: boolean }) => {
   const { lang } = useLanguage();
 
   return (
     <footer id="contact" className="footer">
+      <BotanicalGarden variant="footer" paused={gardenPaused} />
       <div className="footer-kicker"><span>06</span><span>{lang === 'vi' ? 'LIÊN HỆ' : 'CONTACT'}</span><span>HO CHI MINH CITY · VN</span></div>
       <div className="footer-title" data-reveal>
         <p>{lang === 'vi' ? 'Đang tìm người xây sản phẩm AI và trải nghiệm tương tác?' : 'Hiring for AI products and interactive experiences?'}</p>

@@ -1,0 +1,63 @@
+.garden-flora {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  contain: layout style;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.garden-flora > svg { display: block; width: 100%; height: auto; }
+.garden-flora--hero { right: 0; bottom: 0; width: min(58vw, 880px); opacity: .94; }
+.garden-flora--hero > svg { transform: translate(8%, 4%); }
+.garden-flora--vine { right: 0; top: 4%; width: 290px; opacity: .62; }
+.garden-flora--vine > svg { transform: translateX(90px); }
+.garden-flora--footer { right: 0; bottom: 0; width: min(55vw, 760px); opacity: .83; }
+.garden-flora--footer > svg { transform: translate(7%, 5%); }
+
+.garden-leaf {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: garden-leaf-sway 12s ease-in-out infinite alternate;
+}
+.garden-leaf--0, .garden-leaf--one { animation-duration: 13s; animation-delay: -4s; }
+.garden-leaf--1, .garden-leaf--two { animation-duration: 17s; animation-delay: -9s; }
+.garden-leaf--2 { animation-duration: 15s; animation-delay: -6s; }
+.garden-spore { animation: garden-spore-drift 13s ease-in-out infinite; }
+.garden-spore--two { animation-duration: 17s; animation-delay: -6s; }
+.garden-spore--three { animation-duration: 15s; animation-delay: -10s; }
+.garden-flora--resting .garden-leaf, .garden-flora--resting .garden-spore { animation-play-state: paused; }
+
+@keyframes garden-leaf-sway {
+  from { transform: rotate(-1.5deg); }
+  to { transform: rotate(2deg); }
+}
+@keyframes garden-spore-drift {
+  0%, 100% { transform: translate(0, 8px); opacity: .25; }
+  35% { opacity: .85; }
+  60% { transform: translate(-10px, -19px); opacity: .5; }
+}
+
+@media (max-width: 900px) {
+  .garden-flora--hero { width: 66vw; opacity: .78; }
+  .garden-flora--hero > svg { transform: translate(14%, 2%); }
+  .garden-flora--vine { width: 255px; opacity: .4; }
+  .garden-flora--vine > svg { transform: translateX(114px); }
+  .garden-flora--footer { width: 64vw; opacity: .58; }
+  .garden-flora--footer > svg { transform: translate(20%, 3%); }
+}
+@media (max-width: 600px) {
+  .garden-flora--hero { width: 94vw; max-width: 540px; opacity: .74; }
+  .garden-flora--hero > svg { transform: translate(21%, 2%); }
+  .garden-flora--vine { top: 14%; width: 215px; opacity: .27; }
+  .garden-flora--vine > svg { transform: translateX(115px); }
+  .garden-flora--footer { width: 96vw; opacity: .42; }
+  .garden-flora--footer > svg { transform: translate(30%, 2%); }
+  .garden-detail, .garden-spore--three { display: none; }
+  .garden-leaf { animation-duration: 20s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .garden-leaf, .garden-spore { animation: none; }
+  .garden-spore { opacity: .4; }
+}

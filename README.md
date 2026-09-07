@@ -2,9 +2,13 @@
 
 A bilingual, performance-aware portfolio for selected Web, Mobile, AI and interactive work.
 
-The editorial interface pairs an obsidian/ivory/lime visual system with a lazy-loaded,
-pointer-responsive chrome sculpture. WebGL pauses offscreen and in hidden tabs;
-mobile, reduced-motion and unavailable-WebGL sessions retain a CSS visual fallback.
+The editorial interface pairs an obsidian/ivory/lime visual system with a living
+digital garden: a lazy-loaded procedural 3D chameleon on a floating moss island,
+a smaller gecko crawling/climbing the page edge, a butterfly and botanical foliage.
+WebGL pauses offscreen and in hidden tabs; mobile and unavailable-WebGL sessions
+retain an animated SVG/CSS habitat. Reduced motion uses a static version.
+The bilingual garden control freezes/resumes all garden animation and remembers
+the visitor's choice locally. Animals are decorative and never intercept clicks.
 Eight project cards offer direct demos and deep-linked case-study dialogs. Recruiter
 actions include an explicit CV download, professional experience and contact links.
 
@@ -93,3 +97,5 @@ Keep preview images under roughly 180 KB where visual quality allows. Do not inc
 - `japano-showcase.webp` comes from the JAPANO showcase's `/assets/brand/japano-splash-bg.webp` artwork.
 - HappyToPlay uses clearly labeled concept artwork; procedural diagrams are not presented as product screenshots.
 - `og-cover.png` is rendered from the repository-native `og-cover.svg` sharing card.
+- The chameleon, butterfly, moss island, foliage and their motion are original
+  code-native visuals in `src/components`; no remote model or texture files are required.

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { createTerrarium } from './createTerrarium';
 import './cinematic-motion.css';
 
 type IdleWindow = Window & typeof globalThis & {
@@ -8,10 +9,17 @@ type IdleWindow = Window & typeof globalThis & {
 };
 
 /** Decorative enhancement; the hero is complete before the optional 3D bundle arrives. */
-export const ThreeWorld = () => {
+export const ThreeWorld = ({ paused = false }: { paused?: boolean }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stage, setStage] = useState<HTMLElement | null>(null);
   const [enhanced, setEnhanced] = useState(false);
+  const pausedRef = useRef(paused);
+  const playbackRef = useRef<(() => void) | null>(null);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+    playbackRef.current?.();
+  }, [paused]);
 
   useEffect(() => {
     setStage(document.querySelector<HTMLElement>('.hero-stage'));
@@ -55,9 +63,9 @@ export const ThreeWorld = () => {
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(37, 1, 0.1, 40);
-      camera.position.set(0, 0.15, 10.5);
+      camera.position.set(0, 0.12, 9.4);
 
-      // Procedural studio panels produce broad chrome reflections without a remote HDRI.
+      // A small procedural light studio gives eyes and leaves gentle reflections.
       const studio = new THREE.Scene();
       studio.background = new THREE.Color(0x252724);
       const panelGeometry = new THREE.PlaneGeometry(1, 1);
@@ -85,46 +93,15 @@ export const ThreeWorld = () => {
       acidPanel.dispose();
       pmrem.dispose();
 
-      const sculpture = new THREE.Group();
-      sculpture.rotation.set(0.22, -0.35, -0.3);
+      const habitat = createTerrarium(THREE);
+      const sculpture = habitat.world;
+      sculpture.rotation.set(0.12, -0.12, -0.035);
       scene.add(sculpture);
-      const chrome = new THREE.MeshStandardMaterial({ color: 0xe5e7df, metalness: 1, roughness: 0.17, envMapIntensity: 1.5 });
-      const acid = new THREE.MeshStandardMaterial({ color: 0xc9ff4a, metalness: 0.45, roughness: 0.23, emissive: 0x607d14, emissiveIntensity: 0.25 });
-      const wire = new THREE.MeshBasicMaterial({ color: 0xc9ff4a, transparent: true, opacity: 0.52 });
-      const silverWire = new THREE.MeshBasicMaterial({ color: 0xe2e5da, transparent: true, opacity: 0.22 });
-      const knotGeometry = new THREE.TorusKnotGeometry(1.43, 0.39, 192, 24, 2, 3);
-      const knot = new THREE.Mesh(knotGeometry, chrome);
-      knot.scale.set(0.96, 1.06, 0.96);
-      sculpture.add(knot);
-      const coreGeometry = new THREE.IcosahedronGeometry(0.36, 1);
-      const core = new THREE.Mesh(coreGeometry, acid);
-      sculpture.add(core);
-
-      const orbitGeometry = new THREE.TorusGeometry(2.64, 0.009, 5, 160);
-      const orbit = new THREE.Mesh(orbitGeometry, silverWire);
-      orbit.rotation.set(0.7, -0.38, 0.2);
-      sculpture.add(orbit);
-      const arcGeometry = new THREE.TorusGeometry(2.65, 0.023, 6, 80, Math.PI * 0.38);
-      const arc = new THREE.Mesh(arcGeometry, wire);
-      orbit.add(arc);
-      const dial = new THREE.Group();
-      dial.rotation.set(0.18, 0.35, 0);
-      sculpture.add(dial);
-      const tickGeometry = new THREE.BoxGeometry(0.014, 0.075, 0.014);
-      const ticks = new THREE.InstancedMesh(tickGeometry, silverWire, 48);
-      const tick = new THREE.Object3D();
-      for (let index = 0; index < 48; index += 1) {
-        const angle = index / 48 * Math.PI * 2;
-        tick.position.set(Math.sin(angle) * 2.95, Math.cos(angle) * 2.95, 0);
-        tick.rotation.z = -angle;
-        tick.scale.y = index % 4 === 0 ? 1.75 : 1;
-        tick.updateMatrix();
-        ticks.setMatrixAt(index, tick.matrix);
-      }
-      dial.add(ticks);
-      const key = new THREE.DirectionalLight(0xf0eee6, 3);
+      const key = new THREE.DirectionalLight(0xfff0d2, 2.6);
       key.position.set(-3, 5, 5);
-      scene.add(key, new THREE.AmbientLight(0xffffff, 0.5));
+      const rim = new THREE.DirectionalLight(0xc8f5a9, 2.2);
+      rim.position.set(3, 2, -3);
+      scene.add(key, rim, new THREE.HemisphereLight(0xe8f6df, 0x283929, 1.75));
 
       let frame = 0;
       let isIntersecting = false;
@@ -136,13 +113,15 @@ export const ThreeWorld = () => {
       let ready = false;
       let failed = false;
       const hero = stage.closest<HTMLElement>('.hero') ?? stage;
-      const canRender = () => !cancelled && !failed && isIntersecting && !document.hidden;
+      const canRender = () => !cancelled && !failed && isIntersecting && !document.hidden && (!pausedRef.current || !ready);
       const resize = () => {
         const { width, height } = stage.getBoundingClientRect();
         if (!width || !height) return;
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height, false);
+        // Resizing clears the canvas, even when the garden is resting.
+        if (ready && pausedRef.current && !failed && !document.hidden) renderer.render(scene, camera);
       };
       const onScroll = () => {
         const rect = hero.getBoundingClientRect();
@@ -155,15 +134,12 @@ export const ThreeWorld = () => {
         previousTime = time;
         elapsed += delta;
         const easing = 1 - Math.exp(-delta * 4);
-        sculpture.rotation.y += (-0.35 + pointerX * 0.32 + scrollProgress * 1.75 - sculpture.rotation.y) * easing;
-        sculpture.rotation.x += (0.22 + pointerY * 0.16 + scrollProgress * 0.5 - sculpture.rotation.x) * easing;
-        sculpture.rotation.z = -0.3 + Math.sin(elapsed * 0.16) * 0.045;
-        sculpture.position.y = Math.sin(elapsed * 0.55) * 0.1 + scrollProgress * 0.25;
-        knot.rotation.z = elapsed * 0.055;
-        core.rotation.set(elapsed * 0.15, elapsed * 0.22, 0);
-        orbit.rotation.z = elapsed * 0.085;
-        dial.rotation.z = -elapsed * 0.035;
-        camera.position.z += (10.5 - scrollProgress * 2 - camera.position.z) * easing;
+        sculpture.rotation.y += (-0.12 + pointerX * 0.18 + scrollProgress * 0.72 - sculpture.rotation.y) * easing;
+        sculpture.rotation.x += (0.12 + pointerY * 0.07 + scrollProgress * 0.15 - sculpture.rotation.x) * easing;
+        sculpture.rotation.z = -0.035 + Math.sin(elapsed * 0.27) * 0.018;
+        sculpture.position.y = Math.sin(elapsed * 0.58) * 0.065 + scrollProgress * 0.18;
+        habitat.animate(elapsed, pointerX, pointerY);
+        camera.position.z += (9.4 - scrollProgress * 0.8 - camera.position.z) * easing;
         renderer.render(scene, camera);
         if (!ready) { ready = true; stage.classList.add('has-three-world'); }
         frame = requestAnimationFrame(render);
@@ -174,6 +150,7 @@ export const ThreeWorld = () => {
         } else { cancelAnimationFrame(frame); frame = 0; }
         stage.classList.toggle('has-three-world', ready && !failed && !cancelled);
       };
+      playbackRef.current = syncPlayback;
       const onPointer = (event: PointerEvent) => {
         if (!isIntersecting) return;
         const rect = stage.getBoundingClientRect();
@@ -207,10 +184,9 @@ export const ThreeWorld = () => {
         document.removeEventListener('visibilitychange', syncPlayback);
         canvas.removeEventListener('webglcontextlost', onContextLost);
         stage.classList.remove('has-three-world');
-        [knotGeometry, coreGeometry, orbitGeometry, arcGeometry, tickGeometry].forEach((geometry) => geometry.dispose());
-        [chrome, acid, wire, silverWire].forEach((material) => material.dispose());
+        playbackRef.current = null;
+        habitat.dispose();
         environment.dispose();
-        ticks.dispose();
         renderer.dispose();
       };
     };
