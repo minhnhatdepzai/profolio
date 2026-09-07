@@ -1,5 +1,22 @@
 .garden-companions { position: fixed; z-index: 35; inset: 0; overflow: hidden; pointer-events: none; contain: layout style paint; }
 .garden-companions * { pointer-events: none; }
+.garden-companions .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.garden-companions .garden-gecko { pointer-events: auto; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+.garden-companions .garden-gecko[aria-disabled="true"] { pointer-events: none; cursor: default; }
+.garden-gecko:focus-visible { outline: 2px dashed #c8ff79; outline-offset: 6px; border-radius: 45%; }
+.garden-companions .garden-gecko[data-phase="held"] { cursor: grabbing; filter: drop-shadow(0 16px 9px #10190b66); }
+.garden-gecko__cue { position: absolute; left: 50%; bottom: 104%; transform: translateX(-50%) rotate(90deg); transform-origin: 50% 100%; white-space: nowrap; border: 1px solid #badd7b70; border-radius: 20px; background: #172314f2; color: #ecf9d7; padding: 5px 9px; font: 500 10px/1.3 'Be Vietnam Pro', sans-serif; letter-spacing: .01em; opacity: 0; }
+.garden-gecko[data-discovered="false"] .garden-gecko__cue,
+.garden-gecko:is(:hover, :focus-visible) .garden-gecko__cue,
+.garden-gecko[data-phase="held"] .garden-gecko__cue,
+.garden-gecko[data-phase="returning"] .garden-gecko__cue { opacity: 1; }
+.garden-gecko[data-phase="roaming"][data-discovered="true"] .garden-gecko__cue { display: none; }
+.garden-companions[data-running="true"] .garden-gecko[data-phase="roaming"] .garden-gecko__cue { display: none; }
+.garden-gecko__panic { position: absolute; top: -8px; right: 10px; color: #ffdf90; font: 900 26px/1 sans-serif; text-shadow: 0 2px #223419; opacity: 0; transform: rotate(25deg); }
+.garden-gecko:is([data-phase="held"], [data-phase="falling"]) .garden-gecko__panic { opacity: 1; }
+.garden-gecko[data-phase="fleeing"] .garden-gecko__drawing { filter: saturate(.45) hue-rotate(38deg); }
+.garden-gecko__dust { position: absolute; left: 28%; bottom: -5px; width: 12px; height: 6px; border-radius: 50%; background: #d8d9b870; box-shadow: -20px 2px 0 2px #d8d9b840, 27px 1px 0 3px #d8d9b850, 45px 3px 0 #d8d9b830; opacity: 0; }
+.garden-gecko[data-phase="landing"] .garden-gecko__dust { opacity: 1; }
 .garden-gecko { position: absolute; top: 0; left: 0; width: 120px; height: 79px; transform: translate3d(calc(100vw - 40px), calc(100svh - 110px), 0) translate(-50%, -50%) rotate(-90deg); transform-origin: 50% 50%; will-change: transform; filter: drop-shadow(1px 4px 3px #10190b4d); }
 .garden-gecko__drawing { display: block; width: 100%; height: 100%; overflow: visible; }
 .garden-gecko__leg, .garden-gecko__head, .garden-gecko__tail, .garden-gecko__eye { transform-box: view-box; }
@@ -14,19 +31,19 @@
 .garden-gecko__eye--bottom { transform-origin: 122px 65px; animation: garden-gecko-blink 6.7s .13s linear infinite; }
 .garden-butterfly { position: absolute; top: 0; left: 0; width: 51px; height: 56px; transform: translate3d(29px, 52vh, 0); transform-origin: center; will-change: transform; filter: drop-shadow(0 2px 3px #322b4533); }
 .garden-butterfly__drawing { display: block; width: 100%; height: 100%; overflow: visible; }
-.garden-butterfly__wing { transform-box: view-box; transform-origin: 50px 55px; animation: garden-butterfly-wing .33s ease-in-out infinite alternate; }
-.garden-butterfly__wing--right { animation-delay: -.03s; }
-.garden-companions :is(.garden-gecko__tail, .garden-gecko__eye, .garden-butterfly__wing) { animation-play-state: paused; }
-.garden-companions[data-running="true"] :is(.garden-gecko__tail, .garden-gecko__eye, .garden-butterfly__wing) { animation-play-state: running; }
+.garden-butterfly__wing { transform-box: view-box; transform-origin: 50px 55px; transform: scaleX(var(--butterfly-flap, 1)) skewY(var(--butterfly-flutter, 0deg)); }
+.garden-companions .garden-gecko__tail { animation: none; transform: rotate(var(--gecko-tail-angle, 0deg)); }
+.garden-companions .garden-gecko__eye { animation: none; transform: scaleY(var(--gecko-blink, 1)); }
 .garden-is-paused :is(.garden-gecko__tail, .garden-gecko__eye, .garden-butterfly__wing) { animation-play-state: paused; }
 @keyframes garden-tail-curiosity { 0%, 100% { transform: rotate(-4deg); } 55% { transform: rotate(5deg); } 70% { transform: rotate(1deg); } }
 @keyframes garden-gecko-blink { 0%, 43%, 48%, 100% { transform: scaleY(1); } 45%, 46% { transform: scaleY(.06); } }
-@keyframes garden-butterfly-wing { 0% { transform: scaleX(.32) skewY(4deg); } 100% { transform: scaleX(1) skewY(-2deg); } }
 @media (max-width: 699px) {
   .garden-gecko { width: 74px; height: 49px; filter: drop-shadow(1px 3px 2px #10190b40); }
-  .garden-butterfly { display: none; }
+  .garden-butterfly { width: 39px; height: 43px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .garden-companions { display: none; }
+  html:not(.garden-motion-opt-in) .garden-companions { display: none; }
   .garden-gecko, .garden-butterfly { will-change: auto; }
+  html.garden-motion-opt-in .garden-gecko__tail { animation-duration: 3.4s !important; animation-iteration-count: infinite !important; }
+  html.garden-motion-opt-in .garden-gecko__eye { animation-duration: 6.7s !important; animation-iteration-count: infinite !important; }
 }

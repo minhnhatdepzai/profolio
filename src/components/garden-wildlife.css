@@ -1,0 +1,33 @@
+.garden-wildlife {
+  position: fixed;
+  z-index: 34;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+  user-select: none;
+  contain: layout style;
+}
+.garden-wildlife svg { display: block; width: 100%; height: auto; overflow: visible; }
+.wildlife-definitions { position: absolute; width: 0 !important; height: 0 !important; }
+.wildlife-squirrel { position: absolute; left: 0; bottom: 10px; width: 91px; height: 69px; opacity: 0; transform-origin: 50% 90%; filter: drop-shadow(0 4px 4px #08100f55); }
+.wildlife-squirrel--2 { width: 74px; height: 56px; bottom: 12px; }
+.wildlife-bird { position: absolute; left: 0; top: 0; width: 43px; height: 33px; opacity: 0; }
+.wildlife-bird--2 { width: 35px; height: 27px; }
+.wildlife-bird--3 { width: 29px; height: 23px; }
+.wildlife-flowers { position: absolute; bottom: 0; width: 240px; opacity: .9; }
+.wildlife-flowers--left { left: 178px; }
+.wildlife-flowers--right { right: 9px; }
+.wildlife-blossom { transform-origin: 0 0; transform: scale(.3); opacity: .18; }
+.nav-is-open .garden-wildlife, .dialog-is-open .garden-wildlife { visibility: hidden; }
+@media (max-width: 900px) {
+  .wildlife-flowers { width: 190px; }
+  .wildlife-flowers--left { left: 158px; }
+  .wildlife-squirrel { width: 78px; height: 59px; }
+}
+@media (max-width: 600px) {
+  .wildlife-squirrel { width: 62px; height: 47px; bottom: 102px; }
+  .wildlife-squirrel--2, .wildlife-bird--3, .wildlife-flowers--left { display: none; }
+  .wildlife-flowers--right { width: 150px; right: 0; opacity: .82; }
+  .wildlife-bird { width: 33px; height: 25px; }
+  .wildlife-bird--2 { width: 27px; height: 21px; }
+}

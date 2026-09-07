@@ -5,38 +5,35 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { BotanicalGarden } from '../components/BotanicalGarden';
 import { GardenGeckoArt } from '../components/GardenCompanions';
 
-const GardenHabitatFallback = ({ paused }: { paused: boolean }) => {
+const GardenHabitatFallback = ({ paused, motionAllowed }: { paused: boolean; motionAllowed: boolean }) => {
   const root = useRef<HTMLDivElement>(null);
   const [running, setRunning] = useState(false);
   useEffect(() => {
     const element = root.current;
     if (!element) return;
-    const motion = matchMedia('(prefers-reduced-motion: reduce)');
     let visible = false;
-    const update = () => setRunning(visible && !paused && !document.hidden && !motion.matches);
+    const update = () => setRunning(visible && !paused && !document.hidden && motionAllowed);
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; update(); });
     observer.observe(element);
     document.addEventListener('visibilitychange', update);
-    motion.addEventListener('change', update);
     return () => {
       observer.disconnect();
       document.removeEventListener('visibilitychange', update);
-      motion.removeEventListener('change', update);
     };
-  }, [paused]);
+  }, [paused, motionAllowed]);
   return (
     <div ref={root} className="hero-visual-fallback hero-habitat-fallback" data-running={running}>
       <div className="habitat-moon" />
       <div className="habitat-island" />
       <div className="habitat-branch" />
-      <BotanicalGarden variant="hero" paused={paused} />
+      <BotanicalGarden variant="hero" paused={paused} motionAllowed={motionAllowed} />
       <div className="habitat-creature"><GardenGeckoArt /></div>
       <div className="habitat-lanterns"><i /><i /><i /><i /></div>
     </div>
   );
 };
 
-export const Hero = ({ gardenPaused = false }: { gardenPaused?: boolean }) => {
+export const Hero = ({ gardenPaused = false, motionAllowed = true }: { gardenPaused?: boolean; motionAllowed?: boolean }) => {
   const { lang } = useLanguage();
   const goToWork = () => document.getElementById('selected-work')?.scrollIntoView({
     behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
@@ -74,7 +71,7 @@ export const Hero = ({ gardenPaused = false }: { gardenPaused?: boolean }) => {
         </div>
 
         <div className="hero-stage" aria-hidden="true">
-          <GardenHabitatFallback paused={gardenPaused} />
+          <GardenHabitatFallback paused={gardenPaused} motionAllowed={motionAllowed} />
           <div className="habitat-note"><i /><span>MEET MOSS.</span>{lang === 'vi' ? 'MỘT CHÚT TRÍ TƯỞNG TƯỢNG.' : 'A LITTLE IMAGINATION.'}</div>
           <div className="hero-stage__cross hero-stage__cross--one">+</div><div className="hero-stage__cross hero-stage__cross--two">+</div>
           <div className="hero-stage__label"><span>FIG. 01</span><span>{lang === 'vi' ? 'KHU VƯỜN CỦA NHỮNG Ý TƯỞNG' : 'WHERE LITTLE IDEAS COME ALIVE'}</span><i /></div>

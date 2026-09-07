@@ -11,7 +11,8 @@
     "cloudflare:dev": "npm run build && npx wrangler dev",
     "deploy:cloudflare": "npm run build && npx wrangler deploy",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",

@@ -2,11 +2,11 @@ import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BotanicalGarden } from '../components/BotanicalGarden';
 
-export const About = ({ gardenPaused = false }: { gardenPaused?: boolean }) => {
+export const About = ({ gardenPaused = false, motionAllowed = true }: { gardenPaused?: boolean; motionAllowed?: boolean }) => {
   const { lang } = useLanguage();
   return (
     <section id="about" className="perspective section-pad">
-      <BotanicalGarden variant="vine" paused={gardenPaused} />
+      <BotanicalGarden variant="vine" paused={gardenPaused} motionAllowed={motionAllowed} />
       <div className="perspective__index" data-reveal><span>01 /</span><p>{lang === 'vi' ? 'MỘT GÓC NHÌN KHÁC' : 'A DIFFERENT PERSPECTIVE'}</p></div>
       <div className="perspective__main">
         <h2 data-reveal>{lang === 'vi' ? 'Tư duy hệ thống.' : 'A systems mind.'}<br /><em>{lang === 'vi' ? 'Cảm quan sáng tạo.' : 'A creative instinct.'}</em></h2>

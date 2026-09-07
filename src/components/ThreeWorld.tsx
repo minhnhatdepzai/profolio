@@ -9,7 +9,7 @@ type IdleWindow = Window & typeof globalThis & {
 };
 
 /** Decorative enhancement; the hero is complete before the optional 3D bundle arrives. */
-export const ThreeWorld = ({ paused = false }: { paused?: boolean }) => {
+export const ThreeWorld = ({ paused = false, motionAllowed = true }: { paused?: boolean; motionAllowed?: boolean }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stage, setStage] = useState<HTMLElement | null>(null);
   const [enhanced, setEnhanced] = useState(false);
@@ -23,19 +23,16 @@ export const ThreeWorld = ({ paused = false }: { paused?: boolean }) => {
 
   useEffect(() => {
     setStage(document.querySelector<HTMLElement>('.hero-stage'));
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const desktop = window.matchMedia('(min-width: 900px) and (pointer: fine)');
     const syncEnhancement = () => setEnhanced(
-      !motion.matches && desktop.matches && (navigator.hardwareConcurrency ?? 4) > 2,
+      motionAllowed && desktop.matches && (navigator.hardwareConcurrency ?? 4) > 2,
     );
     syncEnhancement();
-    motion.addEventListener('change', syncEnhancement);
     desktop.addEventListener('change', syncEnhancement);
     return () => {
-      motion.removeEventListener('change', syncEnhancement);
       desktop.removeEventListener('change', syncEnhancement);
     };
-  }, []);
+  }, [motionAllowed]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

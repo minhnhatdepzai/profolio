@@ -4,12 +4,13 @@ import './botanical-garden.css';
 type BotanicalGardenProps = {
   variant: 'hero' | 'vine' | 'footer';
   paused?: boolean;
+  motionAllowed?: boolean;
 };
 
 const leafShape = 'M0 0C-20-20-70-29-88-69C-106-108-103-154-81-189C-64-216-30-229 2-273C29-234 65-222 89-191C120-151 117-109 99-77C80-39 37-27 0 0Z';
 
 /** Decorative, native SVG foliage. Motion rests outside the viewport. */
-export const BotanicalGarden = ({ variant, paused = false }: BotanicalGardenProps) => {
+export const BotanicalGarden = ({ variant, paused = false, motionAllowed = true }: BotanicalGardenProps) => {
   const root = useRef<HTMLDivElement>(null);
   const uid = useId().replace(/:/g, '');
   const [resting, setResting] = useState(true);
@@ -19,23 +20,20 @@ export const BotanicalGarden = ({ variant, paused = false }: BotanicalGardenProp
   useEffect(() => {
     const element = root.current;
     if (!element) return;
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let visible = false;
-    const update = () => setResting(paused || !visible || document.hidden || motion.matches);
+    const update = () => setResting(paused || !motionAllowed || !visible || document.hidden);
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       update();
     }, { rootMargin: '80px' });
     observer.observe(element);
     document.addEventListener('visibilitychange', update);
-    motion.addEventListener('change', update);
     update();
     return () => {
       observer.disconnect();
       document.removeEventListener('visibilitychange', update);
-      motion.removeEventListener('change', update);
     };
-  }, [paused]);
+  }, [paused, motionAllowed]);
 
   const leaf = (x: number, y: number, rotate: number, scale: number, index: number, small = false) => (
     <g key={`leaf-${index}`} transform={`translate(${x} ${y}) rotate(${rotate}) scale(${scale})`} className={small ? 'garden-detail' : undefined}>

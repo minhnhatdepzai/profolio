@@ -100,11 +100,16 @@
 .footer { isolation: isolate; }
 .footer > :not(.garden-flora) { position: relative; z-index: 2; }
 .footer > .garden-flora { z-index: 1; }
+.garden-controls { position: fixed; z-index: 45; left: 1.15rem; bottom: 1rem; max-width: calc(100vw - 2rem); padding: .65rem; border: 1px solid #a3c28055; border-radius: 1.2rem; background: #102018f5; box-shadow: 0 4px 24px #0003; }
+.garden-controls__buttons { display: flex; align-items: center; gap: .45rem; }
+.garden-control__hint { margin: 0 .35rem .55rem; max-width: 17rem; color: #b5c6a4; font-size: .57rem; line-height: 1.55; }
+.garden-auto { display: inline-flex; align-items: center; gap: .3rem; min-height: 2.55rem; border: 1px solid #a3c28055; border-radius: 99px; padding: .6rem; font-size: .59rem; color: #c6d5b7; background: transparent; cursor: pointer; }
+.garden-auto[aria-pressed="true"] { color: #c9ff4a; border-color: #91b24b; background: #c9ff4a0c; }
 .garden-control {
-  position: fixed;
+  position: relative;
   z-index: 45;
-  left: 1.15rem;
-  bottom: 1rem;
+  left: auto;
+  bottom: auto;
   display: flex;
   align-items: center;
   gap: .65rem;
@@ -124,7 +129,7 @@
 .garden-control:hover { background: #293c24; border-color: #c9ff4a99; }
 .garden-control--resting { color: #a0b092; }
 .garden-control:disabled { cursor: default; }
-.nav-is-open .garden-control, .dialog-is-open .garden-control,
+.nav-is-open .garden-controls, .dialog-is-open .garden-controls,
 .nav-is-open .garden-companions, .dialog-is-open .garden-companions { visibility: hidden; }
 .garden-is-paused .hero-spark, .garden-is-paused .hero-scroll svg { animation-play-state: paused; }
 @media (min-width: 1700px) { .hero-stage { left: 49%; width: 52%; } }
@@ -140,7 +145,8 @@
   .habitat-creature { width: 71%; left: 18%; top: 14%; }
   .habitat-island { bottom: 17%; }
   .habitat-branch { bottom: 33%; }
-  .garden-control { left: .65rem; bottom: .65rem; gap: .45rem; padding: .6rem .7rem; min-height: 2.5rem; }
+  .garden-controls { left: .5rem; bottom: .5rem; padding: .5rem; max-width: calc(100vw - 1rem); }
+  .garden-control { gap: .45rem; padding: .6rem .7rem; min-height: 2.5rem; }
   .garden-control > span { font-size: .53rem; }
 }
 @media (max-width: 480px) {
@@ -149,3 +155,18 @@
   .footer > .garden-flora { opacity: .7; }
 }
 @media (prefers-reduced-motion: reduce) { .hero-stage .hero-visual-fallback, .hero-stage > .three-world { transition: none; } }
+
+/* Explicit, session-only play affects the garden, never other reduced-motion UI. */
+@media (prefers-reduced-motion: reduce) {
+  html.garden-motion-opt-in .garden-leaf { animation-name: garden-leaf-sway; animation-duration: 15s !important; animation-timing-function: ease-in-out; animation-direction: alternate; animation-iteration-count: infinite !important; }
+  html.garden-motion-opt-in .garden-spore { animation-name: garden-spore-drift; animation-duration: 13s !important; animation-iteration-count: infinite !important; }
+  html.garden-motion-opt-in .habitat-creature { animation: habitat-breathe 6s ease-in-out infinite; animation-duration: 6s !important; animation-iteration-count: infinite !important; }
+  html.garden-motion-opt-in .habitat-lanterns i { animation: habitat-firefly 7s ease-in-out infinite; animation-duration: 7s !important; animation-iteration-count: infinite !important; }
+}
+@media (prefers-reduced-motion: reduce) and (min-width: 900px) and (pointer: fine) {
+  html.garden-motion-opt-in .hero-stage > .three-world { display: block; }
+  html.garden-motion-opt-in .hero-stage.has-three-world .hero-visual-fallback { opacity: 0; }
+}
+html.garden-is-paused .hero-habitat-fallback *,
+html .hero-stage.has-three-world .hero-habitat-fallback *,
+html .hero-habitat-fallback[data-running="false"] * { animation-play-state: paused; }

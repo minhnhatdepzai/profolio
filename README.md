@@ -4,11 +4,23 @@ A bilingual, performance-aware portfolio for selected Web, Mobile, AI and intera
 
 The editorial interface pairs an obsidian/ivory/lime visual system with a living
 digital garden: a lazy-loaded procedural 3D chameleon on a floating moss island,
-a smaller gecko crawling/climbing the page edge, a butterfly and botanical foliage.
+a smaller gecko roaming/climbing around the viewport, a butterfly flying across
+the page, squirrels along the lower edge, occasional swallows and blooming flowers.
 WebGL pauses offscreen and in hidden tabs; mobile and unavailable-WebGL sessions
 retain an animated SVG/CSS habitat. Reduced motion uses a static version.
-The bilingual garden control freezes/resumes all garden animation and remembers
-the visitor's choice locally. Animals are decorative and never intercept clicks.
+The bilingual garden control has immediate Play/Pause and Auto modes. Auto wakes
+the garden after 10 seconds without pointer, keyboard, touch or scroll activity,
+and rests it when the visitor returns. Explicit Pause is never overridden by idle.
+Reduced-motion settings are respected by default; selecting Play or Auto is a
+session-only opt-in for garden motion, without enabling unrelated page effects.
+Hidden tabs and open navigation/project dialogs suspend the garden. Only the small
+roaming gecko receives pointer events: drag Moss with a mouse or touch to startle
+him, then release to watch him fall, land, scurry away and camouflage briefly.
+He reappears after a few seconds. Keyboard users can pick up/drop with Enter or
+Space, move with arrows, and release with Escape. This explicit interaction works
+while Auto is waiting; Pause, hidden tabs and dialogs still suspend it. All other
+animals are click-through. Flowers unfurl in sequence, and birds cross occasionally
+rather than filling the sky continuously.
 Eight project cards offer direct demos and deep-linked case-study dialogs. Recruiter
 actions include an explicit CV download, professional experience and contact links.
 
@@ -23,6 +35,7 @@ Quality checks:
 
 ```bash
 npm run lint
+npm test
 npm run build
 ```
 

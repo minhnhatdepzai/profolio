@@ -1,7 +1,6 @@
 import { useEffect, useId, useRef } from 'react';
+import { DraggableGecko } from './DraggableGecko';
 import './garden-companions.css';
-
-type RoutePoint = { x: number; y: number; at: number };
 
 export const GardenGeckoArt = () => {
   const skinId = useId();
@@ -79,125 +78,60 @@ const ButterflyDrawing = () => (
   </svg>
 );
 
-/** A decorative visitor at the page edge; no hit area, downloads or animation dependency. */
-export const GardenCompanions = ({ paused }: { paused: boolean }) => {
+/** Only the gecko is interactive; the rest of the viewport remains click-through. */
+export const GardenCompanions = ({ paused, motionAllowed = true, suspended = false }: { paused: boolean; motionAllowed?: boolean; suspended?: boolean }) => {
   const rootRef = useRef<HTMLDivElement>(null);
-  const geckoRef = useRef<HTMLDivElement>(null);
   const butterflyRef = useRef<HTMLDivElement>(null);
   const elapsedRef = useRef(0);
 
   useEffect(() => {
     const root = rootRef.current;
-    const gecko = geckoRef.current;
     const butterfly = butterflyRef.current;
-    if (!root || !gecko || !butterfly) return;
-
-    const motion = matchMedia('(prefers-reduced-motion: reduce)');
-    let width = innerWidth;
-    let height = innerHeight;
-    let mobile = width < 700;
+    if (!root || !butterfly) return;
     let frame = 0;
     let previousTime = 0;
-    let facing = -Math.PI / 2;
-    let pointer = { x: -1000, y: -1000 };
-    let points: RoutePoint[] = [];
-
-    const sizeRoute = () => {
-      width = innerWidth;
-      height = innerHeight;
-      mobile = width < 700;
-      const edge = width - (mobile ? 27 : 40);
-      const floor = height - (mobile ? 35 : 48);
-      const ceiling = mobile ? Math.max(175, height * .53) : Math.min(165, height * .3);
-      const left = mobile ? width * .69 : Math.max(width * .72, width - 350);
-      points = [
-        { x: edge, y: floor - 50, at: 0 },
-        { x: edge - 3, y: ceiling, at: .27 },
-        { x: edge - 3, y: ceiling + 12, at: .32 },
-        { x: edge, y: floor - 45, at: .57 },
-        { x: edge - 28, y: floor, at: .64 },
-        { x: left, y: floor, at: .78 },
-        { x: left + 12, y: floor, at: .82 },
-        { x: edge - 28, y: floor, at: .94 },
-        { x: edge, y: floor - 50, at: 1 },
-      ];
+    const paint = () => {
+      const width = innerWidth;
+      const height = innerHeight;
+      const mobile = width < 700;
+      const time = elapsedRef.current / 1000;
+      const orbit = time * (Math.PI * 2 / 22) - Math.PI / 2;
+      const x = width * .5 + Math.sin(orbit) * (width * .5 - (mobile ? 31 : 49));
+      const top = mobile ? 133 : 157;
+      const bottom = height - (mobile ? 155 : 135);
+      const y = (top + bottom) / 2 + Math.sin(orbit * 2) * Math.max(35, (bottom - top) / 2) + Math.cos(time * 2) * 6;
+      butterfly.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) translate(-50%,-50%) rotate(${(Math.sin(orbit * 2) * 25).toFixed(2)}deg)`;
+      butterfly.style.setProperty('--butterfly-flap', (.25 + (Math.sin(time * 21) + 1) * .375).toFixed(3));
+      butterfly.style.setProperty('--butterfly-flutter', `${(Math.cos(time * 21) * 4).toFixed(2)}deg`);
     };
-
-    const paint = (elapsed: number, delta: number) => {
-      const cycle = (elapsed / 26000) % 1;
-      const index = points.findIndex((point, item) => item < points.length - 1 && cycle >= point.at && cycle < points[item + 1].at);
-      const from = points[Math.max(0, index)];
-      const to = points[Math.max(0, index) + 1];
-      const phase = Math.max(0, Math.min(1, (cycle - from.at) / (to.at - from.at)));
-      const distance = phase * phase * (3 - 2 * phase);
-      let x = from.x + (to.x - from.x) * distance;
-      let y = from.y + (to.y - from.y) * distance;
-      const targetAngle = Math.atan2(to.y - from.y, to.x - from.x);
-      const angleDifference = Math.atan2(Math.sin(targetAngle - facing), Math.cos(targetAngle - facing));
-      facing += angleDifference * Math.min(1, delta / 130);
-
-      const pointerDistance = Math.hypot(pointer.x - x, pointer.y - y);
-      const curiosity = !mobile ? Math.max(0, 1 - pointerDistance / 155) : 0;
-      const step = Math.sin(elapsed / 105) * (phase > .04 && phase < .96 ? 1 : .3);
-      x += Math.sin(facing) * step * 1.1;
-      y -= Math.cos(facing) * step * 1.1;
-      gecko.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) translate(-50%,-50%) rotate(${facing.toFixed(4)}rad)`;
-      gecko.style.setProperty('--gecko-step', step.toFixed(3));
-      gecko.style.setProperty('--gecko-curiosity', curiosity.toFixed(3));
-      gecko.style.setProperty('--gecko-look', `${((pointer.y - y) / Math.max(100, pointerDistance) * curiosity * 2).toFixed(2)}px`);
-
-      if (!mobile) {
-        const time = elapsed / 1000;
-        const butterflyX = 29 + Math.sin(time * .58) * 13 + Math.cos(time * 1.1) * 5;
-        const butterflyY = Math.min(height - 95, Math.max(135, height * .52 + Math.sin(time * .23) * height * .28 + Math.cos(time * .83) * 13));
-        butterfly.style.transform = `translate3d(${butterflyX.toFixed(2)}px,${butterflyY.toFixed(2)}px,0) translate(-50%,-50%) rotate(${(Math.sin(time * .58) * 24).toFixed(2)}deg)`;
-      }
-    };
-
     const animate = (time: number) => {
       frame = 0;
-      const delta = previousTime ? Math.min(50, time - previousTime) : 16;
+      elapsedRef.current += previousTime ? Math.min(50, time - previousTime) : 16;
       previousTime = time;
-      elapsedRef.current += delta;
-      paint(elapsedRef.current, delta);
+      paint();
       frame = requestAnimationFrame(animate);
     };
-    const syncPlayback = () => {
-      cancelAnimationFrame(frame);
-      frame = 0;
-      previousTime = 0;
-      const running = !paused && !motion.matches && !document.hidden;
+    const sync = () => {
+      cancelAnimationFrame(frame); frame = 0; previousTime = 0;
+      const running = !paused && motionAllowed && !document.hidden;
       root.dataset.running = String(running);
       if (running) frame = requestAnimationFrame(animate);
     };
-    const onResize = () => { sizeRoute(); paint(elapsedRef.current, 16); };
-    const onPointer = (event: PointerEvent) => { pointer = { x: event.clientX, y: event.clientY }; };
-    const onPointerLeave = () => { pointer = { x: -1000, y: -1000 }; };
-
-    sizeRoute();
-    paint(elapsedRef.current, 16);
-    syncPlayback();
-    window.addEventListener('resize', onResize, { passive: true });
-    window.addEventListener('pointermove', onPointer, { passive: true });
-    document.documentElement.addEventListener('pointerleave', onPointerLeave);
-    document.addEventListener('visibilitychange', syncPlayback);
-    motion.addEventListener('change', syncPlayback);
-
+    paint(); sync();
+    window.addEventListener('resize', paint, { passive: true });
+    document.addEventListener('visibilitychange', sync);
     return () => {
       cancelAnimationFrame(frame);
       root.dataset.running = 'false';
-      window.removeEventListener('resize', onResize);
-      window.removeEventListener('pointermove', onPointer);
-      document.documentElement.removeEventListener('pointerleave', onPointerLeave);
-      document.removeEventListener('visibilitychange', syncPlayback);
-      motion.removeEventListener('change', syncPlayback);
+      window.removeEventListener('resize', paint);
+      document.removeEventListener('visibilitychange', sync);
     };
-  }, [paused]);
+  }, [paused, motionAllowed]);
 
   return (
-    <div ref={rootRef} className="garden-companions" aria-hidden="true" data-running="false">
-      <div ref={geckoRef} className="garden-gecko"><GardenGeckoArt /></div>
-      <div ref={butterflyRef} className="garden-butterfly"><ButterflyDrawing /></div>
+    <div ref={rootRef} className="garden-companions" data-running="false">
+      <DraggableGecko paused={paused} motionAllowed={motionAllowed} suspended={suspended}><GardenGeckoArt /></DraggableGecko>
+      <div ref={butterflyRef} className="garden-butterfly" aria-hidden="true"><ButterflyDrawing /></div>
     </div>
   );
 };

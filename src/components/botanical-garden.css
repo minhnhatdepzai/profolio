@@ -58,6 +58,6 @@
   .garden-leaf { animation-duration: 20s; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .garden-leaf, .garden-spore { animation: none; }
-  .garden-spore { opacity: .4; }
+  html:not(.garden-motion-opt-in) .garden-leaf, html:not(.garden-motion-opt-in) .garden-spore { animation: none; }
+  html:not(.garden-motion-opt-in) .garden-spore { opacity: .4; }
 }
