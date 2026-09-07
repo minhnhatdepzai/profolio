@@ -117,8 +117,8 @@ export const featuredProjects: FeaturedProject[] = [
       en: 'World and gameplay systems, driving and NPC behavior, mission architecture, performance adaptation and browser validation.',
       vi: 'Hệ thống thế giới và gameplay, lái xe và hành vi NPC, kiến trúc nhiệm vụ, thích ứng hiệu năng và kiểm thử trên trình duyệt.',
     },
-    status: 'private',
-    statusLabel: { en: 'Private source repository', vi: 'Kho mã nguồn riêng tư' },
+    status: 'live',
+    statusLabel: { en: 'Playable demo · desktop', vi: 'Có bản chơi thử · desktop' },
     accent: '#ffd32a',
     accentSoft: '#d84b32',
     ink: '#24100b',
@@ -130,6 +130,7 @@ export const featuredProjects: FeaturedProject[] = [
       { en: 'The project uses original procedural systems and explicitly excludes extracted commercial-game assets.', vi: 'Dự án dùng hệ thống procedural nguyên bản và loại trừ rõ ràng asset trích xuất từ game thương mại.' },
     ],
     links: [
+      { label: { en: 'Play the game', vi: 'Chơi thử game' }, url: 'https://saigon-77-open-world.lnhat1938.workers.dev/', kind: 'demo' },
       { label: { en: 'View private repository', vi: 'Mở kho mã nguồn riêng tư' }, url: 'https://github.com/minhnhatdepzai/saigon-77-open-world', kind: 'github' },
     ],
   },
