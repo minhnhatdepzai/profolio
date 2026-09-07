@@ -26,7 +26,7 @@ export const Archive = () => {
 
       <div className="archive-filters" role="group" aria-label={lang === 'vi' ? 'Lọc dự án' : 'Filter projects'} data-reveal>
         {filters.map((item) => (
-          <button key={item} className={filter === item ? 'is-active' : ''} onClick={() => setFilter(item)}>{item === 'All' && lang === 'vi' ? 'Tất cả' : item}</button>
+          <button key={item} className={filter === item ? 'is-active' : ''} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item === 'All' && lang === 'vi' ? 'Tất cả' : item}</button>
         ))}
       </div>
 

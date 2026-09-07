@@ -3,7 +3,7 @@ export type LangStr = { en: string; vi: string };
 
 export const personalInfo = {
   name: "Lê Minh Nhật",
-  title: { en: "Web/App Developer", vi: "Lập trình viên Web/App" } as LangStr,
+  title: { en: "AI Engineer & Creative Developer", vi: "Kỹ sư AI & Lập trình viên sáng tạo" } as LangStr,
   phone: "0707 193 002",
   email: "lnhat1938@gmail.com",
   facebook: "https://www.facebook.com/le.nhat.492484",
@@ -34,7 +34,7 @@ export const skills = [
 
 export const experience = [
   {
-    company: "Công ty TNHH Công nghệ Giáo dục STEM",
+    company: { en: "STEM Education Technology Co., Ltd.", vi: "Công ty TNHH Công nghệ Giáo dục STEM" } as LangStr,
     role: { en: "AI ENGINEER · PROBATION", vi: "KỸ SƯ AI · THỬ VIỆC" } as LangStr,
     period: { en: "MAY 2026 - AUGUST 2026 · 3 MONTHS", vi: "THÁNG 5/2026 - THÁNG 8/2026 · 3 THÁNG" } as LangStr,
     responsibilities: [
@@ -53,8 +53,8 @@ export const experience = [
     ]
   },
   {
-    company: "Mesh - Smart Workplace",
-    role: { en: "BUSINESS ANALYST", vi: "CHUYÊN VIÊN PHÂN TÍCH NGHIỆP VỤ" } as LangStr,
+    company: { en: "Mesh - Smart Workplace", vi: "Mesh - Smart Workplace" } as LangStr,
+    role: { en: "BUSINESS ANALYST · INTERN", vi: "PHÂN TÍCH NGHIỆP VỤ · THỰC TẬP" } as LangStr,
     period: { en: "MARCH 2023 - JULY 2023", vi: "THÁNG 3/2023 - THÁNG 7/2023" } as LangStr,
     responsibilities: [
       { en: "Supported requirement gathering and analysis from clients and stakeholders", vi: "Hỗ trợ thu thập và phân tích yêu cầu từ khách hàng và các bên liên quan" },
@@ -68,7 +68,7 @@ export const experience = [
 
 export const education = [
   {
-    school: { en: "UNIVERSITY INFORMATION OF TECHNOLOGY", vi: "ĐẠI HỌC CÔNG NGHỆ THÔNG TIN" } as LangStr,
+    school: { en: "UNIVERSITY OF INFORMATION TECHNOLOGY", vi: "ĐẠI HỌC CÔNG NGHỆ THÔNG TIN" } as LangStr,
     period: "2020 - 2023",
     degree: { en: "Computer Science", vi: "Khoa học Máy tính" } as LangStr
   },

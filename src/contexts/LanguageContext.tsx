@@ -11,22 +11,24 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [lang, setLang] = useState<Lang>(() => {
-    const savedLang = localStorage.getItem('portfolio_lang');
-    if (savedLang === 'en' || savedLang === 'vi') return savedLang;
+    try {
+      const savedLang = localStorage.getItem('portfolio_lang');
+      if (savedLang === 'en' || savedLang === 'vi') return savedLang;
+    } catch { /* Use the browser language if storage is unavailable. */ }
     return navigator.language.toLowerCase().startsWith('vi') ? 'vi' : 'en';
   });
 
   useEffect(() => {
     document.documentElement.lang = lang;
     document.title = lang === 'vi'
-      ? 'Lê Minh Nhật — Creative Developer | Web, Mobile & AI'
-      : 'Le Minh Nhat — Creative Developer | Web, Mobile & AI';
+      ? 'Lê Minh Nhật — Kỹ sư AI & Creative Developer'
+      : 'Le Minh Nhat — AI Engineer & Creative Developer';
   }, [lang]);
 
   const toggleLang = () => {
     setLang(prev => {
       const newLang = prev === 'en' ? 'vi' : 'en';
-      localStorage.setItem('portfolio_lang', newLang);
+      try { localStorage.setItem('portfolio_lang', newLang); } catch { /* Language still works without persistence. */ }
       return newLang;
     });
   };

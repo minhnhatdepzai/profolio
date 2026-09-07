@@ -16,10 +16,10 @@ export const Experience = () => {
         <div className="journey-column">
           <div className="journey-label"><BriefcaseBusiness /><span>{lang === 'vi' ? 'Kinh nghiệm' : 'Experience'}</span></div>
           {experience.map((item) => (
-            <article className="journey-card journey-card--lead" key={item.company} data-reveal>
+            <article className="journey-card journey-card--lead" key={item.company.en} data-reveal>
               <p className="journey-card__period">{getStr(item.period)}</p>
               <h3>{getStr(item.role)}</h3>
-              <strong>{item.company}</strong>
+              <strong>{getStr(item.company)}</strong>
               <ol>
                 {item.responsibilities.map((responsibility, index) => (
                   <li key={index}><span>0{index + 1}</span>{getStr(responsibility)}</li>

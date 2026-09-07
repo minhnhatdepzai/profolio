@@ -1,16 +1,93 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Lê Minh Nhật — AI Engineer × Creative Developer</title>
+  <desc id="description">Intelligence, Made real. An ivory and lime editorial portfolio card with sculptural chrome orbits on an obsidian background.</desc>
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#080908"/><stop offset="1" stop-color="#1d1732"/></linearGradient>
-    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#f0eee6" stroke-opacity=".09"/></pattern>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#10130f"/>
+      <stop offset=".5" stop-color="#090b0a"/>
+      <stop offset="1" stop-color="#151a12"/>
+    </linearGradient>
+    <radialGradient id="halo">
+      <stop stop-color="#bce872" stop-opacity=".17"/>
+      <stop offset=".55" stop-color="#829d60" stop-opacity=".045"/>
+      <stop offset="1" stop-color="#090b0a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chrome" x1=".08" y1=".12" x2=".89" y2=".88">
+      <stop stop-color="#363e35"/>
+      <stop offset=".15" stop-color="#e6ebe0"/>
+      <stop offset=".28" stop-color="#707c69"/>
+      <stop offset=".39" stop-color="#161c15"/>
+      <stop offset=".56" stop-color="#eef1e8"/>
+      <stop offset=".66" stop-color="#75806d"/>
+      <stop offset=".8" stop-color="#232b20"/>
+      <stop offset=".93" stop-color="#c7d5b8"/>
+      <stop offset="1" stop-color="#5e6c50"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#f4f7ec" stop-opacity=".9"/>
+      <stop offset=".35" stop-color="#eff4e7" stop-opacity=".05"/>
+      <stop offset=".7" stop-color="#edffd4" stop-opacity=".65"/>
+      <stop offset="1" stop-color="#edffd4" stop-opacity=".08"/>
+    </linearGradient>
+    <radialGradient id="core" cx=".3" cy=".22" r=".85">
+      <stop stop-color="#eefec5"/>
+      <stop offset=".24" stop-color="#c9ff4a"/>
+      <stop offset=".73" stop-color="#93bf35"/>
+      <stop offset="1" stop-color="#4b6720"/>
+    </radialGradient>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M80 0H0V80" fill="none" stroke="#f0eee6" stroke-opacity=".028"/>
+    </pattern>
+    <filter id="shadow" x="-60%" y="-100%" width="220%" height="300%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#000000" flood-opacity=".65"/>
+    </filter>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
   </defs>
-  <rect width="1200" height="630" fill="url(#g)"/>
+
+  <rect width="1200" height="630" fill="url(#background)"/>
   <rect width="1200" height="630" fill="url(#grid)"/>
-  <circle cx="995" cy="158" r="206" fill="none" stroke="#7761ff" stroke-width="2" opacity=".55"/>
-  <circle cx="995" cy="158" r="136" fill="none" stroke="#c9ff4a" stroke-width="2" opacity=".8"/>
-  <text x="72" y="82" fill="#c9ff4a" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LÊ MINH NHẬT · PORTFOLIO 2026</text>
-  <text x="66" y="290" fill="#f0eee6" font-family="Arial,sans-serif" font-size="112" font-weight="900" letter-spacing="-8">BUILDING WORLDS</text>
-  <text x="66" y="405" fill="none" stroke="#f0eee6" stroke-width="2" font-family="Arial,sans-serif" font-size="112" font-weight="900" letter-spacing="-8">THAT WORK.</text>
-  <text x="72" y="545" fill="#f0eee6" opacity=".6" font-family="Arial,sans-serif" font-size="20" letter-spacing="3">WEB / MOBILE / AI / INTERACTIVE</text>
-  <rect x="1078" y="502" width="58" height="58" rx="29" fill="#c9ff4a"/>
-  <text x="1091" y="539" fill="#080908" font-family="Arial,sans-serif" font-size="22" font-weight="900">LN</text>
+  <ellipse cx="971" cy="298" rx="350" ry="315" fill="url(#halo)"/>
+  <path d="M64 102H1136M64 552H1136" stroke="#f0eee6" stroke-opacity=".18"/>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="64" y="47" width="35" height="35" rx="17.5" fill="#c9ff4a"/>
+    <text x="72" y="70" fill="#10130f" font-size="14" font-weight="800" letter-spacing="-1">LN</text>
+    <text x="114" y="71" fill="#f0eee6" font-size="20" font-weight="700" letter-spacing="1">LÊ MINH NHẬT</text>
+    <text x="1136" y="70" text-anchor="end" fill="#a4a99d" font-size="12" letter-spacing="2">SELECTED WORK / 2026</text>
+    <text x="66" y="156" fill="#c9ff4a" font-size="15" font-weight="600" letter-spacing="2.3">AI ENGINEER × CREATIVE DEVELOPER</text>
+    <text x="59" y="287" fill="#f0eee6" font-size="106" font-weight="700" letter-spacing="-6.8">Intelligence,</text>
+    <text x="59" y="400" fill="#f0eee6" font-size="106" font-weight="700" letter-spacing="-6">Made</text>
+    <text x="64" y="467" fill="#aaaFA3" font-size="19" letter-spacing=".1">AI, engineering and design.</text>
+    <text x="64" y="495" fill="#aaaFA3" font-size="19" letter-spacing=".1">Ideas you can explore. Products you can experience.</text>
+  </g>
+  <text x="340" y="400" fill="#c9ff4a" font-family="Georgia, 'Times New Roman', serif" font-size="126" font-style="italic" letter-spacing="-7">real.</text>
+
+  <g transform="translate(956 317)">
+    <circle r="199" fill="none" stroke="#d1d7c7" stroke-opacity=".12" stroke-dasharray="2 8"/>
+    <path d="M-220 0H220M0-220V220" stroke="#d1d7c7" stroke-opacity=".09"/>
+    <g fill="none" filter="url(#shadow)">
+      <ellipse rx="160" ry="64" transform="rotate(-35)" stroke="url(#chrome)" stroke-width="22"/>
+      <ellipse rx="160" ry="64" transform="rotate(-35)" stroke="url(#edge)" stroke-width="1.2"/>
+      <ellipse rx="160" ry="64" transform="rotate(85)" stroke="url(#chrome)" stroke-width="22"/>
+      <ellipse rx="160" ry="64" transform="rotate(85)" stroke="url(#edge)" stroke-width="1.2"/>
+    </g>
+    <circle r="35" fill="#c9ff4a" opacity=".27" filter="url(#glow)"/>
+    <circle r="27" fill="url(#core)"/>
+    <circle cx="-8" cy="-9" r="6" fill="#efffd0" opacity=".6"/>
+    <g fill="none" transform="rotate(25)" filter="url(#shadow)">
+      <ellipse rx="160" ry="64" stroke="url(#chrome)" stroke-width="22"/>
+      <ellipse rx="160" ry="64" stroke="url(#edge)" stroke-width="1.2"/>
+    </g>
+    <circle cx="-161" cy="-115" r="4" fill="#c9ff4a"/>
+    <path d="M149 134h12m-6-6v12M-181 132h12m-6-6v12" stroke="#c9ff4a" stroke-opacity=".75"/>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="1.7">
+    <text x="956" y="525" text-anchor="middle" fill="#929d86">FIG. 01 / THE CONNECTED MIND</text>
+    <text x="64" y="590" fill="#d1d5c8">AI / WEB / MOBILE / INTERACTIVE</text>
+    <circle cx="953" cy="586" r="3" fill="#c9ff4a"/>
+    <text x="1136" y="590" text-anchor="end" fill="#a4a99d">HCMC, VIETNAM</text>
+  </g>
 </svg>

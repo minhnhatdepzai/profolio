@@ -1,87 +1,132 @@
 import { useEffect } from 'react';
-
-type IdleWindow = Window & typeof globalThis & {
-  requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
-  cancelIdleCallback?: (handle: number) => void;
-};
+import './cinematic-motion.css';
 
 export const ScrollExperience = () => {
   useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const desktop = window.matchMedia('(min-width: 900px) and (pointer: fine)');
     const progress = document.querySelector<HTMLElement>('.scroll-progress__bar');
-    let progressFrame = 0;
-    const updateProgress = () => {
-      progressFrame = 0;
+    const hero = document.querySelector<HTMLElement>('.hero');
+    const heroCopy = document.querySelector<HTMLElement>('.hero-copy');
+    let frame = 0;
+    let activeCard: HTMLElement | null = null;
+    let activeMagnet: HTMLElement | null = null;
+    const reveals = new Set<HTMLElement>();
+
+    const updateScroll = () => {
+      frame = 0;
       const range = Math.max(1, document.documentElement.scrollHeight - innerHeight);
       progress?.style.setProperty('transform', `scaleX(${Math.min(1, scrollY / range)})`);
+      if (!hero || !heroCopy) return;
+      const amount = Math.max(0, Math.min(1, -hero.getBoundingClientRect().top / hero.offsetHeight));
+      const enhanced = !motion.matches && desktop.matches;
+      heroCopy.style.translate = enhanced ? `0 ${amount * 65}px` : '';
+      heroCopy.style.opacity = enhanced ? `${1 - amount * 0.7}` : '';
     };
-    const onScroll = () => {
-      if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
+    const scheduleScroll = () => {
+      if (!frame && !document.hidden) frame = requestAnimationFrame(updateScroll);
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    updateProgress();
 
-    const reveals = [...document.querySelectorAll<HTMLElement>('[data-reveal]')];
-    const revealObserver = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => {
+    document.documentElement.classList.add('has-scroll-reveals');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('is-revealed');
         revealObserver.unobserve(entry.target);
-      }),
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
-    );
-    reveals.forEach((element) => revealObserver.observe(element));
-
-    if (reducedMotion || window.innerWidth < 800) {
-      reveals.forEach((element) => element.classList.add('is-revealed'));
-      return () => {
-        cancelAnimationFrame(progressFrame);
-        window.removeEventListener('scroll', onScroll);
-        revealObserver.disconnect();
-      };
-    }
-
-    const idleWindow = window as IdleWindow;
-    let cancelled = false;
-    let cleanupGsap = () => undefined;
-    const enhanceScroll = async () => {
-      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
-        import('gsap'),
-        import('gsap/ScrollTrigger'),
-      ]);
-      if (cancelled) return;
-      gsap.registerPlugin(ScrollTrigger);
-      const context = gsap.context(() => {
-        gsap.utils.toArray<HTMLElement>('.case-study__artifact-inner').forEach((artifact) => {
-          gsap.fromTo(artifact, { yPercent: -4, rotateZ: -0.35 }, {
-            yPercent: 4,
-            rotateZ: 0.35,
-            ease: 'none',
-            scrollTrigger: { trigger: artifact.closest('.case-study'), start: 'top bottom', end: 'bottom top', scrub: 0.8 },
+        reveals.delete(entry.target as HTMLElement);
+      });
+    }, { rootMargin: '0px 0px -35px 0px', threshold: 0.06 });
+    const registerReveal = (element: HTMLElement) => {
+      if (reveals.has(element) || element.classList.contains('is-revealed')) return;
+      if (motion.matches) element.classList.add('is-revealed');
+      else { reveals.add(element); revealObserver.observe(element); }
+    };
+    const scan = (element: Element | Document) => {
+      if (element instanceof HTMLElement && element.matches('[data-reveal]')) registerReveal(element);
+      element.querySelectorAll<HTMLElement>('[data-reveal]').forEach(registerReveal);
+    };
+    scan(document);
+    // Filters and project dialogs can introduce new cards after the first render.
+    const mutations = new MutationObserver((records) => {
+      records.forEach((record) => {
+        record.addedNodes.forEach((node) => { if (node instanceof Element) scan(node); });
+        record.removedNodes.forEach((node) => {
+          if (!(node instanceof Element)) return;
+          reveals.forEach((element) => {
+            if (element === node || node.contains(element)) { revealObserver.unobserve(element); reveals.delete(element); }
           });
         });
-        gsap.to('.about-orbit', {
-          rotate: 35,
-          ease: 'none',
-          scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 1 },
-        });
       });
-      cleanupGsap = () => context.revert();
-      ScrollTrigger.refresh();
+      scheduleScroll();
+    });
+    mutations.observe(document.querySelector('.site-shell') ?? document.body, { childList: true, subtree: true });
+
+    const resetCard = () => {
+      activeCard?.classList.remove('is-pointer-active');
+      ['--tilt-x', '--tilt-y', '--pointer-x', '--pointer-y'].forEach((property) => activeCard?.style.removeProperty(property));
+      activeCard = null;
+    };
+    const resetMagnet = () => {
+      if (activeMagnet) activeMagnet.style.translate = '';
+      activeMagnet = null;
+    };
+    const resetPointer = () => { resetCard(); resetMagnet(); };
+    const onPointer = (event: PointerEvent) => {
+      if (motion.matches || !desktop.matches || document.hidden || !(event.target instanceof Element)) return;
+      const card = event.target.closest<HTMLElement>('.project-card')?.querySelector<HTMLElement>('.project-card__visual') ?? null;
+      if (card !== activeCard) resetCard();
+      if (card) {
+        activeCard = card;
+        const rect = card.getBoundingClientRect();
+        const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+        const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+        card.style.setProperty('--tilt-x', `${(0.5 - y) * 4}deg`);
+        card.style.setProperty('--tilt-y', `${(x - 0.5) * 4}deg`);
+        card.style.setProperty('--pointer-x', `${x * 100}%`);
+        card.style.setProperty('--pointer-y', `${y * 100}%`);
+        card.classList.add('is-pointer-active');
+      }
+      const magnet = event.target.closest<HTMLElement>('[data-magnetic]');
+      if (magnet !== activeMagnet) resetMagnet();
+      if (magnet) {
+        activeMagnet = magnet;
+        const rect = magnet.getBoundingClientRect();
+        magnet.style.translate = `${(event.clientX - rect.left - rect.width / 2) * 0.13}px ${(event.clientY - rect.top - rect.height / 2) * 0.18}px`;
+      }
+    };
+    const onPreference = () => {
+      resetPointer();
+      if (motion.matches) reveals.forEach((element) => element.classList.add('is-revealed'));
+      updateScroll();
+    };
+    const onVisibility = () => {
+      if (document.hidden) { cancelAnimationFrame(frame); frame = 0; resetPointer(); }
+      else scheduleScroll();
     };
 
-    const idleHandle = idleWindow.requestIdleCallback
-      ? idleWindow.requestIdleCallback(() => void enhanceScroll(), { timeout: 1400 })
-      : window.setTimeout(() => void enhanceScroll(), 650);
+    updateScroll();
+    window.addEventListener('scroll', scheduleScroll, { passive: true });
+    window.addEventListener('resize', scheduleScroll, { passive: true });
+    window.addEventListener('pointermove', onPointer, { passive: true });
+    document.documentElement.addEventListener('pointerleave', resetPointer);
+    document.addEventListener('visibilitychange', onVisibility);
+    motion.addEventListener('change', onPreference);
+    desktop.addEventListener('change', onPreference);
 
     return () => {
-      cancelled = true;
-      cancelAnimationFrame(progressFrame);
-      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(frame);
+      resetPointer();
+      mutations.disconnect();
       revealObserver.disconnect();
-      if (idleWindow.cancelIdleCallback && idleWindow.requestIdleCallback) idleWindow.cancelIdleCallback(idleHandle);
-      else window.clearTimeout(idleHandle);
-      cleanupGsap();
+      document.documentElement.classList.remove('has-scroll-reveals');
+      if (heroCopy) { heroCopy.style.translate = ''; heroCopy.style.opacity = ''; }
+      window.removeEventListener('scroll', scheduleScroll);
+      window.removeEventListener('resize', scheduleScroll);
+      window.removeEventListener('pointermove', onPointer);
+      document.documentElement.removeEventListener('pointerleave', resetPointer);
+      document.removeEventListener('visibilitychange', onVisibility);
+      motion.removeEventListener('change', onPreference);
+      desktop.removeEventListener('change', onPreference);
     };
   }, []);
 

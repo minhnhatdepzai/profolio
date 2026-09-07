@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { ArrowDownRight, ArrowUpRight, Film, Github, Globe, Play, X } from 'lucide-react';
+import { ArrowUpRight, Film, Github, Globe, Play, Plus, X } from 'lucide-react';
 import { featuredProjects, type FeaturedProject, type ProjectLink } from '../data/projects';
 import { useLanguage } from '../contexts/LanguageContext';
+import './projects-gallery.css';
 
 const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   const { getStr } = useLanguage();
@@ -24,7 +25,6 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
           />
           <figcaption><i />{project.media.source}</figcaption>
         </figure>
-        <span className="artifact-real__proof">{getStr({ en: 'SOURCE-VERIFIED MEDIA', vi: 'MEDIA ĐÃ XÁC MINH NGUỒN' })}</span>
       </div>
     );
   }
@@ -128,12 +128,11 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   }
 
   return (
-    <div className="artifact artifact--happy artifact--pending">
-      <div className="artifact-label">SOURCE VERIFIED / {project.order}</div>
-      <div className="pending-cross" aria-hidden="true" />
-      <div className="pending-title">REAL<br />MEDIA<br /><i>PENDING</i></div>
-      <div className="pending-modules"><span>VOICE ROOMS</span><span>ACCESSIBILITY</span><span>2D / 3D GAMES</span></div>
-      <p>{getStr({ en: 'No fabricated interface preview.', vi: 'Không dùng ảnh giao diện giả.' })}</p>
+    <div className="artifact artifact--community">
+      <div className="artifact-label">SOCIAL PLAY / {project.order}</div>
+      <div className="community-orbits" aria-hidden="true"><i /><i /><i /></div>
+      <div className="community-word" aria-hidden="true">HAPPY<br /><span>TO</span>PLAY<span className="community-star">✳</span></div>
+      <div className="community-footnote"><span>PLAY. CONNECT. BELONG.</span><span>{getStr({ en: 'CONCEPT ARTWORK', vi: 'MINH HỌA Ý TƯỞNG' })}</span></div>
     </div>
   );
 };
@@ -147,81 +146,119 @@ const LinkIcon = ({ kind }: { kind: ProjectLink['kind'] }) => {
 
 export const Projects = () => {
   const { getStr, lang } = useLanguage();
-  const [openSlug, setOpenSlug] = useState<FeaturedProject['slug'] | null>(null);
+  const [openSlug, setOpenSlug] = useState<FeaturedProject['slug'] | null>(() => (
+    featuredProjects.find((project) => location.hash === `#case-${project.slug}`)?.slug ?? null
+  ));
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+  const returnHashRef = useRef(location.hash.startsWith('#case-') ? '#selected-work' : location.hash);
   const openProject = featuredProjects.find((project) => project.slug === openSlug);
 
   useEffect(() => {
-    const slug = location.hash.replace('#case-', '') as FeaturedProject['slug'];
-    if (featuredProjects.some((project) => project.slug === slug)) setOpenSlug(slug);
+    const syncHash = (event: Event) => {
+      const nextSlug = featuredProjects.find((project) => location.hash === `#case-${project.slug}`)?.slug ?? null;
+      if (nextSlug && !dialogRef.current?.open) {
+        const activeElement = document.activeElement;
+        triggerRef.current = activeElement instanceof HTMLElement && activeElement !== document.body
+          ? activeElement
+          : null;
+        if (event instanceof HashChangeEvent) {
+          const previousHash = new URL(event.oldURL).hash;
+          returnHashRef.current = previousHash.startsWith('#case-') ? '#selected-work' : previousHash;
+        }
+      }
+      setOpenSlug(nextSlug);
+    };
+    window.addEventListener('hashchange', syncHash);
+    window.addEventListener('popstate', syncHash);
+    return () => {
+      window.removeEventListener('hashchange', syncHash);
+      window.removeEventListener('popstate', syncHash);
+    };
   }, []);
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (openProject && !dialog.open) {
-      dialog.showModal();
-      document.body.classList.add('dialog-is-open');
-      history.replaceState(null, '', `#case-${openProject.slug}`);
-    } else if (!openProject && dialog.open) {
+    if (!dialog || !openSlug) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('dialog-is-open');
+    dialog.showModal();
+    dialog.scrollTop = 0;
+
+    return () => {
       dialog.close();
-    }
-    return () => document.body.classList.remove('dialog-is-open');
-  }, [openProject]);
+      document.body.style.overflow = previousOverflow;
+      document.body.classList.remove('dialog-is-open');
+      triggerRef.current?.focus({ preventScroll: true });
+    };
+  }, [openSlug]);
+
+  const openCase = (project: FeaturedProject, trigger: HTMLButtonElement) => {
+    triggerRef.current = trigger;
+    returnHashRef.current = location.hash.startsWith('#case-') ? '#selected-work' : location.hash;
+    history.pushState(null, '', `#case-${project.slug}`);
+    setOpenSlug(project.slug);
+  };
 
   const closeCase = () => {
+    if (location.hash.startsWith('#case-')) {
+      history.replaceState(null, '', `${location.pathname}${location.search}${returnHashRef.current}`);
+    }
     setOpenSlug(null);
-    document.body.classList.remove('dialog-is-open');
-    history.replaceState(null, '', `${location.pathname}${location.search}`);
   };
 
   return (
-    <section id="selected-work" className="projects-section">
-      <header className="projects-heading section-pad" data-reveal>
-        <div>
-          <span className="eyebrow">02 · {lang === 'vi' ? 'DỰ ÁN MỚI NHẤT' : 'LATEST WORK'}</span>
-          <h2>{lang === 'vi' ? 'Tám sản phẩm. Tám thế giới riêng.' : 'Eight products. Eight distinct worlds.'}</h2>
+    <section id="selected-work" className="projects-section work-gallery" aria-labelledby="work-gallery-title">
+      <header className="work-gallery__heading" data-reveal>
+        <div className="work-gallery__eyeline">
+          <span className="eyebrow">02 / {lang === 'vi' ? 'DỰ ÁN TIÊU BIỂU' : 'SELECTED WORK'}</span>
+          <span className="work-gallery__edition">2025—2026</span>
         </div>
-        <p>2025—2026<br />{lang === 'vi' ? 'THIẾT KẾ · CODE · TRIỂN KHAI' : 'DESIGN · CODE · DELIVERY'}</p>
+        <div className="work-gallery__intro">
+          <h2 id="work-gallery-title">{lang === 'vi' ? 'Từ ý tưởng.' : 'From an idea.'}<br /><em>{lang === 'vi' ? 'Đến trải nghiệm.' : 'To an experience.'}</em><sup>08</sup></h2>
+          <p>{lang === 'vi' ? 'Tám dự án, tám thế giới riêng. Khám phá sản phẩm, chơi thử và nhìn sâu vào cách tôi xây dựng.' : 'Eight projects. Eight distinct worlds. Explore the products, press play, and see how I build.'}</p>
+        </div>
+        <div className="work-gallery__legend"><span>AI & PRODUCT ENGINEERING</span><span>WEB · MOBILE · INTERACTIVE 3D</span></div>
       </header>
 
-      <div className="case-list">
+      <div className="work-gallery__grid">
         {featuredProjects.map((project) => (
           <article
             id={`work-${project.slug}`}
-            className={`case-study case-study--${project.slug}`}
+            className={`project-card project-card--${project.slug}`}
             key={project.slug}
             style={{ '--accent': project.accent, '--accent-soft': project.accentSoft, '--case-ink': project.ink } as CSSProperties}
+            aria-labelledby={`project-title-${project.slug}`}
+            data-reveal
           >
-            <div className="case-study__artifact">
-              <div className="case-study__artifact-inner"><ProjectArtifact project={project} /></div>
+            <div className="project-card__topline"><span>{project.order} / {project.year}</span><span>{getStr(project.eyebrow)}</span></div>
+            <div className="project-card__visual">
+              <ProjectArtifact project={project} />
+              <button
+                className="project-card__visual-action"
+                onClick={(event) => openCase(project, event.currentTarget)}
+                aria-label={`${lang === 'vi' ? 'Khám phá dự án' : 'Explore project'} ${project.title}`}
+                aria-haspopup="dialog"
+                data-cursor="view"
+              ><ArrowUpRight aria-hidden="true" /></button>
             </div>
 
-            <div className="case-study__content">
-              <div className="case-study__meta" data-reveal>
-                <span>{project.order}</span>
-                <span>{project.year}</span>
-                <span className={`status status--${project.status}`}><i />{getStr(project.statusLabel)}</span>
+            <div className="project-card__content">
+              <div className="project-card__title-row">
+                <h3 id={`project-title-${project.slug}`}>{project.title}</h3>
+                <span className={`project-card__status project-card__status--${project.status}`}><i />{getStr(project.statusLabel)}</span>
               </div>
-              <p className="case-study__eyebrow" data-reveal>{getStr(project.eyebrow)}</p>
-              <h3 data-reveal>{project.title}</h3>
-              <blockquote data-reveal>{getStr(project.statement)}</blockquote>
-              <p className="case-study__summary" data-reveal>{getStr(project.summary)}</p>
-
-              <div className="case-study__triptych" data-reveal>
-                <div><span>{lang === 'vi' ? 'BÀI TOÁN' : 'PROBLEM'}</span><p>{getStr(project.problem)}</p></div>
-                <div><span>{lang === 'vi' ? 'HỆ THỐNG' : 'SYSTEM'}</span><p>{getStr(project.solution)}</p></div>
-                <div><span>{lang === 'vi' ? 'ĐÓNG GÓP' : 'CONTRIBUTION'}</span><p>{getStr(project.contribution)}</p></div>
-              </div>
-
-              <div className="case-study__stack" data-reveal>{project.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
-              <div className="case-study__actions" data-reveal>
-                <button onClick={() => setOpenSlug(project.slug)} data-cursor="view">
-                  {lang === 'vi' ? 'Mở system brief' : 'Open system brief'}<ArrowDownRight />
+              <p className="project-card__summary">{getStr(project.summary)}</p>
+              <div className="project-card__stack" aria-label={lang === 'vi' ? 'Công nghệ nổi bật' : 'Core technologies'}>{project.stack.slice(0, 3).map((tool) => <span key={tool}>{tool}</span>)}</div>
+              <div className="project-card__actions">
+                <button onClick={(event) => openCase(project, event.currentTarget)} aria-haspopup="dialog" data-cursor="view">
+                  {lang === 'vi' ? 'Câu chuyện dự án' : 'Read case study'}<Plus aria-hidden="true" />
                 </button>
                 {project.links.map((link) => (
                   <a key={link.url} href={link.url} target="_blank" rel="noreferrer" data-cursor={link.kind === 'video' ? 'play' : 'view'}>
-                    <LinkIcon kind={link.kind} />{getStr(link.label)}<ArrowUpRight />
+                    <LinkIcon kind={link.kind} /><span>{getStr(link.label)}</span><ArrowUpRight aria-hidden="true" />
                   </a>
                 ))}
               </div>
@@ -230,23 +267,45 @@ export const Projects = () => {
         ))}
       </div>
 
-      <dialog ref={dialogRef} className="case-dialog" onClose={closeCase} onCancel={(event) => { event.preventDefault(); closeCase(); }}>
+      <div className="work-gallery__end"><span>08 / 08</span><span>{lang === 'vi' ? 'Mỗi dự án, một cách giải bài toán.' : 'Different worlds. The same drive to build.'}</span><ArrowUpRight aria-hidden="true" /></div>
+
+      <dialog
+        ref={dialogRef}
+        className="project-dialog"
+        aria-labelledby="project-dialog-title"
+        aria-describedby="project-dialog-summary"
+        onCancel={(event) => { event.preventDefault(); closeCase(); }}
+        onClick={(event) => {
+          if (event.target !== event.currentTarget) return;
+          const bounds = event.currentTarget.getBoundingClientRect();
+          if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeCase();
+        }}
+      >
         {openProject && (
-          <div className="case-dialog__inner" style={{ '--accent': openProject.accent, '--accent-soft': openProject.accentSoft, '--case-ink': openProject.ink } as CSSProperties}>
-            <button className="case-dialog__close" onClick={closeCase} aria-label={lang === 'vi' ? 'Đóng case study' : 'Close case study'}><X /></button>
-            <div className="case-dialog__visual"><ProjectArtifact project={openProject} /></div>
-            <div className="case-dialog__copy">
-              <span>{openProject.order} / SYSTEM BRIEF</span>
-              <h2>{openProject.title}</h2>
-              <p>{getStr(openProject.summary)}</p>
+          <div className="project-dialog__inner" style={{ '--accent': openProject.accent, '--accent-soft': openProject.accentSoft, '--case-ink': openProject.ink } as CSSProperties}>
+            <header className="project-dialog__bar"><span>{openProject.order} / {lang === 'vi' ? 'CÂU CHUYỆN DỰ ÁN' : 'PROJECT CASE STUDY'}</span><button className="project-dialog__close" onClick={closeCase} aria-label={lang === 'vi' ? 'Đóng case study' : 'Close case study'} autoFocus><X aria-hidden="true" /></button></header>
+            <div className="project-dialog__layout">
+            <div className="project-dialog__visual"><ProjectArtifact project={openProject} /></div>
+            <div className="project-dialog__copy">
+              <span className="project-dialog__eyebrow">{getStr(openProject.eyebrow)}</span>
+              <h2 id="project-dialog-title">{openProject.title}</h2>
+              <blockquote>{getStr(openProject.statement)}</blockquote>
+              <p id="project-dialog-summary">{getStr(openProject.summary)}</p>
+              <dl className="project-dialog__details">
+                <div><dt>{lang === 'vi' ? 'Bài toán' : 'The problem'}</dt><dd>{getStr(openProject.problem)}</dd></div>
+                <div><dt>{lang === 'vi' ? 'Giải pháp' : 'The solution'}</dt><dd>{getStr(openProject.solution)}</dd></div>
+                <div><dt>{lang === 'vi' ? 'Đóng góp của tôi' : 'My contribution'}</dt><dd>{getStr(openProject.contribution)}</dd></div>
+              </dl>
               <h3>{lang === 'vi' ? 'Điểm đáng chú ý' : 'What makes it matter'}</h3>
               <ol>{openProject.highlights.map((highlight, index) => <li key={index}><span>0{index + 1}</span>{getStr(highlight)}</li>)}</ol>
-              <div className="case-dialog__links">
+              <h3>{lang === 'vi' ? 'Công nghệ sử dụng' : 'Built with'}</h3>
+              <div className="project-dialog__stack">{openProject.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
+              <div className="project-dialog__links">
                 {openProject.links.map((link) => (
-                  <a key={link.url} href={link.url} target="_blank" rel="noreferrer"><LinkIcon kind={link.kind} />{getStr(link.label)}<ArrowUpRight /></a>
+                  <a key={link.url} href={link.url} target="_blank" rel="noreferrer"><LinkIcon kind={link.kind} />{getStr(link.label)}<ArrowUpRight aria-hidden="true" /></a>
                 ))}
-                {!openProject.links.length && <p className="media-note">{lang === 'vi' ? 'Ảnh thật và demo JAPANO sẽ được bổ sung khi bạn gửi media.' : 'Real JAPANO imagery and demo will be added when media is supplied.'}</p>}
               </div>
+            </div>
             </div>
           </div>
         )}

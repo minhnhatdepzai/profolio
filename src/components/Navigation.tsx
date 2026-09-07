@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowUpRight, Download, Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
 
@@ -14,19 +14,12 @@ const navItems = [
 const cvFileName = 'Le-Minh-Nhat-CV-EN.docx';
 const cvPath = `${import.meta.env.BASE_URL}cv/${cvFileName}`;
 
-const downloadEnglishCv = () => {
-  const anchor = document.createElement('a');
-  anchor.href = cvPath;
-  anchor.download = cvFileName;
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-};
-
 export const Navigation = () => {
   const { getStr } = useLanguage();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('hero');
+  const headerRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const sections = ['hero', 'selected-work', 'capabilities', 'journey', 'archive', 'contact']
@@ -42,30 +35,42 @@ export const Navigation = () => {
 
   useEffect(() => {
     if (!open) return;
+    const desktop = window.matchMedia('(min-width: 801px)');
+    const onResize = () => { if (desktop.matches) setOpen(false); };
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') { setOpen(false); menuRef.current?.focus(); }
+      if (event.key === 'Tab') {
+        const elements = Array.from<HTMLElement>(headerRef.current?.querySelectorAll<HTMLElement>('a,button') ?? []).filter(el => el.getClientRects().length);
+        const first = elements[0];
+        const last = elements[elements.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
     };
+    headerRef.current?.querySelector<HTMLElement>('.nav-panel button')?.focus();
     document.body.classList.add('nav-is-open');
     window.addEventListener('keydown', onKeyDown);
+    desktop.addEventListener('change', onResize);
     return () => {
       document.body.classList.remove('nav-is-open');
       window.removeEventListener('keydown', onKeyDown);
+      desktop.removeEventListener('change', onResize);
     };
   }, [open]);
 
   const goTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(id)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     setOpen(false);
   };
 
   return (
-    <header className="nav-wrap">
+    <header className="nav-wrap" ref={headerRef}>
       <button className="brand" onClick={() => goTo('hero')} title={getStr({ en: 'Back to top', vi: 'Về đầu trang' })} data-cursor="focus">
         <span className="brand__mark" aria-hidden="true"><i>L</i><i>N</i></span>
         <span className="brand__name">Lê Minh Nhật</span>
       </button>
 
-      <nav className={`nav-panel ${open ? 'is-open' : ''}`} aria-label="Main navigation">
+      <nav id="main-navigation" className={`nav-panel ${open ? 'is-open' : ''}`} aria-label={getStr({en:'Main navigation',vi:'Điều hướng chính'})}>
         {navItems.map((item, index) => (
           <button
             key={item.id}
@@ -76,6 +81,10 @@ export const Navigation = () => {
             {getStr(item.label)}
           </button>
         ))}
+        <div className="nav-mobile-actions">
+          <a href={cvPath} download={cvFileName}><Download size={17} />{getStr({en:'Download CV',vi:'Tải CV tiếng Anh'})}</a>
+          <a href="mailto:lnhat1938@gmail.com">{getStr({en:'Contact me',vi:'Liên hệ'})}<ArrowUpRight size={17} /></a>
+        </div>
       </nav>
 
       <div className="nav-actions">
@@ -83,10 +92,9 @@ export const Navigation = () => {
         <a
           className="nav-contact"
           href="mailto:lnhat1938@gmail.com"
-          onClick={downloadEnglishCv}
           title={getStr({
-            en: 'Opens your mail app and downloads the English CV',
-            vi: 'Mở ứng dụng email và tải CV tiếng Anh về máy',
+            en: 'Email Le Minh Nhat',
+            vi: 'Gửi email cho Lê Minh Nhật',
           })}
           data-cursor="focus"
         >
@@ -95,9 +103,11 @@ export const Navigation = () => {
         </a>
         <button
           className="menu-button"
+          ref={menuRef}
           onClick={() => setOpen((value) => !value)}
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-label={getStr(open ? {en:'Close menu',vi:'Đóng menu'} : {en:'Open menu',vi:'Mở menu'})}
           aria-expanded={open}
+          aria-controls="main-navigation"
         >
           {open ? <X size={19} /> : <Menu size={19} />}
         </button>
