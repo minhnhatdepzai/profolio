@@ -2,6 +2,8 @@ import { ArrowUp, ArrowUpRight, Facebook, Github, Mail, Phone, Youtube } from 'l
 import { personalInfo } from '../data/cv';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BotanicalGarden } from '../components/BotanicalGarden';
+import { BrandLogo } from '../components/BrandLogo';
+import { IntroReplay } from '../components/BrandExperience';
 
 export const Footer = ({ gardenPaused = false, motionAllowed = true }: { gardenPaused?: boolean; motionAllowed?: boolean }) => {
   const { lang } = useLanguage();
@@ -27,7 +29,10 @@ export const Footer = ({ gardenPaused = false, motionAllowed = true }: { gardenP
         </div>
         <button onClick={() => window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })}>{lang === 'vi' ? 'Lên đầu trang' : 'Back to top'} <ArrowUp /></button>
       </div>
-      <p className="footer-note">{lang === 'vi' ? 'Thiết kế & phát triển bởi Lê Minh Nhật · 2026' : 'Designed & developed by Le Minh Nhat · 2026'}</p>
+      <div className="footer-brand">
+        <div className="footer-brand__identity"><BrandLogo /><p className="footer-note">{lang === 'vi' ? 'Thiết kế & phát triển bởi Lê Minh Nhật · 2026' : 'Designed & developed by Le Minh Nhat · 2026'}</p></div>
+        <IntroReplay />
+      </div>
       <div className="footer-signature" aria-hidden="true">LÊ MINH NHẬT</div>
     </footer>
   );

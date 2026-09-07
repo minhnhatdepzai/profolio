@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Download, Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
+import { BrandLogo } from './BrandLogo';
+import { SoundToggle } from './BrandExperience';
 
 const navItems = [
   { id: 'selected-work', label: { en: 'Latest work', vi: 'Dự án mới nhất' } },
@@ -66,7 +68,7 @@ export const Navigation = () => {
   return (
     <header className="nav-wrap" ref={headerRef}>
       <button className="brand" onClick={() => goTo('hero')} title={getStr({ en: 'Back to top', vi: 'Về đầu trang' })} data-cursor="focus">
-        <span className="brand__mark" aria-hidden="true"><i>L</i><i>N</i></span>
+        <BrandLogo className="brand__logo" />
         <span className="brand__name">Lê Minh Nhật</span>
       </button>
 
@@ -88,6 +90,7 @@ export const Navigation = () => {
       </nav>
 
       <div className="nav-actions">
+        <SoundToggle />
         <LanguageToggle />
         <a
           className="nav-contact"

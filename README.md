@@ -2,6 +2,20 @@
 
 A bilingual, performance-aware portfolio for selected Web, Mobile, AI and interactive work.
 
+The original LN monogram appears in the navigation, footer and favicon. Its vector
+master is available at `public/brand/ln-monogram.svg`. A 2-second cinematic intro
+reveals the name, draws the logo and opens a split shutter into the site. Escape
+or Skip dismisses it immediately; deep links and reduced-motion visits bypass the
+automatic intro. The footer's Replay intro button plays it again, with a static
+2-second identity card when reduced motion is enabled.
+
+The header Sound button explicitly enables low-volume, locally synthesized audio:
+an intro chord, restrained hover/click cues and playful gecko pickup/drop effects.
+Audio is off on load, never bypasses browser autoplay rules and uses no remote
+tracks. Enable sound, then Replay intro for the complete audio-visual sequence.
+Muting or hiding the tab stops audio; returning requires another explicit enable.
+The intro temporarily makes the underlying page inert and suspends the garden.
+
 The editorial interface pairs an obsidian/ivory/lime visual system with a living
 digital garden: a lazy-loaded procedural 3D chameleon on a floating moss island,
 a smaller gecko roaming/climbing around the viewport, a butterfly flying across

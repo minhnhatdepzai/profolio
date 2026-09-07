@@ -27,7 +27,7 @@ export const useGardenActivity = () => {
     query.addEventListener('change', update);
     const visibility = () => setHidden(document.hidden);
     document.addEventListener('visibilitychange', visibility);
-    const overlay = () => setOverlayOpen(document.body.classList.contains('nav-is-open') || document.body.classList.contains('dialog-is-open'));
+    const overlay = () => setOverlayOpen(document.body.classList.contains('nav-is-open') || document.body.classList.contains('dialog-is-open') || document.body.classList.contains('intro-is-open'));
     const observer = new MutationObserver(overlay);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
     overlay();

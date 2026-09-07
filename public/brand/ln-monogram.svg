@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="title description">
+  <title id="title">Lê Minh Nhật — LN monogram</title>
+  <desc id="description">An original ivory L meets a lime N in a geometric ligature, framed in obsidian with a small signal spark.</desc>
   <path class="logo-frame" pathLength="1" d="M42 13H118Q147 13 147 42V118Q147 147 118 147H42Q13 147 13 118V42Q13 13 42 13Z" fill="#10110f" stroke="#647346" stroke-width="1.5"/>
   <path class="logo-l" pathLength="1" d="M44 44V114H78" fill="none" stroke="#f0eee6" stroke-width="12" stroke-linecap="square" stroke-linejoin="miter"/>
   <path class="logo-n" pathLength="1" d="M78 114V44L115 114V44" fill="none" stroke="#c9ff4a" stroke-width="11" stroke-linecap="square" stroke-linejoin="bevel"/>

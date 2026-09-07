@@ -14,30 +14,33 @@ import { GardenCompanions } from './components/GardenCompanions';
 import { GardenControl } from './components/GardenControl';
 import { GardenWildlife } from './components/GardenWildlife';
 import { useGardenActivity } from './components/useGardenActivity';
+import { BrandExperience } from './components/BrandExperience';
 
 export default function App() {
   const garden = useGardenActivity();
   const gardenPaused = !garden.running;
   return (
     <LanguageProvider>
-      <ScrollExperience />
-      <Cursor />
-      <ThreeWorld paused={gardenPaused} motionAllowed={garden.motionAllowed} />
-      <GardenCompanions paused={gardenPaused} motionAllowed={garden.motionAllowed} suspended={garden.mode === 'pause' || garden.phase === 'hidden'} />
-      <GardenWildlife paused={gardenPaused} motionAllowed={garden.motionAllowed} />
-      <GardenControl mode={garden.mode} phase={garden.phase} onToggle={garden.toggle} onAuto={garden.enableAuto} />
-      <a className="skip-link" href="#selected-work">Skip to selected work</a>
-      <div className="scroll-progress" aria-hidden="true"><span className="scroll-progress__bar" /></div>
-      <Navigation />
-      <main className="site-shell">
-        <Hero gardenPaused={gardenPaused} motionAllowed={garden.motionAllowed} />
-        <About gardenPaused={gardenPaused} motionAllowed={garden.motionAllowed} />
-        <Projects />
-        <Skills />
-        <Experience />
-        <Archive />
-      </main>
-      <Footer gardenPaused={gardenPaused} motionAllowed={garden.motionAllowed} />
+      <BrandExperience>
+        <ScrollExperience />
+        <Cursor />
+        <ThreeWorld paused={gardenPaused} motionAllowed={garden.motionAllowed} />
+        <GardenCompanions paused={gardenPaused} motionAllowed={garden.motionAllowed} suspended={garden.mode === 'pause' || garden.phase === 'hidden'} />
+        <GardenWildlife paused={gardenPaused} motionAllowed={garden.motionAllowed} />
+        <GardenControl mode={garden.mode} phase={garden.phase} onToggle={garden.toggle} onAuto={garden.enableAuto} />
+        <a className="skip-link" href="#selected-work">Skip to selected work</a>
+        <div className="scroll-progress" aria-hidden="true"><span className="scroll-progress__bar" /></div>
+        <Navigation />
+        <main className="site-shell">
+          <Hero gardenPaused={gardenPaused} motionAllowed={garden.motionAllowed} />
+          <About gardenPaused={gardenPaused} motionAllowed={garden.motionAllowed} />
+          <Projects />
+          <Skills />
+          <Experience />
+          <Archive />
+        </main>
+        <Footer gardenPaused={gardenPaused} motionAllowed={garden.motionAllowed} />
+      </BrandExperience>
     </LanguageProvider>
   );
 }
