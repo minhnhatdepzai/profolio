@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { ArrowDownRight, ArrowUpRight, Film, Github, Play, X } from 'lucide-react';
-import { featuredProjects, type FeaturedProject } from '../data/projects';
+import { ArrowDownRight, ArrowUpRight, Film, Github, Globe, Play, X } from 'lucide-react';
+import { featuredProjects, type FeaturedProject, type ProjectLink } from '../data/projects';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
@@ -138,9 +138,10 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   );
 };
 
-const LinkIcon = ({ kind }: { kind: 'demo' | 'github' | 'video' }) => {
+const LinkIcon = ({ kind }: { kind: ProjectLink['kind'] }) => {
   if (kind === 'github') return <Github aria-hidden="true" />;
   if (kind === 'video') return <Film aria-hidden="true" />;
+  if (kind === 'showcase') return <Globe aria-hidden="true" />;
   return <Play aria-hidden="true" />;
 };
 
@@ -231,7 +232,7 @@ export const Projects = () => {
 
       <dialog ref={dialogRef} className="case-dialog" onClose={closeCase} onCancel={(event) => { event.preventDefault(); closeCase(); }}>
         {openProject && (
-          <div className="case-dialog__inner" style={{ '--accent': openProject.accent } as CSSProperties}>
+          <div className="case-dialog__inner" style={{ '--accent': openProject.accent, '--accent-soft': openProject.accentSoft, '--case-ink': openProject.ink } as CSSProperties}>
             <button className="case-dialog__close" onClick={closeCase} aria-label={lang === 'vi' ? 'Đóng case study' : 'Close case study'}><X /></button>
             <div className="case-dialog__visual"><ProjectArtifact project={openProject} /></div>
             <div className="case-dialog__copy">

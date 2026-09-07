@@ -5,7 +5,7 @@ export type ProjectStatus = 'live' | 'video' | 'source' | 'private' | 'pending';
 export interface ProjectLink {
   label: LangStr;
   url: string;
-  kind: 'demo' | 'github' | 'video';
+  kind: 'demo' | 'github' | 'video' | 'showcase';
 }
 
 export interface FeaturedProject {
@@ -63,7 +63,7 @@ export const featuredProjects: FeaturedProject[] = [
       vi: 'Kỹ thuật sản phẩm xuyên suốt mobile, storefront, tích hợp backend, điều phối AI và trình bày kỹ thuật.',
     },
     status: 'video',
-    statusLabel: { en: 'Video demo available', vi: 'Có video demo' },
+    statusLabel: { en: 'Showcase & video demo', vi: 'Trang giới thiệu & video demo' },
     accent: '#ef4938',
     accentSoft: '#f5c4cf',
     ink: '#281016',
@@ -76,19 +76,24 @@ export const featuredProjects: FeaturedProject[] = [
     ],
     links: [
       {
+        label: { en: 'Explore JAPANO', vi: 'Khám phá JAPANO' },
+        url: 'https://japano-golden-ticket-showcase.lnhat1938.workers.dev/',
+        kind: 'showcase',
+      },
+      {
         label: { en: 'Watch JAPANO app demo', vi: 'Xem demo ứng dụng JAPANO' },
         url: 'https://youtu.be/D8jqwvPUfFc?si=MZTFf8joSed97OcD',
         kind: 'video',
       },
     ],
     media: {
-      file: 'https://i.ytimg.com/vi/D8jqwvPUfFc/maxresdefault.jpg',
+      file: 'projects/japano-showcase.webp',
       alt: {
-        en: 'JAPANO mobile application demo video cover supplied by the project owner.',
-        vi: 'Ảnh bìa video demo ứng dụng JAPANO do chủ dự án cung cấp.',
+        en: 'JAPANO showcase artwork: a woman in a floral kimono holding a red parasol beneath cherry blossoms.',
+        vi: 'Ảnh thương hiệu từ JAPANO Showcase: người phụ nữ mặc kimono hoa, cầm ô đỏ dưới cành hoa anh đào.',
       },
-      label: { en: 'APP DEMO VIDEO', vi: 'VIDEO DEMO ỨNG DỤNG' },
-      source: 'youtu.be/D8jqwvPUfFc',
+      label: { en: 'JAPANO · GOLDEN TICKET SHOWCASE', vi: 'JAPANO · VÉ VÀNG ĐẾN ĐÂY' },
+      source: 'japano-golden-ticket-showcase.lnhat1938.workers.dev',
     },
   },
   {

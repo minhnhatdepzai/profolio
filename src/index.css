@@ -177,6 +177,14 @@ button { touch-action: manipulation; }
 .artifact--real-math-lab .artifact-real__screen { inset:30% 5% auto;height:40%; }
 .artifact--real-math-lab .artifact-real__screen img { object-fit:cover;background:#060b0f; }
 .artifact--real-picko247 .artifact-real__screen img { object-position:42% center; }
+.artifact--real-japano { background:#f1e6d4; }
+.artifact--real-japano::before, .artifact--real-japano::after { display:none; }
+.artifact--real-japano .artifact-label { color:#612c28; font-size:.52rem; letter-spacing:.1em; }
+.artifact--real-japano .artifact-real__type { z-index:4; top:10%; bottom:auto; left:6%; max-width:88%; color:#612c28; font-family:Georgia,serif; font-size:clamp(3rem,6.5vw,6.5rem); line-height:1; letter-spacing:-.055em; opacity:1; mix-blend-mode:normal; }
+.artifact--real-japano .artifact-real__screen { inset:0; padding:0; border:0; border-radius:0; background:#f1e6d4; box-shadow:none; transform:none; }
+.artifact--real-japano .artifact-real__screen img { position:absolute; inset:0; width:100%; height:100%; object-position:60% 56%; border-radius:0; filter:none; }
+.artifact--real-japano .artifact-real__screen figcaption { position:absolute; left:0; right:0; bottom:0; padding:2.5rem 1rem 1rem; color:#fff6e9; background:linear-gradient(transparent,rgba(40,16,22,.84)); font-size:.43rem; letter-spacing:0; }
+.artifact--real-japano .artifact-real__proof { display:none; }
 .artifact-real__screen figcaption { flex:0 0 auto;display:flex;align-items:center;gap:.48rem;padding:.7rem .35rem .28rem;color:rgba(255,255,255,.7);font:650 .5rem/1 ui-monospace,monospace;letter-spacing:.08em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
 .artifact-real__screen figcaption i { flex:0 0 auto;width:.42rem;aspect-ratio:1;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent); }
 .artifact-real__proof { position:absolute;z-index:5;right:1.2rem;bottom:1.1rem;padding:.42rem .55rem;border:1px solid color-mix(in srgb,var(--case-ink) 28%,transparent);color:var(--case-ink);background:color-mix(in srgb,var(--accent-soft) 82%,transparent);backdrop-filter:blur(10px);font:760 .48rem/1 ui-monospace,monospace;letter-spacing:.1em; }
