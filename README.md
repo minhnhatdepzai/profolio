@@ -35,13 +35,25 @@ Space, move with arrows, and release with Escape. This explicit interaction work
 while Auto is waiting; Pause, hidden tabs and dialogs still suspend it. All other
 animals are click-through. Flowers unfurl in sequence, and birds cross occasionally
 rather than filling the sky continuously.
-The Lab section is a small interaction playground. A rotating micro-planet carries
-a city that stands only on its continents: an equirectangular heightmap is baked
-once in JavaScript, the planet shader samples it to paint the coastline, and tower
-placement reads the same array — running the noise separately in GLSL and JS would
-not agree, because the sin-based hash amplifies GPU-float against JS-double into a
-different continent. The towers are one instanced mesh. Two mascots track the
-cursor, and a swatch row shows the palette the page is currently wearing.
+The Lab features a textured Earth with 4K day/night imagery, a separate cloud
+shell, terrain shading, ocean reflections and a thin atmosphere. All images are
+self-hosted under `public/earth`; attribution is linked beneath the scene.
+Cloud cover is a static composite, not a live weather feed. The existing solar
+calculation drives day/night lighting. The Moon shares that reference frame and
+uses a surface texture; its displayed distance is compressed to keep it in view.
+The initial camera faces a sunlit landmass. Auto rotate can be toggled independently,
+dragging changes the view, and buttons or wheel/pinch zoom between 75% and 180%.
+Reset view restores camera direction and 100% zoom. Reduced motion retains a still
+interactive globe; animation also pauses in hidden tabs and when suspended.
+
+The solar and lunar maths lives in `src/components/solarPosition.ts` and is covered
+by `tests/solar-position.test.mjs`, which pins the subsolar point to the Greenwich
+meridian at noon UTC, checks it sweeps west at fifteen degrees an hour, holds
+declination inside the tropics across a year, and counts the moon through its
+synodic cycle.
+
+Two mascots track the cursor, and a swatch row shows the palette the page is
+currently wearing.
 
 Colour follows the reader's own clock: six palettes, four hours each, so a full day
 is covered and the colour on screen agrees with the time of day. `BAND_HOURS` in
@@ -145,9 +157,10 @@ Keep preview images under roughly 180 KB where visual quality allows. Do not inc
 - `og-cover.png` is rendered from the repository-native `og-cover.svg` sharing card.
 - The chameleon, butterfly, moss island, foliage and their motion are original
   code-native visuals in `src/components`; no remote model or texture files are required.
-- The Lab planet, its coastline and its city are generated at runtime in
-  `src/components/createOrbitalCity.ts` — no model, texture or heightmap is downloaded.
-- The two Lab mascots are the one exception to the code-native rule: `gearbot` and
+- The Lab globe uses Solar System Scope day/night images and three.js example
+  maps for clouds, surface normals, ocean reflections and the Moon. Original
+  sources and licenses are recorded in `public/earth/ATTRIBUTION.txt`.
+- The two Lab mascots, `gearbot` and
   `scout` are sprite sheets from the MIT-licensed [page-mascot](https://koboyo.com/page-mascot),
   downloaded into `public/mascots` as that project intends. They are third-party
   artwork and are not presented as original work.
@@ -158,6 +171,10 @@ Keep preview images under roughly 180 KB where visual quality allows. Do not inc
   Canvas 2D engine; its own `prefers-reduced-motion` path freezes it to a static frame.
 - [`page-mascot`](https://koboyo.com/page-mascot) (MIT) — the cursor-tracking mascots.
   Tracking switches off without a fine pointer.
+- [`world-atlas`](https://github.com/topojson/world-atlas) (ISC) and
+  [`topojson-client`](https://github.com/topojson/topojson-client) (ISC) — Natural
+  Earth coastlines used by the earlier vector globe; retained dependencies, no
+  longer loaded by the textured Earth scene. Natural Earth data is public domain.
 
 Palette direction for the six time bands was informed by
 [Aura](https://auragradients.vercel.app/); the hex values in `src/data/timePalettes.ts`
