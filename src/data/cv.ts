@@ -11,44 +11,65 @@ export const personalInfo = {
   github: "minhnhatdepzai",
   githubLink: "https://github.com/minhnhatdepzai",
   profile: {
-    en: "An enthusiastic IT candidate with 3 months of probationary experience as an AI Engineer and 4 months of internship experience as a Business Analyst. I build practical Web, Mobile and AI-powered learning experiences, and I am always willing to learn, adapt and improve in a professional environment.",
-    vi: "Một ứng viên CNTT nhiệt huyết với 3 tháng kinh nghiệm thử việc ở vị trí Kỹ sư AI và 4 tháng thực tập ở vị trí Business Analyst. Tôi tập trung xây dựng các trải nghiệm Web, Mobile và sản phẩm học tập ứng dụng AI có tính thực tiễn, đồng thời luôn sẵn lòng học hỏi, thích nghi và phát triển trong môi trường chuyên nghiệp."
+    en: "AI Engineer working across the whole path from model to interface — computer-vision pipelines, LoRA fine-tuning of diffusion models, GPU latency budgets, and the React and Three.js products that expose them. Three months as an AI Engineer building explainable mathematics software for grades 1-9, after four months as a Business Analyst turning stakeholder requirements into functional specifications.",
+    vi: "Kỹ sư AI làm trọn con đường từ model đến giao diện — pipeline thị giác máy tính, fine-tune LoRA cho mô hình diffusion, ngân sách độ trễ GPU, và các sản phẩm React, Three.js đưa chúng đến người dùng. Ba tháng ở vị trí Kỹ sư AI xây dựng phần mềm toán trực quan cho lớp 1-9, sau bốn tháng thực tập Business Analyst chuyển yêu cầu của các bên liên quan thành đặc tả chức năng."
   } as LangStr
 };
 
 export const skills = [
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "Figma",
-  "Power BI",
-  "React Native",
-  "C/C++",
   "Python",
+  "PyTorch",
+  "TensorFlow / Keras",
+  "YOLOv8",
+  "OpenCV",
+  "LoRA / DreamBooth",
+  "Hugging Face diffusers",
+  "CUDA",
+  "Claude Code",
+  "OpenAI Codex",
+  "React",
+  "TypeScript",
+  "Three.js",
+  "React Native",
   "Node.js",
-  "FlaskAPI/Flask",
-  "Java (Swing)",
-  "Git/Github",
-  "Linux (Ubuntu)"
+  "Express",
+  "Flask / FastAPI",
+  "MongoDB",
+  "PostgreSQL",
+  "Redis",
+  "Playwright",
+  "Git / GitHub",
+  "Linux (Ubuntu)",
+  "Cloudflare Workers",
+  "Figma",
+  "Power BI"
 ];
 
 export const experience = [
   {
     company: { en: "STEM Education Technology Co., Ltd.", vi: "Công ty TNHH Công nghệ Giáo dục STEM" } as LangStr,
-    role: { en: "AI ENGINEER · PROBATION", vi: "KỸ SƯ AI · THỬ VIỆC" } as LangStr,
-    period: { en: "MAY 2026 - AUGUST 2026 · 3 MONTHS", vi: "THÁNG 5/2026 - THÁNG 8/2026 · 3 THÁNG" } as LangStr,
+    role: { en: "AI ENGINEER", vi: "KỸ SƯ AI" } as LangStr,
+    period: { en: "MAY 2026 - AUGUST 2026", vi: "THÁNG 5/2026 - THÁNG 8/2026" } as LangStr,
     responsibilities: [
       {
-        en: "Developed Math Lab, an AI-powered interactive learning product designed to make mathematical concepts easier to explore and understand",
-        vi: "Phát triển Math Lab, sản phẩm học tập tương tác ứng dụng AI giúp người học khám phá và hiểu các khái niệm toán học trực quan hơn"
+        en: "Built Math Vision Lab, an explainable learning engine for grade 1-9 mathematics that turns a typed or photographed problem into a semantic model, a pedagogy plan and a synchronised visual scene",
+        vi: "Xây dựng Math Vision Lab, engine học tập giải thích được cho toán lớp 1-9, biến đề bài dạng chữ hoặc ảnh chụp thành semantic model, kế hoạch sư phạm và scene trực quan đồng bộ"
       },
       {
-        en: "Built digital Chemistry Lab experiences supporting interactive science learning and experimentation",
-        vi: "Xây dựng trải nghiệm Phòng thí nghiệm Hóa học số, hỗ trợ học tập và thực hành khoa học theo hướng tương tác"
+        en: "Designed the deterministic scene pipeline - semantic analysis, decision engine, visual-model selection and React renderer - covering bar models, fractions, algebra tiles, graphs, Oxyz and 3D geometry",
+        vi: "Thiết kế pipeline scene xác định - phân tích ngữ nghĩa, decision engine, chọn mô hình trực quan và renderer React - phủ bar model, phân số, algebra tiles, đồ thị, Oxyz và hình học 3D"
       },
       {
-        en: "Implemented the frontend website for the Smart Classroom product, focusing on clear interfaces and responsive use across devices",
-        vi: "Phát triển website frontend cho sản phẩm Phòng học thông minh, tập trung vào giao diện rõ ràng và khả năng hiển thị tốt trên nhiều thiết bị"
+        en: "Added regression gates and an isolated demo workflow so a change to one visual family cannot silently break another, and unsupported input states its limit instead of rendering a misleading diagram",
+        vi: "Bổ sung regression gate và quy trình demo cô lập để một thay đổi ở nhóm hình này không âm thầm làm hỏng nhóm khác, và đề chưa hỗ trợ sẽ nói rõ giới hạn thay vì dựng hình sai nghĩa"
+      },
+      {
+        en: "Shipped the EduVision Smart Classroom front-end: a cinematic Three.js experience built entirely in code with no external 3D asset downloads, deployed on Cloudflare Workers Static Assets",
+        vi: "Hoàn thiện front-end EduVision Smart Classroom: trải nghiệm Three.js điện ảnh dựng hoàn toàn bằng code, không tải asset 3D bên ngoài, triển khai trên Cloudflare Workers Static Assets"
+      },
+      {
+        en: "Built interactive digital Chemistry Lab experiences for science learning and practice",
+        vi: "Xây dựng trải nghiệm Phòng thí nghiệm Hóa học số phục vụ học tập và thực hành khoa học"
       }
     ]
   },

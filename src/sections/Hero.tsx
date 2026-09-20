@@ -4,6 +4,7 @@ import { featuredProjects } from '../data/projects';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BotanicalGarden } from '../components/BotanicalGarden';
 import { GardenGeckoArt } from '../components/GardenCompanions';
+import { cvFileName, cvPath } from '../data/cvFile';
 
 const GardenHabitatFallback = ({ paused, motionAllowed }: { paused: boolean; motionAllowed: boolean }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -63,7 +64,7 @@ export const Hero = ({ gardenPaused = false, motionAllowed = true }: { gardenPau
               <button className="primary-cta" onClick={goToWork} data-magnetic data-cursor="focus">
                 {lang === 'vi' ? 'Khám phá dự án' : 'Explore my work'}<span><ArrowDownRight size={20} /></span>
               </button>
-              <a className="hero-cv" href={`${import.meta.env.BASE_URL}cv/Le-Minh-Nhat-CV-EN.docx`} download="Le-Minh-Nhat-CV-EN.docx">
+              <a className="hero-cv" href={cvPath} download={cvFileName}>
                 <Download size={16} />{lang === 'vi' ? 'Tải CV tiếng Anh' : 'Download CV'}
               </a>
             </div>

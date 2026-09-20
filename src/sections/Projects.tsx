@@ -217,8 +217,8 @@ export const Projects = () => {
           <span className="work-gallery__edition">2025—2026</span>
         </div>
         <div className="work-gallery__intro">
-          <h2 id="work-gallery-title">{lang === 'vi' ? 'Từ ý tưởng.' : 'From an idea.'}<br /><em>{lang === 'vi' ? 'Đến trải nghiệm.' : 'To an experience.'}</em><sup>08</sup></h2>
-          <p>{lang === 'vi' ? 'Tám dự án, tám thế giới riêng. Khám phá sản phẩm, chơi thử và nhìn sâu vào cách tôi xây dựng.' : 'Eight projects. Eight distinct worlds. Explore the products, press play, and see how I build.'}</p>
+          <h2 id="work-gallery-title">{lang === 'vi' ? 'Từ ý tưởng.' : 'From an idea.'}<br /><em>{lang === 'vi' ? 'Đến trải nghiệm.' : 'To an experience.'}</em><sup>{String(featuredProjects.length).padStart(2, '0')}</sup></h2>
+          <p>{lang === 'vi' ? `${featuredProjects.length} dự án, ${featuredProjects.length} thế giới riêng. Khám phá sản phẩm, chơi thử và nhìn sâu vào cách tôi xây dựng.` : `${featuredProjects.length} projects. ${featuredProjects.length} distinct worlds. Explore the products, press play, and see how I build.`}</p>
         </div>
         <div className="work-gallery__legend"><span>AI & PRODUCT ENGINEERING</span><span>WEB · MOBILE · INTERACTIVE 3D</span></div>
       </header>
@@ -267,7 +267,7 @@ export const Projects = () => {
         ))}
       </div>
 
-      <div className="work-gallery__end"><span>08 / 08</span><span>{lang === 'vi' ? 'Mỗi dự án, một cách giải bài toán.' : 'Different worlds. The same drive to build.'}</span><ArrowUpRight aria-hidden="true" /></div>
+      <div className="work-gallery__end"><span>{String(featuredProjects.length).padStart(2, '0')} / {String(featuredProjects.length).padStart(2, '0')}</span><span>{lang === 'vi' ? 'Mỗi dự án, một cách giải bài toán.' : 'Different worlds. The same drive to build.'}</span><ArrowUpRight aria-hidden="true" /></div>
 
       <dialog
         ref={dialogRef}

@@ -4,6 +4,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
 import { BrandLogo } from './BrandLogo';
 import { SoundToggle } from './BrandExperience';
+import { cvFileName, cvPath } from '../data/cvFile';
 
 const navItems = [
   { id: 'selected-work', label: { en: 'Latest work', vi: 'Dự án mới nhất' } },
@@ -12,9 +13,6 @@ const navItems = [
   { id: 'archive', label: { en: 'Archive', vi: 'Lưu trữ' } },
   { id: 'contact', label: { en: 'Contact', vi: 'Liên hệ' } },
 ];
-
-const cvFileName = 'Le-Minh-Nhat-CV-EN.docx';
-const cvPath = `${import.meta.env.BASE_URL}cv/${cvFileName}`;
 
 export const Navigation = () => {
   const { getStr } = useLanguage();

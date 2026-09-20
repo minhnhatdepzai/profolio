@@ -35,8 +35,10 @@ Space, move with arrows, and release with Escape. This explicit interaction work
 while Auto is waiting; Pause, hidden tabs and dialogs still suspend it. All other
 animals are click-through. Flowers unfurl in sequence, and birds cross occasionally
 rather than filling the sky continuously.
-Eight project cards offer direct demos and deep-linked case-study dialogs. Recruiter
+Nine project cards offer direct demos and deep-linked case-study dialogs. Recruiter
 actions include an explicit CV download, professional experience and contact links.
+The downloadable CV is the current English PDF at `public/cv/Le-Minh-Nhat-CV-EN.pdf`;
+its path and file name live in `src/data/cvFile.ts` so the header and hero stay in sync.
 
 ## Local development
 

@@ -9,7 +9,7 @@ export interface ProjectLink {
 }
 
 export interface FeaturedProject {
-  slug: 'japano' | 'saigon-77' | 'math-lab' | 'smart-classroom' | 'kho' | 'picko247' | 'happytoplay' | 'vehicle-counting';
+  slug: 'japano' | 'saigon-77' | 'math-lab' | 'smart-classroom' | 'kho' | 'picko247' | 'happytoplay' | 'vehicle-counting' | 'task1-coach';
   order: string;
   year: string;
   title: string;
@@ -423,6 +423,58 @@ export const featuredProjects: FeaturedProject[] = [
     links: [
       { label: { en: 'Open prototype guide', vi: 'Mở hướng dẫn prototype' }, url: 'https://github.com/minhnhatdepzai/Count_vehicles', kind: 'github' },
     ],
+  },
+  {
+    slug: 'task1-coach',
+    order: '09',
+    year: '2026',
+    title: 'TASK1 COACH',
+    eyebrow: { en: 'Local-first IELTS practice workspace', vi: 'Không gian luyện IELTS local-first' },
+    statement: {
+      en: 'Four skills, one calm place to practise and keep moving.',
+      vi: 'Bốn kỹ năng, một không gian tập trung để luyện tập và tiến bộ mỗi ngày.',
+    },
+    summary: {
+      en: 'A responsive English-learning workspace that brings vocabulary, grammar, writing, Reading, Listening and Speaking practice together with private on-device progress.',
+      vi: 'Không gian học tiếng Anh responsive kết nối từ vựng, ngữ pháp, Writing, Reading, Listening và Speaking với tiến độ được lưu riêng trên thiết bị.',
+    },
+    problem: {
+      en: 'Learners often split practice across disconnected documents, audio players and note apps, making progress difficult to resume and review.',
+      vi: 'Người học thường phải chia bài luyện giữa tài liệu, trình phát âm thanh và ứng dụng ghi chú rời rạc, khiến tiến độ khó tiếp tục và ôn lại.',
+    },
+    solution: {
+      en: 'A single local-first web experience combines structured lessons, playback, timers, notes, recording, instant feedback and portable progress backups without requiring an account.',
+      vi: 'Một trải nghiệm web local-first hợp nhất bài học có cấu trúc, phát audio, đồng hồ, ghi chú, ghi âm, phản hồi tức thì và sao lưu tiến độ mà không cần tài khoản.',
+    },
+    contribution: {
+      en: 'Source reconstruction and product expansion, learning-content architecture, responsive interaction, local persistence, browser regression coverage and GitHub Pages delivery.',
+      vi: 'Tái dựng và mở rộng mã nguồn, kiến trúc nội dung học, tương tác responsive, lưu trữ local, kiểm thử hồi quy trình duyệt và triển khai GitHub Pages.',
+    },
+    status: 'live',
+    statusLabel: { en: 'Live learning experience', vi: 'Trải nghiệm học đang hoạt động' },
+    accent: '#7357e8',
+    accentSoft: '#eee9ff',
+    ink: '#20164a',
+    stack: ['React 19', 'TypeScript', 'Expo', 'Playwright', 'IndexedDB', 'GitHub Pages'],
+    highlights: [
+      { en: 'Vocabulary, grammar and all four language skills share one responsive workspace.', vi: 'Từ vựng, ngữ pháp và cả bốn kỹ năng nằm trong một không gian responsive thống nhất.' },
+      { en: 'Thirty Reading lessons, thirty Listening lessons, thirty Speaking topics and thirty-one Writing prompts provide a broad practice path.', vi: '30 bài Reading, 30 bài Listening, 30 chủ đề Speaking và 31 đề Writing tạo thành lộ trình luyện tập đa dạng.' },
+      { en: 'Drafts, answers, playback positions, recordings and preferences stay on the learner’s device, with JSON backup and restore.', vi: 'Bản nháp, đáp án, vị trí nghe, bản ghi và tùy chọn được lưu trên thiết bị, kèm sao lưu và khôi phục JSON.' },
+      { en: 'Production-browser checks cover responsive layouts, real audio playback, persistence, reduced motion and keyboard-friendly interaction.', vi: 'Kiểm thử trên bản production bao phủ responsive, phát audio thật, lưu tiến độ, reduced motion và tương tác thân thiện với bàn phím.' },
+    ],
+    links: [
+      { label: { en: 'Open live learning app', vi: 'Mở web học trực tiếp' }, url: 'https://minhnhatdepzai.github.io/task1-coach-pages/#home', kind: 'demo' },
+      { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/task1-coach-pages', kind: 'github' },
+    ],
+    media: {
+      file: 'projects/task1-coach-live.webp',
+      alt: {
+        en: 'Live Task1 Coach Listening room showing the responsive learning navigation, listening practice hero and lesson cards.',
+        vi: 'Phòng luyện nghe Task1 Coach trên bản live, với điều hướng học tập responsive, phần giới thiệu Listening và các thẻ bài luyện.',
+      },
+      label: { en: 'LIVE LEARNING WORKSPACE', vi: 'KHÔNG GIAN HỌC ĐANG HOẠT ĐỘNG' },
+      source: 'minhnhatdepzai.github.io/task1-coach-pages',
+    },
   },
 ];
 
