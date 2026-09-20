@@ -18,7 +18,7 @@ export const Archive = () => {
     <section id="archive" className="archive-section section-pad">
       <header className="section-heading section-heading--split" data-reveal>
         <div>
-          <span className="eyebrow">05 · {lang === 'vi' ? 'KHO THỬ NGHIỆM' : 'BUILD ARCHIVE'}</span>
+          <span className="eyebrow">06 · {lang === 'vi' ? 'KHO THỬ NGHIỆM' : 'BUILD ARCHIVE'}</span>
           <h2>{lang === 'vi' ? 'Nhiều câu hỏi hơn. Nhiều thứ đã xây hơn.' : 'More questions. More things built.'}</h2>
         </div>
         <p>{lang === 'vi' ? 'Một lát cắt từ các thử nghiệm AI, ứng dụng, game và bảo mật trên GitHub.' : 'A slice of AI, application, game and security experiments across GitHub.'}</p>

@@ -8,7 +8,7 @@ export const Experience = () => {
   return (
     <section id="journey" className="journey-section section-pad">
       <header className="section-heading" data-reveal>
-        <span className="eyebrow">04 · {lang === 'vi' ? 'HÀNH TRÌNH' : 'JOURNEY'}</span>
+        <span className="eyebrow">05 · {lang === 'vi' ? 'HÀNH TRÌNH' : 'JOURNEY'}</span>
         <h2>{lang === 'vi' ? 'Học bằng cách quan sát. Trưởng thành bằng cách xây.' : 'Learn by observing. Grow by building.'}</h2>
       </header>
 

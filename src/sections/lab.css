@@ -1,0 +1,218 @@
+/* Lab — interaction playground. Palette tokens come from useTimePalette. */
+
+.lab-section {
+  position: relative;
+  color: var(--paper);
+  background: #0c0e0c;
+  overflow: hidden;
+}
+
+/* The time-band wash sits behind the content, never over it. */
+.lab-section::before {
+  content: '';
+  position: absolute;
+  inset: -20% -10%;
+  background:
+    radial-gradient(60% 55% at 18% 22%, var(--aura-b, #0f3b33) 0%, transparent 62%),
+    radial-gradient(52% 50% at 82% 78%, var(--aura-c, #1c6b57) 0%, transparent 60%),
+    linear-gradient(160deg, var(--aura-a, #071a18) 0%, transparent 70%);
+  opacity: .5;
+  filter: blur(18px);
+  pointer-events: none;
+  transition: background 1.6s ease, opacity 1.6s ease;
+}
+
+.lab-section > * { position: relative; }
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+
+/* ---- stage ---- */
+.lab-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 30rem;
+  padding: 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  background: rgba(8, 10, 8, .55);
+  overflow: hidden;
+}
+
+.lab-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Shown until WebGL is live, and left in place when it never arrives. */
+.lab-stage__fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  transition: opacity .6s ease;
+}
+.lab-stage__fallback.is-hidden { opacity: 0; }
+
+.lab-orb {
+  width: 11rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(38% 38% at 34% 30%, var(--aura-accent, #c9ff4a) 0%, transparent 58%),
+    radial-gradient(circle at 50% 50%, var(--aura-c, #1c6b57) 0%, var(--aura-a, #071a18) 74%);
+  box-shadow: 0 0 4rem -1rem var(--aura-accent, #c9ff4a);
+  animation: lab-orb-spin 26s linear infinite;
+}
+@keyframes lab-orb-spin { to { transform: rotate(1turn); } }
+
+/* The canvas fills the stage, so the caption needs its own ground to sit on. */
+.lab-stage::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 11rem;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(8, 10, 8, .92) 18%, rgba(8, 10, 8, 0) 100%);
+  pointer-events: none;
+}
+
+/* The canvas is positioned, so in-flow text would paint beneath it. */
+.lab-stage__meta {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: auto;
+  color: var(--muted);
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.lab-stage__meta span { display: inline-flex; align-items: center; gap: .4rem; }
+.lab-stage__meta svg { color: var(--aura-accent, #c9ff4a); }
+
+.lab-stage__note {
+  position: relative;
+  z-index: 2;
+  max-width: 34rem;
+  margin-top: .7rem;
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.6;
+}
+
+/* ---- side cards ---- */
+.lab-side { display: grid; gap: 1.5rem; align-content: start; }
+
+.lab-card {
+  padding: 1.4rem;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  background: rgba(8, 10, 8, .55);
+}
+
+.lab-card__top {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--aura-accent, #c9ff4a);
+  font-size: .56rem;
+  letter-spacing: .13em;
+}
+
+.lab-card > p {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.6;
+}
+
+.lab-mascots {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  margin-top: 1.1rem;
+}
+
+/* ---- palette bands ---- */
+.lab-bands {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .5rem;
+  margin-top: 1.2rem;
+}
+
+.lab-band {
+  display: grid;
+  gap: .4rem;
+  padding: .5rem;
+  border: 1px solid var(--line);
+  border-radius: .35rem;
+  opacity: .45;
+  transition: opacity .4s ease, border-color .4s ease, transform .4s ease;
+}
+.lab-band.is-active {
+  opacity: 1;
+  border-color: var(--band-c);
+  transform: translateY(-2px);
+}
+
+.lab-band__swatch {
+  height: 2.1rem;
+  border-radius: .25rem;
+  background: linear-gradient(135deg, var(--band-a) 0%, var(--band-b) 62%, var(--band-c) 100%);
+}
+
+.lab-band__name {
+  color: var(--muted);
+  font-size: .55rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.lab-band.is-active .lab-band__name { color: var(--paper); }
+
+.lab-now {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: .9rem;
+  border-top: 1px solid var(--line);
+}
+.lab-now strong { color: var(--aura-accent, #c9ff4a); font-size: .95rem; font-weight: 600; }
+.lab-now span { color: var(--muted); font-size: .68rem; font-variant-numeric: tabular-nums; }
+
+/* The edge glow is decoration — it must never intercept a click. */
+.site-aura { pointer-events: none; }
+
+@media (max-width: 1080px) {
+  .lab-grid { grid-template-columns: 1fr; }
+  .lab-stage { min-height: 24rem; }
+}
+
+@media (max-width: 560px) {
+  .lab-stage { min-height: 19rem; padding: 1rem; }
+  .lab-card { padding: 1.1rem; }
+  .lab-bands { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lab-mascots { flex-wrap: wrap; }
+  .lab-now { flex-direction: column; gap: .2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-orb { animation: none; }
+  .lab-band { transition: none; }
+  .lab-section::before { transition: none; }
+}

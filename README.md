@@ -35,6 +35,23 @@ Space, move with arrows, and release with Escape. This explicit interaction work
 while Auto is waiting; Pause, hidden tabs and dialogs still suspend it. All other
 animals are click-through. Flowers unfurl in sequence, and birds cross occasionally
 rather than filling the sky continuously.
+The Lab section is a small interaction playground. A rotating micro-planet carries
+a city that stands only on its continents: an equirectangular heightmap is baked
+once in JavaScript, the planet shader samples it to paint the coastline, and tower
+placement reads the same array — running the noise separately in GLSL and JS would
+not agree, because the sin-based hash amplifies GPU-float against JS-double into a
+different continent. The towers are one instanced mesh. Two mascots track the
+cursor, and a swatch row shows the palette the page is currently wearing.
+
+Colour follows the reader's own clock: six palettes, four hours each, so a full day
+is covered and the colour on screen agrees with the time of day. `BAND_HOURS` in
+`src/data/timePalettes.ts` is the only knob — set it to 2 for a literal two-hourly
+rotation, at the cost of the cycle repeating twice a day. The active palette is
+published as CSS custom properties on `:root` and also tints the screen-edge glow
+and the planet. The timer re-arms against the next boundary rather than ticking on
+an interval, and a visibility change re-checks, so a tab left open overnight still
+turns over.
+
 Nine project cards offer direct demos and deep-linked case-study dialogs. Recruiter
 actions include an explicit CV download, professional experience and contact links.
 The downloadable CV is the current English PDF at `public/cv/Le-Minh-Nhat-CV-EN.pdf`;
@@ -128,3 +145,20 @@ Keep preview images under roughly 180 KB where visual quality allows. Do not inc
 - `og-cover.png` is rendered from the repository-native `og-cover.svg` sharing card.
 - The chameleon, butterfly, moss island, foliage and their motion are original
   code-native visuals in `src/components`; no remote model or texture files are required.
+- The Lab planet, its coastline and its city are generated at runtime in
+  `src/components/createOrbitalCity.ts` — no model, texture or heightmap is downloaded.
+- The two Lab mascots are the one exception to the code-native rule: `gearbot` and
+  `scout` are sprite sheets from the MIT-licensed [page-mascot](https://koboyo.com/page-mascot),
+  downloaded into `public/mascots` as that project intends. They are third-party
+  artwork and are not presented as original work.
+
+## Third-party runtime libraries
+
+- [`edge-aura`](https://edge-aura.js.org) (MIT) — the screen-edge glow. Framework-agnostic
+  Canvas 2D engine; its own `prefers-reduced-motion` path freezes it to a static frame.
+- [`page-mascot`](https://koboyo.com/page-mascot) (MIT) — the cursor-tracking mascots.
+  Tracking switches off without a fine pointer.
+
+Palette direction for the six time bands was informed by
+[Aura](https://auragradients.vercel.app/); the hex values in `src/data/timePalettes.ts`
+are written for this site's obsidian/ivory/lime system rather than copied.

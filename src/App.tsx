@@ -15,14 +15,21 @@ import { GardenControl } from './components/GardenControl';
 import { GardenWildlife } from './components/GardenWildlife';
 import { useGardenActivity } from './components/useGardenActivity';
 import { BrandExperience } from './components/BrandExperience';
+import { Lab } from './sections/Lab';
+import { AuraEdge } from './components/AuraEdge';
+import { useTimePalette } from './components/useTimePalette';
 
 export default function App() {
   const garden = useGardenActivity();
   const gardenPaused = !garden.running;
+  // One clock drives the edge glow, the lab scene and the page's CSS tokens.
+  const palette = useTimePalette();
+  const ambientSuspended = garden.mode === 'pause' || garden.phase === 'hidden';
   return (
     <LanguageProvider>
       <BrandExperience>
         <ScrollExperience />
+        <AuraEdge palette={palette.aura} suspended={ambientSuspended || !garden.motionAllowed} />
         <Cursor />
         <ThreeWorld paused={gardenPaused} motionAllowed={garden.motionAllowed} />
         <GardenCompanions paused={gardenPaused} motionAllowed={garden.motionAllowed} suspended={garden.mode === 'pause' || garden.phase === 'hidden'} />
@@ -36,6 +43,7 @@ export default function App() {
           <About gardenPaused={gardenPaused} motionAllowed={garden.motionAllowed} />
           <Projects />
           <Skills />
+          <Lab palette={palette} motionAllowed={garden.motionAllowed} suspended={ambientSuspended} />
           <Experience />
           <Archive />
         </main>
