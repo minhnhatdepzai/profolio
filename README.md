@@ -3,11 +3,15 @@
 A bilingual, performance-aware portfolio for selected Web, Mobile, AI and interactive work.
 
 The original LN monogram appears in the navigation, footer and favicon. Its vector
-master is available at `public/brand/ln-monogram.svg`. A 6-second cinematic intro
-reveals a bevelled 3D metal monogram with moving lights and an orbital ring, then opens a split shutter into the site. Escape
+master is available at `public/brand/ln-monogram.svg`. A 5-second cinematic intro
+stages a Japanese swordsman in a moonlit cherry-blossom valley: a downward strike
+separates L and N, then the initials rejoin and reveal Lê Minh Nhật. Escape
 or Skip dismisses it immediately; deep links and reduced-motion visits bypass the
 automatic intro. The footer's Replay intro button plays it again, with a static
-6-second identity card when reduced motion is enabled. SVG is the fallback when WebGL is unavailable.
+5-second identity card when reduced motion is enabled. The intro uses local image
+plates, three character poses, animated SVG initials, and layered CSS petals.
+Images preload before the five-second timeline begins; Skip is always available.
+The two generated art assets live in `public/brand/ronin/` and need no external image service at runtime.
 
 The header Sound button explicitly enables low-volume, locally synthesized audio:
 an intro chord, restrained hover/click cues and playful gecko pickup/drop effects.
