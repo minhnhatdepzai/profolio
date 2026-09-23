@@ -1,0 +1,90 @@
+/* One five-second timeline: landscape / sword strike / split initials / signature. */
+.brand-intro {
+  --intro-duration: 5000ms;
+  background: #070b11;
+  animation: ronin-exit var(--intro-duration) linear both;
+}
+.brand-intro[data-ready='false'],
+.brand-intro[data-ready='false'] *,
+.brand-intro[data-ready='false'] *::before,
+.brand-intro[data-ready='false'] *::after { animation-play-state: paused !important; }
+.ronin-film { position: absolute; inset: 0; overflow: hidden; perspective: 1000px; pointer-events: none; }
+.ronin-landscape { position: absolute; inset: -4%; background-size: cover; background-position: center; animation: ronin-camera var(--intro-duration) cubic-bezier(.2,.6,.3,1) both; }
+.ronin-film[data-scene='false'] .ronin-landscape { background-image: none !important; background: radial-gradient(ellipse at 50% 30%,#506671,#111b27 50%,#070b11); }
+.ronin-grade { position: absolute; inset: 0; background: linear-gradient(#07101915,#15223712 55%,#050911a8),linear-gradient(90deg,#030a1666,transparent 35%,transparent 65%,#030a1655); animation: ronin-darken var(--intro-duration) ease both; }
+.ronin-character { position: absolute; bottom: 15%; left: 50%; height: min(67vh,740px); aspect-ratio: 1/2; transform-origin: 50% 90%; animation: ronin-body var(--intro-duration) linear both; }
+.ronin-character__sprite { position: absolute; inset: 0; background-size: 300% 100%; background-repeat: no-repeat; filter: drop-shadow(0 0 12px #bacdd225) brightness(.88); animation: ronin-strike var(--intro-duration) steps(1,end) both; }
+.ronin-film[data-actor='false'] .ronin-character { visibility: hidden; }
+.ronin-character__shadow { position: absolute; width: 155%; height: 7%; left: -28%; bottom: 1%; background: #010308ba; border-radius: 50%; filter: blur(12px); }
+.ronin-mist { position: absolute; left: -20%; width: 140%; height: 22%; filter: blur(22px); background: radial-gradient(ellipse,#aac0ce3d,transparent 65%); animation: ronin-mist var(--intro-duration) ease both; }
+.ronin-mist--far { bottom: 25%; opacity: .5; }
+.ronin-mist--near { bottom: 10%; background: radial-gradient(ellipse,#bdd2da33,transparent 64%); animation-direction: reverse; }
+.ronin-slash { position: absolute; inset: 4% 12% 6%; width: 76%; height: 90%; overflow: visible; }
+.ronin-slash path { fill: none; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ronin-slash var(--intro-duration) linear both; }
+.ronin-slash__glow { stroke-width: 26px; }
+.ronin-slash__edge { stroke-width: 4px; }
+.ronin-slash .ronin-slash__echo { stroke-width: 1.5px; opacity: .5; }
+.ronin-cut { position: absolute; left: 50%; top: 9%; width: 2px; height: 78%; transform-origin: top; background: linear-gradient(transparent,#effaff,#ffe4d2,transparent); box-shadow: 0 0 22px 3px #c7deff6e; animation: ronin-cut var(--intro-duration) linear both; }
+.ronin-impact { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 52%,#fff5dc8c,transparent 67%); opacity: 0; animation: ronin-impact var(--intro-duration) linear both; }
+.ronin-mark { position: absolute; inset: 0; perspective: 1000px; }
+.ronin-letter { position: absolute; left: 50%; top: 47%; width: clamp(270px,38vw,490px); height: auto; overflow: visible; filter: drop-shadow(0 3px 0 #514446) drop-shadow(0 15px 20px #000a); will-change: transform,opacity; }
+.ronin-letter--l { animation: ronin-letter-l var(--intro-duration) cubic-bezier(.22,.85,.25,1) both; }
+.ronin-letter--n { animation: ronin-letter-n var(--intro-duration) cubic-bezier(.22,.85,.25,1) both; }
+.ronin-mark__seal { position: absolute; left: 50%; top: 47%; width: clamp(145px,20vw,260px); aspect-ratio: 1; border: 1px solid #e6bcab45; box-shadow: 0 0 50px #e6bcab08,inset 0 0 50px #e6bcab08; animation: ronin-seal var(--intro-duration) ease both; }
+.ronin-mark__light { position: absolute; top: 47%; left: 15%; right: 15%; height: 1px; background: linear-gradient(90deg,transparent,#d7eafa9c,#fff2d8,#d7eafa9c,transparent); box-shadow: 0 0 20px 3px #eed4c630; animation: ronin-rejoin var(--intro-duration) ease both; }
+.ronin-petals { position: absolute; inset: 0; animation: ronin-gust var(--intro-duration) ease both; }
+.ronin-petals i { position: absolute; top: var(--y); left: var(--x); width: var(--size); height: calc(var(--size)*.64); border-radius: 75% 5% 70% 30%; background: linear-gradient(135deg,#fff1e5,#df9eae 60%,#936679); box-shadow: inset 1px 1px #fff6; animation: ronin-petal var(--fall) var(--delay) linear infinite; transform: rotate(var(--turn)); }
+.ronin-petals--back { opacity: .65; }
+.ronin-petals--front { opacity: .8; }
+.ronin-petals--front i:nth-child(3n) { filter: blur(2px); }
+.ronin-vignette { position: absolute; inset: 0; box-shadow: inset 0 0 15vw 4vw #0008; background: linear-gradient(#0005,transparent 22%,transparent 74%,#0008); }
+.ronin-letterbox { position: absolute; left: 0; right: 0; height: 8.5%; background: #030508; }
+.ronin-letterbox--top { top: 0; }
+.ronin-letterbox--bottom { bottom: 0; }
+.brand-intro__rail { z-index: 3; top: 3%; font-size: .5rem; color: #adaaa3; animation: ronin-rail var(--intro-duration) ease both; }
+.brand-intro__rail > span:last-child { color: #9dabae; }
+.brand-intro__stage { z-index: 2; pointer-events: none; animation: none; }
+.brand-intro__signature { left: 5%; right: 5%; top: 68%; gap: .8rem; animation: ronin-signature var(--intro-duration) ease both; }
+.brand-intro__signature > span { font-size: clamp(1rem,2.3vw,2rem); letter-spacing: .26em; font-weight: 450; color: #fff4e8; text-shadow: 0 2px 24px #000; }
+.brand-intro__signature small { color: #c4b9ad; font-size: .52rem; letter-spacing: .21em; }
+.brand-intro__footer { z-index: 5; bottom: 1.5%; }
+.brand-intro__footer button { background: #070c10b3; border-color: #d3b4a22b; color: #d3c9bf; }
+.brand-intro__footer button span { color: #958e86; }
+.brand-intro__progress { z-index: 6; height: 1px; background: linear-gradient(90deg,#7e979f,#f1d6bf); animation-duration: var(--intro-duration); }
+.brand-intro__loading { position: absolute; z-index: 4; inset: 0; display: grid; place-items: center; color: #e4dbcb; font: .6rem/1.5 ui-monospace,monospace; letter-spacing: .24em; }
+.brand-intro[data-ready='true'] .brand-intro__loading { display: none; }
+@keyframes ronin-camera { from { transform: scale(1.02) translateY(0); filter: brightness(.8); } 30% { transform: scale(1.065) translateY(1%); filter: brightness(.9); } 35% { transform: scale(1.09) translate(2px,1.2%); } 38% { transform: scale(1.09) translate(-2px,1%); } to { transform: scale(1.14) translateY(2%); filter: brightness(.52); } }
+@keyframes ronin-body { 0% { opacity: 0; transform: translateX(-50%) scale(.87); } 13% { opacity: 1; transform: translateX(-50%) scale(.92); } 29% { transform: translateX(-50%) scale(.96) rotate(-1deg); } 33% { transform: translateX(-50%) scale(1.025) rotate(1deg); } 37% { transform: translateX(-50%) scale(1); } 48% { opacity: 1; transform: translateX(-50%) scale(1); } 63%,100% { opacity: 0; transform: translateX(-50%) scale(.94); } }
+@keyframes ronin-strike { 0% { background-position: 0% 0; } 31% { background-position: 50% 0; } 36%,100% { background-position: 100% 0; } }
+@keyframes ronin-slash { 0%,29% { opacity: 0; stroke-dashoffset: 1; } 30% { opacity: 1; stroke-dashoffset: 1; } 34% { opacity: 1; stroke-dashoffset: 0; } 41%,100% { opacity: 0; stroke-dashoffset: -1; } }
+@keyframes ronin-cut { 0%,32% { opacity: 0; transform: scaleY(0); } 35% { opacity: .85; transform: scaleY(1); } 43%,100% { opacity: 0; transform: scaleY(1.04); } }
+@keyframes ronin-impact { 0%,32% { opacity: 0; } 34% { opacity: .45; } 39%,100% { opacity: 0; } }
+@keyframes ronin-letter-l { 0%,29% { opacity: 0; transform: translate(-50%,-50%) scale(.7); } 35% { opacity: 1; transform: translate(calc(-50% - clamp(70px,20vw,310px)),-50%) rotateY(-28deg) rotateZ(-8deg) scale(1.14); } 48% { opacity: 1; transform: translate(calc(-50% - clamp(70px,20vw,310px)),-50%) rotateY(-14deg) rotateZ(-5deg) scale(1.05); } 68%,100% { opacity: 1; transform: translate(-50%,-50%) rotateY(0) rotateZ(0) scale(1); } }
+@keyframes ronin-letter-n { 0%,29% { opacity: 0; transform: translate(-50%,-50%) scale(.7); } 35% { opacity: 1; transform: translate(calc(-50% + clamp(70px,20vw,310px)),-50%) rotateY(28deg) rotateZ(8deg) scale(1.14); } 48% { opacity: 1; transform: translate(calc(-50% + clamp(70px,20vw,310px)),-50%) rotateY(14deg) rotateZ(5deg) scale(1.05); } 68%,100% { opacity: 1; transform: translate(-50%,-50%) rotateY(0) rotateZ(0) scale(1); } }
+@keyframes ronin-seal { 0%,65% { opacity: 0; transform: translate(-50%,-50%) rotate(-6deg) scale(1.15); } 78%,100% { opacity: .6; transform: translate(-50%,-50%) rotate(0) scale(1.05); } }
+@keyframes ronin-rejoin { 0%,64% { opacity: 0; transform: scaleX(.1); } 70% { opacity: .7; transform: scaleX(.9); } 84%,100% { opacity: 0; transform: scaleX(1.2); } }
+@keyframes ronin-signature { 0%,65% { opacity: 0; transform: translateY(12px); filter: blur(5px); } 79%,100% { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes ronin-darken { 0%,43% { background-color: transparent; } 72%,100% { background-color: #03070ea8; } }
+@keyframes ronin-mist { from { transform: translateX(-6%) scale(1); } to { transform: translateX(9%) scale(1.15); } }
+@keyframes ronin-gust { 0%,30% { transform: translateX(0); } 40% { transform: translateX(7vw); } 100% { transform: translateX(12vw); } }
+@keyframes ronin-petal { from { transform: translate(0,-20vh) rotate(var(--turn)) rotateY(0); } to { transform: translate(var(--drift),105vh) rotate(calc(var(--turn) + 250deg)) rotateY(540deg); } }
+@keyframes ronin-rail { 0% { opacity: 0; } 15%,90% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ronin-exit { 0%,92% { opacity: 1; } 100% { opacity: 0; } }
+@media(max-width:600px) {
+  .ronin-landscape { inset: -3% -20%; background-position: 51% center; }
+  .ronin-character { height: 61vh; bottom: 18%; }
+  .ronin-slash { inset: 7% -30% 5%; width: 160%; height: 88%; }
+  .brand-intro__signature { top: 64%; }
+  .brand-intro__signature > span { font-size: 1.05rem; letter-spacing: .16em; }
+  .brand-intro__signature small { font-size: .42rem; letter-spacing: .12em; }
+  .brand-intro__rail { top: 3%; font-size: .42rem; }
+  .ronin-petals--front i:nth-child(2n) { display: none; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .brand-intro,.brand-intro * { animation: none !important; }
+  .ronin-character,.ronin-slash,.ronin-cut,.ronin-impact,.ronin-petals,.ronin-mark__light,.ronin-mist { display: none; }
+  .ronin-landscape { filter: brightness(.4); }
+  .ronin-letter { transform: translate(-50%,-50%); }
+  .ronin-mark__seal { transform: translate(-50%,-50%); opacity: .5; }
+  .brand-intro__signature { opacity: 1; transform: none; filter: none; }
+}

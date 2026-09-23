@@ -6,7 +6,7 @@ import ts from 'typescript';
 const source = readFileSync(new URL('../src/components/portfolioAudio.ts', import.meta.url), 'utf8');
 const { outputText } = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } });
 const moduleUrl = `data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`;
-const sounds = ['intro', 'click', 'hover', 'gecko-pickup', 'gecko-drop'];
+const sounds = ['intro', 'intro-slash', 'intro-resolve', 'click', 'hover', 'gecko-pickup', 'gecko-drop'];
 let moduleInstance = 0;
 
 function createEnvironment() {

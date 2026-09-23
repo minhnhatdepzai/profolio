@@ -1,4 +1,4 @@
-export type PortfolioSound = 'intro' | 'click' | 'hover' | 'gecko-pickup' | 'gecko-drop';
+export type PortfolioSound = 'intro' | 'intro-slash' | 'intro-resolve' | 'click' | 'hover' | 'gecko-pickup' | 'gecko-drop';
 
 type Voice = {
   oscillator: OscillatorNode;
@@ -12,6 +12,8 @@ const STATE_EVENT = 'portfolio-audio-change';
 const MAX_VOICES = 8;
 const SOUND_COOLDOWN: Record<PortfolioSound, number> = {
   intro: 1800,
+  'intro-slash': 1000,
+  'intro-resolve': 1000,
   click: 80,
   hover: 150,
   'gecko-pickup': 150,
@@ -60,6 +62,8 @@ const onContextState = () => {
 
 /** Subscribe to window's `portfolio-audio-change` event to synchronize a sound toggle. */
 export const getAudioEnabled = () => enabled;
+/** Cancel an interrupted film's ringing voices without changing sound consent. */
+export const stopPortfolioSounds = () => stopVoices();
 
 /**
  * Call `setAudioEnabled(true)` directly from an explicit user gesture, such as a
@@ -162,10 +166,20 @@ export function playPortfolioSound(sound: PortfolioSound): boolean {
 
   switch (sound) {
     case 'intro':
-      // A short, warm rising chord for the wordmark-to-monogram transition.
+      // Restrained anticipation; the film triggers strike and resolve separately.
       tone(start, 1.35, 146.83, 164.81, 0.08, 'triangle');
       tone(start + 0.16, 1.15, 293.66, 329.63, 0.065);
       tone(start + 0.42, 0.82, 440, 659.25, 0.07);
+      break;
+    case 'intro-slash':
+      tone(start, 0.18, 1800, 95, 0.035, 'sawtooth');
+      tone(start + 0.035, 0.28, 120, 45, 0.09, 'triangle');
+      tone(start + 0.05, 0.42, 2400, 800, 0.035);
+      break;
+    case 'intro-resolve':
+      tone(start, 1.2, 220, 220, 0.065, 'triangle');
+      tone(start + 0.02, 1.1, 440, 440, 0.05);
+      tone(start + 0.07, 0.95, 659.25, 659.25, 0.04);
       break;
     case 'click':
       tone(start, 0.085, 620, 440, 0.085);

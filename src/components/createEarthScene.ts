@@ -1,11 +1,15 @@
 import type * as THREE_NS from 'three';
+import { createSolarEnvironment, type CelestialBody } from './createSolarEnvironment';
 import { directionFrom, moonState, subsolarPoint } from './solarPosition';
 
 type THREE = typeof THREE_NS;
 
 export interface EarthScene {
   group: THREE_NS.Group;
-  update: (dt: number) => void;
+  earthPosition: THREE_NS.Vector3;
+  sunDirection: THREE_NS.Vector3;
+  bodies: CelestialBody[];
+  update: (dt: number, camera?: THREE_NS.Camera) => void;
   setTime: (date: Date) => void;
   dispose: () => void;
 }
@@ -138,7 +142,9 @@ export const createEarthScene = async (THREE: THREE, openingLon = 0): Promise<Ea
   [day, night, lunar].forEach((texture) => { texture.colorSpace = THREE.SRGBColorSpace; });
 
   const group = new THREE.Group();
+
   const frame = new THREE.Group();
+  frame.position.x = 8.2;
   frame.rotation.z = 23.44 * Math.PI / 180;
   const globe = new THREE.Group();
   globe.rotation.y = spinToLongitude(openingLon);
@@ -179,6 +185,8 @@ export const createEarthScene = async (THREE: THREE, openingLon = 0): Promise<Ea
   const moon = new THREE.Mesh(moonGeometry, moonMaterial);
   globe.add(earth, cloudShell, air, moon);
 
+  const solar = createSolarEnvironment();
+  group.add(solar.group);
   const syncSun = () => {
     globe.updateWorldMatrix(true, false);
     sunWorld.copy(sun).transformDirection(globe.matrixWorld);
@@ -194,18 +202,24 @@ export const createEarthScene = async (THREE: THREE, openingLon = 0): Promise<Ea
   setTime(new Date());
   return {
     group,
-    update: (dt) => {
+    bodies: [...solar.bodies, { id: 'earth', name: 'Earth', object: frame, radius: 1 }],
+    update: (dt, camera) => {
       // Inspect the whole system without advancing simulated time: the Moon,
       // Earth and sunlight retain one shared reference frame during rotation.
       globe.rotation.y += dt * 0.065;
       cloudOffset.value = (cloudOffset.value + dt * 0.0005) % 1;
+      const reveal = camera ? THREE.MathUtils.smoothstep(camera.position.distanceTo(frame.position), 7, 17) : 0;
+      solar.update(dt, camera, reveal);
       syncSun();
     },
     setTime,
     dispose: () => {
+      solar.dispose();
       textures.forEach((texture) => texture.dispose());
       [sphere, moonGeometry, surface, cloudMaterial, atmosphere, moonMaterial].forEach((resource) => resource.dispose());
     },
+    earthPosition: frame.position,
+    sunDirection: sunWorld,
   };
 };
 

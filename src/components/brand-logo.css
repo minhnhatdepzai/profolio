@@ -7,10 +7,11 @@
   shape-rendering: geometricPrecision;
 }
 .brand-logo .logo-frame {
-  fill: #10110f;
-  stroke: #647346;
+  fill: #0b0f0c;
+  stroke: var(--ln-frame);
   stroke-width: 1.5;
 }
+.brand-logo .logo-halo { fill: none; stroke: #c9ff4a; stroke-width: .8; stroke-dasharray: 2 8; opacity: .34; transform-origin: 80px 80px; }
 .brand-logo .logo-l {
   fill: none;
   stroke: #f0eee6;
@@ -20,7 +21,7 @@
 }
 .brand-logo .logo-n {
   fill: none;
-  stroke: #c9ff4a;
+  stroke: var(--ln-energy);
   stroke-width: 11;
   stroke-linecap: square;
   stroke-linejoin: bevel;
@@ -30,4 +31,6 @@
   stroke: #c9ff4a;
   stroke-width: 2.5;
   stroke-linecap: square;
+  filter: var(--ln-glow);
 }
+.brand-logo .logo-orbit-dot { fill: #eaffb6; filter: var(--ln-glow); transform-origin: 80px 80px; }

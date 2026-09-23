@@ -26,7 +26,7 @@
 
 .lab-grid {
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1.5rem;
   margin-top: 3.5rem;
 }
@@ -39,8 +39,9 @@
   min-height: 30rem;
   padding: 1.4rem;
   border: 1px solid var(--line);
-  border-radius: .5rem;
-  background: rgba(8, 10, 8, .55);
+  border-radius: 1rem;
+  background: #080c13;
+  box-shadow: 0 30px 100px #0005;
   overflow: hidden;
 }
 
@@ -48,7 +49,7 @@
 .lab-stage__view {
   position: relative;
   flex: 0 0 auto;
-  height: clamp(23rem, 34vw, 32rem);
+  height: clamp(32rem, 52vw, 48rem);
   margin: -1.4rem -1.4rem 1.1rem;
   overflow: hidden;
   z-index: 0;
@@ -138,7 +139,7 @@
 }
 
 /* ---- side cards ---- */
-.lab-side { display: grid; gap: 1.5rem; align-content: start; }
+.lab-side { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-content: start; }
 
 .lab-card {
   padding: 1.4rem;

@@ -1,0 +1,226 @@
+.lab-stage__view::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 100px 20px #0005;
+  background: linear-gradient(
+    #020408b0,
+    transparent 20%,
+    transparent 72%,
+    #020408d9
+  );
+}
+.lab-stage__badge {
+  top: 1.8rem;
+  left: 2rem;
+  font-size: 0.57rem;
+  letter-spacing: 0.16em;
+}
+.lab-stage__edition {
+  position: absolute;
+  z-index: 2;
+  top: 1.8rem;
+  right: 5rem;
+  color: #7c8b9e;
+  font:
+    0.55rem/1.5 ui-monospace,
+    monospace;
+  letter-spacing: 0.14em;
+  pointer-events: none;
+}
+.lab-stage__title {
+  position: absolute;
+  z-index: 2;
+  bottom: 2rem;
+  left: 2rem;
+  pointer-events: none;
+}
+.lab-stage__title span {
+  display: block;
+  color: #9eacbe;
+  font:
+    0.6rem/1.5 ui-monospace,
+    monospace;
+  letter-spacing: 0.3em;
+  margin-bottom: 0.8rem;
+}
+.lab-stage__title strong {
+  display: block;
+  font-weight: 400;
+  font-size: clamp(1.35rem, 2.5vw, 2.3rem);
+  letter-spacing: -0.035em;
+  color: #eef2f7;
+}
+.planet-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+.planet-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #abb5c4;
+  font:
+    0.5rem/1.4 ui-monospace,
+    monospace;
+  letter-spacing: 0.14em;
+  text-shadow: 0 1px 7px #000;
+  white-space: nowrap;
+}
+.lab-view-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ffffff0d;
+}
+.lab-view-tabs button {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border-radius: 2rem;
+  background: transparent;
+  color: #8e9daf;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.lab-view-tabs button:last-child {
+  margin-left: auto;
+  border-color: #c9ff4a36;
+  color: #d6edb0;
+  background: #c9ff4a08;
+}
+.lab-view-tabs button[aria-pressed="true"] {
+  background: #ffffff0c;
+  color: #fff;
+  border-color: #ffffff21;
+}
+.lab-view-tabs button:hover:enabled {
+  background: #ffffff14;
+}
+.lab-view-tabs button:focus-visible {
+  outline: 2px solid #c9ff4a;
+  outline-offset: 3px;
+}
+.lab-view-tabs button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.lab-controls {
+  max-width: 35rem;
+  width: 100%;
+  margin: 0 auto;
+}
+.lab-stage__hint {
+  text-align: center;
+}
+.lab-stage__note {
+  max-width: 64rem;
+  font-size: 0.68rem;
+}
+.lab-stage__view[data-tour="true"]::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  border-top: 1rem solid #000;
+  border-bottom: 1rem solid #000;
+}
+.lab-fullscreen {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: #09121e80;
+  border: 1px solid #ffffff19;
+  border-radius: 50%;
+  color: #b7c8de;
+  cursor: pointer;
+}
+.lab-fullscreen:hover {
+  background: #ffffff15;
+}
+.lab-fullscreen:focus-visible {
+  outline: 2px solid #c9ff4a;
+  outline-offset: 3px;
+}
+.lab-stage:fullscreen {
+  padding: 1rem 2rem;
+  border: 0;
+  border-radius: 0;
+  background: #020408;
+  overflow-y: auto;
+}
+.lab-stage:fullscreen .lab-stage__view {
+  height: auto;
+  flex: 1 1 auto;
+  min-height: 200px;
+  margin: -1rem -2rem 1rem;
+}
+.lab-stage:fullscreen .lab-stage__note,
+.lab-stage:fullscreen .lab-stage__meta {
+  display: none;
+}
+body:has(.lab-section[data-observing="true"])
+  :is(.garden-wildlife, .garden-companions, .garden-controls, .site-aura) {
+  visibility: hidden;
+}
+@media (max-width: 760px) {
+  .lab-stage__view {
+    height: 31rem;
+  }
+  .lab-stage__badge {
+    top: 1.2rem;
+    left: 1.2rem;
+    font-size: 0.48rem;
+  }
+  .lab-stage__edition {
+    display: none;
+  }
+  .lab-stage__title {
+    bottom: 1.5rem;
+    left: 1.2rem;
+    right: 1.2rem;
+  }
+  .lab-stage__title strong {
+    font-size: 1.3rem;
+  }
+  .lab-view-tabs {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  .lab-view-tabs button {
+    padding: 0.55rem 0.65rem;
+    font-size: 0.65rem;
+  }
+  .lab-view-tabs button:last-child {
+    margin-left: 0;
+  }
+  .lab-side {
+    grid-template-columns: 1fr;
+  }
+  .planet-label {
+    font-size: 0.42rem;
+    letter-spacing: 0.04em;
+  }
+}

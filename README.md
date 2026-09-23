@@ -3,11 +3,11 @@
 A bilingual, performance-aware portfolio for selected Web, Mobile, AI and interactive work.
 
 The original LN monogram appears in the navigation, footer and favicon. Its vector
-master is available at `public/brand/ln-monogram.svg`. A 2-second cinematic intro
-reveals the name, draws the logo and opens a split shutter into the site. Escape
+master is available at `public/brand/ln-monogram.svg`. A 6-second cinematic intro
+reveals a bevelled 3D metal monogram with moving lights and an orbital ring, then opens a split shutter into the site. Escape
 or Skip dismisses it immediately; deep links and reduced-motion visits bypass the
 automatic intro. The footer's Replay intro button plays it again, with a static
-2-second identity card when reduced motion is enabled.
+6-second identity card when reduced motion is enabled. SVG is the fallback when WebGL is unavailable.
 
 The header Sound button explicitly enables low-volume, locally synthesized audio:
 an intro chord, restrained hover/click cues and playful gecko pickup/drop effects.
@@ -37,14 +37,24 @@ animals are click-through. Flowers unfurl in sequence, and birds cross occasiona
 rather than filling the sky continuously.
 The Lab features a textured Earth with 4K day/night imagery, a separate cloud
 shell, terrain shading, ocean reflections and a thin atmosphere. All images are
-self-hosted under `public/earth`; attribution is linked beneath the scene.
+self-hosted under `public/earth`; licenses and attribution remain in `public/earth/ATTRIBUTION.txt`.
 Cloud cover is a static composite, not a live weather feed. The existing solar
 calculation drives day/night lighting. The Moon shares that reference frame and
 uses a surface texture; its displayed distance is compressed to keep it in view.
-The initial camera faces a sunlit landmass. Auto rotate can be toggled independently,
-dragging changes the view, and buttons or wheel/pinch zoom between 75% and 180%.
+The initial camera frames the day/night boundary. Auto rotate can be toggled independently,
+dragging changes the view, and buttons or wheel/pinch zoom between 5.5% and 165%.
 Reset view restores camera direction and 100% zoom. Reduced motion retains a still
 interactive globe; animation also pauses in hidden tabs and when suspended.
+
+Zooming out reveals all eight planets, an animated solar surface and corona,
+procedural gas bands, Saturn's detailed rings, an asteroid belt and a seeded star field.
+The Solar System preset frames the full system; Cinematic flight runs a 26-second
+camera journey from Earth to the outer planets and back. Dragging interrupts the film.
+Fullscreen is available on supported browsers. Distances, sizes and orbit speeds
+are deliberately compressed and stylized; planetary surfaces outside Earth/Moon
+are procedural artwork, not satellite images or an astronomical ephemeris.
+The scene uses restrained HDR bloom, ACES tone mapping, capped pixel ratios and
+explicit disposal on unmount. Garden decorations hide while the observatory is in view.
 
 The solar and lunar maths lives in `src/components/solarPosition.ts` and is covered
 by `tests/solar-position.test.mjs`, which pins the subsolar point to the Greenwich

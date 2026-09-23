@@ -1,11 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { RotateCcw, Volume2, VolumeX } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { BrandLogo } from './BrandLogo';
-import { disposePortfolioAudio, getAudioEnabled, playPortfolioSound, setAudioEnabled } from './portfolioAudio';
+import { BrandFilm } from './BrandFilm';
+import { disposePortfolioAudio, getAudioEnabled, playPortfolioSound, setAudioEnabled, stopPortfolioSounds } from './portfolioAudio';
 import './brand-experience.css';
+import './brand-film.css';
 
-export const INTRO_DURATION_MS = 2000;
+export const INTRO_DURATION_MS = 5000;
 type Experience = { soundOn: boolean; toggleSound: () => Promise<void>; replay: () => void; soundError: boolean };
 const ExperienceContext = createContext<Experience | null>(null);
 const useExperience = () => {
@@ -32,13 +33,14 @@ export const SoundToggle = () => {
 export const IntroReplay = () => {
   const { replay } = useExperience();
   const { lang } = useLanguage();
-  return <button type="button" className="intro-replay" data-audio-control onClick={replay}><RotateCcw size={14} aria-hidden="true" />{lang === 'vi' ? 'Xem lại intro · 2s' : 'Replay intro · 2s'}</button>;
+  return <button type="button" className="intro-replay" data-audio-control onClick={replay}><RotateCcw size={14} aria-hidden="true" />{lang === 'vi' ? 'Xem phim kiếm sĩ · 5s' : 'Replay samurai film · 5s'}</button>;
 };
 
 export const BrandExperience = ({ children }: { children: ReactNode }) => {
   const { lang } = useLanguage();
   const [introOpen, setIntroOpen] = useState(() => !matchMedia('(prefers-reduced-motion: reduce)').matches && !location.hash);
   const [introVersion, setIntroVersion] = useState(0);
+  const [filmReady, setFilmReady] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
   const [soundError, setSoundError] = useState(false);
   const returnFocus = useRef<HTMLElement | null>(null);
@@ -46,12 +48,13 @@ export const BrandExperience = ({ children }: { children: ReactNode }) => {
   const mounted = useRef(false);
   const vi = lang === 'vi';
   const closeIntro = useCallback(() => setIntroOpen(false), []);
+  const readyFilm = useCallback(() => setFilmReady(true), []);
 
   const replay = useCallback(() => {
     returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setFilmReady(false);
     setIntroVersion(value => value + 1);
     setIntroOpen(true);
-    playPortfolioSound('intro');
   }, []);
 
   const toggleSound = useCallback(async () => {
@@ -107,7 +110,6 @@ export const BrandExperience = ({ children }: { children: ReactNode }) => {
     }
     document.body.classList.add('intro-is-open');
     introRef.current?.focus({ preventScroll: true });
-    const timeout = window.setTimeout(closeIntro, INTRO_DURATION_MS);
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') { event.preventDefault(); closeIntro(); }
       if (event.key === 'Tab') {
@@ -121,32 +123,40 @@ export const BrandExperience = ({ children }: { children: ReactNode }) => {
     window.addEventListener('keydown', onKey);
     document.addEventListener('visibilitychange', onVisibility);
     return () => {
-      window.clearTimeout(timeout);
       document.body.classList.remove('intro-is-open');
       window.removeEventListener('keydown', onKey);
       document.removeEventListener('visibilitychange', onVisibility);
     };
   }, [introOpen, introVersion, closeIntro]);
 
+  useEffect(() => {
+    if (!introOpen || !filmReady) return;
+    playPortfolioSound('intro');
+    const slash = window.setTimeout(() => playPortfolioSound('intro-slash'), 1550);
+    const resolve = window.setTimeout(() => playPortfolioSound('intro-resolve'), 3350);
+    const close = window.setTimeout(closeIntro, INTRO_DURATION_MS);
+    return () => {
+      [slash, resolve, close].forEach(window.clearTimeout);
+      stopPortfolioSounds();
+    };
+  }, [introOpen, introVersion, filmReady, closeIntro]);
+
   const enableIntroSound = async () => {
     const enabled = await setAudioEnabled(true);
     if (!mounted.current) return;
     setSoundOn(enabled); setSoundError(!enabled);
-    if (enabled) { setIntroVersion(value => value + 1); setIntroOpen(true); playPortfolioSound('intro'); }
+    if (enabled) { setFilmReady(false); setIntroVersion(value => value + 1); setIntroOpen(true); }
   };
 
   return (
     <ExperienceContext.Provider value={{ soundOn, toggleSound, replay, soundError }}>
       <div className="experience-content" inert={introOpen}>{children}</div>
-      {introOpen && <div key={introVersion} ref={introRef} className="brand-intro" tabIndex={-1} role="dialog" aria-modal="true" aria-label={vi ? 'Logo Lê Minh Nhật · intro 2 giây' : 'Le Minh Nhat logo · 2 second introduction'}>
-        <div className="brand-intro__shutter brand-intro__shutter--top" aria-hidden="true" />
-        <div className="brand-intro__shutter brand-intro__shutter--bottom" aria-hidden="true" />
-        <div className="brand-intro__aura" aria-hidden="true" />
-        <div className="brand-intro__rail" aria-hidden="true"><span>LN / PERSONAL PORTFOLIO</span><span>ENGINEERING × IMAGINATION</span></div>
+      {introOpen && <div key={introVersion} ref={introRef} className="brand-intro" data-ready={filmReady} tabIndex={-1} role="dialog" aria-modal="true" aria-label={vi ? 'Lê Minh Nhật · phim kiếm sĩ 5 giây' : 'Le Minh Nhat · 5 second samurai film'}>
+        <BrandFilm onReady={readyFilm} />
+        <div className="brand-intro__loading" role="status">{vi ? 'ĐANG MỞ CẢNH…' : 'SETTING THE SCENE…'}</div>
+        <div className="brand-intro__rail" aria-hidden="true"><span>LN / A PERSONAL FILM</span><span>ENGINEERING × IMAGINATION</span></div>
         <div className="brand-intro__stage" aria-hidden="true">
-          <div className="brand-intro__word"><span>LÊ MINH NHẬT<span className="brand-intro__period">.</span></span><small>AI ENGINEER · CREATIVE DEVELOPER</small></div>
-          <div className="brand-intro__emblem"><BrandLogo /><i className="brand-intro__scan" /></div>
-          <div className="brand-intro__signature"><span>LÊ MINH NHẬT</span><small>{vi ? 'TỪ Ý TƯỞNG. ĐẾN THỰC TẾ.' : 'INTELLIGENCE. MADE REAL.'}</small></div>
+          <div className="brand-intro__signature"><span>LÊ MINH NHẬT</span><small>AI ENGINEER · CREATIVE DEVELOPER</small></div>
         </div>
         <div className="brand-intro__footer">
           <button type="button" data-audio-control onClick={closeIntro}>{vi ? 'Bỏ qua' : 'Skip'} <span>ESC ↗</span></button>
