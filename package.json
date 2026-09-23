@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "prebuild": "node scripts/verify-public-assets.mjs",
     "build": "vite build",
+    "prebuild:github": "node scripts/verify-public-assets.mjs",
     "build:github": "VITE_BASE_PATH=/profolio/ VITE_SITE_URL=https://minhnhatdepzai.github.io/profolio vite build",
     "preview": "vite preview",
     "cloudflare:dev": "npm run build && npx wrangler dev",

@@ -12,6 +12,9 @@ automatic intro. The footer's Replay intro button plays it again, with a static
 plates, three character poses, animated SVG initials, and layered CSS petals.
 Images preload before the five-second timeline begins; Skip is always available.
 The two generated art assets live in `public/brand/ronin/` and need no external image service at runtime.
+Both build targets validate required intro and planet images before compiling.
+The production `/version.json` endpoint records the deployed Git commit and build
+time, so a GitHub commit can be compared directly with the live Cloudflare build.
 
 The header Sound button explicitly enables low-volume, locally synthesized audio:
 an intro chord, restrained hover/click cues and playful gecko pickup/drop effects.

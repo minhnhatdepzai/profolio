@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { existsSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import path from 'path';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 
@@ -17,6 +18,15 @@ function deploymentMetadata(siteUrl: string): Plugin {
       const outputDirectory = path.resolve(__dirname, 'dist');
 
       if (!existsSync(outputDirectory)) return;
+
+      let commit = process.env.CF_PAGES_COMMIT_SHA || process.env.GITHUB_SHA || 'unknown';
+      try {
+        commit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+      } catch { /* Source archives may not have Git metadata. */ }
+      writeFileSync(
+        path.join(outputDirectory, 'version.json'),
+        JSON.stringify({ commit, builtAt: new Date().toISOString(), siteUrl }, null, 2) + '\n',
+      );
 
       writeFileSync(
         path.join(outputDirectory, 'robots.txt'),
