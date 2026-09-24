@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { ArrowUpRight, Film, Github, Globe, Play, Plus, X } from 'lucide-react';
 import { featuredProjects, type FeaturedProject, type ProjectLink } from '../data/projects';
+import { aiDepthLabels, countSkills, modelKindLabels, projectSkills } from '../data/projectSkills';
 import { useLanguage } from '../contexts/LanguageContext';
 import './projects-gallery.css';
 
@@ -37,6 +38,24 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
         <div className="japano-phone japano-phone--front"><span>AI FIT</span><i /><i /><strong>YOUR LOOK</strong></div>
         <div className="japano-phone japano-phone--back"><span>STORE</span><i /><i /></div>
         <div className="artifact-orbit"><span>SHOP</span><span>TRY</span><span>EXPLORE</span></div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'fanpage-chatbot') {
+    return (
+      <div className="artifact artifact--chatbot">
+        <div className="artifact-label">GROUNDED LLM / {project.order}</div>
+        <div className="chatbot-cite" aria-hidden="true">[1]</div>
+        <div className="chatbot-thread" aria-hidden="true">
+          <div className="chatbot-bubble chatbot-bubble--user"><i /><i /></div>
+          <div className="chatbot-bubble chatbot-bubble--bot"><i /><i /><i /><b>[1]</b></div>
+          <div className="chatbot-source"><span>{getStr({ en: 'SOURCE [1]', vi: 'NGUỒN [1]' })}</span><i /></div>
+          <div className="chatbot-bubble chatbot-bubble--user chatbot-bubble--follow"><i /></div>
+          <div className="chatbot-typing"><i /><i /><i /></div>
+        </div>
+        <div className="chatbot-pipeline"><span>WEBHOOK</span><span>QUEUE</span><span>LANGGRAPH</span><span>QWEN3-4B · VeRA</span><span>{getStr({ en: 'CHECK', vi: 'KIỂM TRA' })}</span></div>
+        <div className="chatbot-score"><small>EVAL</small><strong>46/50</strong></div>
       </div>
     );
   }
@@ -134,6 +153,47 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
       <div className="community-word" aria-hidden="true">HAPPY<br /><span>TO</span>PLAY<span className="community-star">✳</span></div>
       <div className="community-footnote"><span>PLAY. CONNECT. BELONG.</span><span>{getStr({ en: 'CONCEPT ARTWORK', vi: 'MINH HỌA Ý TƯỞNG' })}</span></div>
     </div>
+  );
+};
+
+const ProjectSkillsDetail = ({ project }: { project: FeaturedProject }) => {
+  const { getStr, lang } = useLanguage();
+  const profile = projectSkills[project.slug];
+
+  return (
+    <>
+      <h3>{lang === 'vi' ? 'AI & model sử dụng' : 'AI & models'}</h3>
+      <div className="project-ai">
+        <span className={`project-ai__badge project-ai__badge--${profile.depth}`}>{getStr(aiDepthLabels[profile.depth])}</span>
+        <p>{getStr(profile.verdict)}</p>
+        {profile.models.length > 0 && (
+          <dl className="project-ai__models">
+            {profile.models.map((model) => (
+              <div key={model.name}>
+                <dt><strong>{model.name}</strong><span className={`project-ai__kind project-ai__kind--${model.kind}`}>{getStr(modelKindLabels[model.kind])}</span></dt>
+                <dd>{getStr(model.role)}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </div>
+      <h3>{lang === 'vi' ? 'Kỹ năng áp dụng' : 'Skills applied'} · {countSkills(profile)}</h3>
+      <div className="project-skills">
+        {profile.groups.map((group) => (
+          <section key={group.title.en}>
+            <h4>{getStr(group.title)}</h4>
+            <dl>
+              {group.skills.map((skill) => (
+                <div key={getStr(skill.name)}>
+                  <dt>{getStr(skill.name)}</dt>
+                  <dd>{getStr(skill.detail)}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+      </div>
+    </>
   );
 };
 
@@ -251,7 +311,10 @@ export const Projects = () => {
                 <span className={`project-card__status project-card__status--${project.status}`}><i />{getStr(project.statusLabel)}</span>
               </div>
               <p className="project-card__summary">{getStr(project.summary)}</p>
-              <div className="project-card__stack" aria-label={lang === 'vi' ? 'Công nghệ nổi bật' : 'Core technologies'}>{project.stack.slice(0, 3).map((tool) => <span key={tool}>{tool}</span>)}</div>
+              <p className={`project-card__ai project-card__ai--${projectSkills[project.slug].depth}`}>
+                <i /><span>{getStr(aiDepthLabels[projectSkills[project.slug].depth])}</span>
+                <span>{countSkills(projectSkills[project.slug])} {lang === 'vi' ? 'kỹ năng' : 'skills'}</span>
+              </p>
               <div className="project-card__actions">
                 <button onClick={(event) => openCase(project, event.currentTarget)} aria-haspopup="dialog" data-cursor="view">
                   {lang === 'vi' ? 'Câu chuyện dự án' : 'Read case study'}<Plus aria-hidden="true" />
@@ -260,6 +323,16 @@ export const Projects = () => {
                   <a key={link.url} href={link.url} target="_blank" rel="noreferrer" data-cursor={link.kind === 'video' ? 'play' : 'view'}>
                     <LinkIcon kind={link.kind} /><span>{getStr(link.label)}</span><ArrowUpRight aria-hidden="true" />
                   </a>
+                ))}
+              </div>
+              <div className="project-card__skills" aria-label={lang === 'vi' ? 'Toàn bộ kỹ năng áp dụng' : 'All applied skills'}>
+                {projectSkills[project.slug].groups.map((group) => (
+                  <section className={`project-card__skill-group${group.ai ? ' project-card__skill-group--ai' : ''}`} key={group.title.en}>
+                    <h4>{getStr(group.title)}</h4>
+                    <ul>
+                      {group.skills.map((skill) => <li key={getStr(skill.name)}>{getStr(skill.name)}</li>)}
+                    </ul>
+                  </section>
                 ))}
               </div>
             </div>
@@ -298,6 +371,7 @@ export const Projects = () => {
               </dl>
               <h3>{lang === 'vi' ? 'Điểm đáng chú ý' : 'What makes it matter'}</h3>
               <ol>{openProject.highlights.map((highlight, index) => <li key={index}><span>0{index + 1}</span>{getStr(highlight)}</li>)}</ol>
+              <ProjectSkillsDetail project={openProject} />
               <h3>{lang === 'vi' ? 'Công nghệ sử dụng' : 'Built with'}</h3>
               <div className="project-dialog__stack">{openProject.stack.map((tool) => <span key={tool}>{tool}</span>)}</div>
               <div className="project-dialog__links">

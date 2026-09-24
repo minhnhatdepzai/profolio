@@ -81,10 +81,17 @@ and the planet. The timer re-arms against the next boundary rather than ticking 
 an interval, and a visibility change re-checks, so a tab left open overnight still
 turns over.
 
-Nine project cards offer direct demos and deep-linked case-study dialogs. Recruiter
+Ten project cards show every applied skill as a grouped tag, with no collapsed lists
+or extra clicks. The cards offer direct demos and deep-linked case-study dialogs,
+where each skill is explained in context. Each dialog also
+states plainly how much AI the project contains — fine-tuned, pretrained, rule-based or
+none — lists the models it runs, and groups the skills it applied; that data lives in
+`src/data/projectSkills.ts`, keyed by project slug so a missing entry fails type-checking. Recruiter
 actions include an explicit CV download, professional experience and contact links.
 The downloadable CV is the current English PDF at `public/cv/Le-Minh-Nhat-CV-EN.pdf`;
 its path and file name live in `src/data/cvFile.ts` so the header and hero stay in sync.
+The PDF is printed from `cv/Le-Minh-Nhat-CV-EN.html`; after editing it, regenerate with
+`chromium --headless --no-pdf-header-footer --virtual-time-budget=20000 --print-to-pdf=public/cv/Le-Minh-Nhat-CV-EN.pdf cv/Le-Minh-Nhat-CV-EN.html`.
 
 ## Local development
 
@@ -147,6 +154,7 @@ intended for source control.
 ## Featured work
 
 - JAPANO — AI fashion commerce ecosystem
+- Fanpage Chatbot — source-grounded Vietnamese assistant with RAG, fine-tuned LLMs and vision
 - SAIGON // 77 — browser-based 3D open-world vertical slice
 - Math Vision Lab — explainable grade 1–9 math visualization
 - EduVision Smart Classroom — interactive 3D product presentation
@@ -154,6 +162,7 @@ intended for source control.
 - PICKO247 — tournament, fan play and browser game system
 - HappyToPlay — inclusive social Game Jam experiment
 - Vehicle Counting — YOLOv8/ByteTrack implementation guide
+- Task1 Coach — local-first IELTS practice with offline-generated Listening narration
 
 ## JAPANO media
 

@@ -11,19 +11,25 @@ export const personalInfo = {
   github: "minhnhatdepzai",
   githubLink: "https://github.com/minhnhatdepzai",
   profile: {
-    en: "AI Engineer working across the whole path from model to interface — computer-vision pipelines, LoRA fine-tuning of diffusion models, GPU latency budgets, and the React and Three.js products that expose them. Three months as an AI Engineer building explainable mathematics software for grades 1-9, after four months as a Business Analyst turning stakeholder requirements into functional specifications.",
-    vi: "Kỹ sư AI làm trọn con đường từ model đến giao diện — pipeline thị giác máy tính, fine-tune LoRA cho mô hình diffusion, ngân sách độ trễ GPU, và các sản phẩm React, Three.js đưa chúng đến người dùng. Ba tháng ở vị trí Kỹ sư AI xây dựng phần mềm toán trực quan cho lớp 1-9, sau bốn tháng thực tập Business Analyst chuyển yêu cầu của các bên liên quan thành đặc tả chức năng."
+    en: "AI Engineer who ships the whole path from model to interface — LLM applications with retrieval-augmented generation (RAG) and LangGraph agents, computer-vision pipelines, LoRA and VeRA fine-tuning of LLMs and diffusion models, Dockerised FastAPI services, GPU latency budgets, and the React and Three.js products that expose them. Three months as an AI Engineer building explainable mathematics software for grades 1-9, after four months as a Business Analyst turning stakeholder requirements into functional specifications.",
+    vi: "Kỹ sư AI làm trọn con đường từ model đến giao diện — ứng dụng LLM với RAG và agent LangGraph, pipeline thị giác máy tính, fine-tune LoRA và VeRA cho LLM lẫn mô hình diffusion, dịch vụ FastAPI đóng gói Docker, ngân sách độ trễ GPU, và các sản phẩm React, Three.js đưa chúng đến người dùng. Ba tháng ở vị trí Kỹ sư AI xây dựng phần mềm toán trực quan cho lớp 1-9, sau bốn tháng thực tập Business Analyst chuyển yêu cầu của các bên liên quan thành đặc tả chức năng."
   } as LangStr
 };
 
 export const skills = [
   "Python",
+  "LangGraph / LangChain",
+  "RAG / pgvector",
+  "Qwen3 / Hugging Face Transformers",
+  "PEFT LoRA / VeRA",
   "PyTorch",
   "TensorFlow / Keras",
-  "YOLOv8",
+  "YOLO26 / YOLOv8",
   "OpenCV",
+  "EasyOCR",
   "LoRA / DreamBooth",
   "Hugging Face diffusers",
+  "Docker Compose",
   "CUDA",
   "Claude Code",
   "OpenAI Codex",

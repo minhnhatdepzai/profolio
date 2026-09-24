@@ -15,3 +15,6 @@
 
 /version.json
   Cache-Control: no-store
+
+/cv/Le-Minh-Nhat-CV-EN.pdf
+  Cache-Control: no-cache

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lê Minh Nhật — AI Engineer</title>
+<meta name="author" content="Lê Minh Nhật">
+<meta name="keywords" content="AI Engineer, LLM, RAG, LangChain, LangGraph, Docker, FastAPI, PyTorch, Computer Vision, LoRA, PEFT, Hugging Face">
+<style>
+  /* Full Carlito TTFs: the web subsets drop the Vietnamese and arrow glyphs this CV uses. */
+  @font-face { font-family: Carlito; font-weight: 400; font-style: normal; src: url("https://cdn.jsdelivr.net/gh/googlefonts/carlito@3a810cab78ebd6e2e4eed42af9e8453c4f9b850a/fonts/ttf/Carlito-Regular.ttf"); }
+  @font-face { font-family: Carlito; font-weight: 700; font-style: normal; src: url("https://cdn.jsdelivr.net/gh/googlefonts/carlito@3a810cab78ebd6e2e4eed42af9e8453c4f9b850a/fonts/ttf/Carlito-Bold.ttf"); }
+  @font-face { font-family: Carlito; font-weight: 400; font-style: italic; src: url("https://cdn.jsdelivr.net/gh/googlefonts/carlito@3a810cab78ebd6e2e4eed42af9e8453c4f9b850a/fonts/ttf/Carlito-Italic.ttf"); }
+  :root {
+    --ink: #16202a;
+    --accent: #0e4d64;
+    --muted: #5b6b78;
+    --rule: #bfcdd6;
+  }
+  @page { size: A4; margin: 30pt 38pt 28pt; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--ink);
+    font-family: Carlito, Calibri, Lato, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.25;
+  }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 1.5pt; }
+  p { margin: 0; }
+  ul { margin: 0; padding: 0; list-style: none; }
+
+  /* Header */
+  .name { margin: 0; font-size: 22pt; line-height: 1.15; letter-spacing: .04em; font-weight: 700; }
+  .tagline {
+    margin-top: 1pt; padding-bottom: 5pt; border-bottom: 1.5pt solid var(--accent);
+    color: var(--accent); font-size: 10.5pt; font-weight: 700; letter-spacing: .03em;
+  }
+  .contact { margin-top: 6pt; color: var(--muted); font-size: 8.8pt; }
+  .sep { margin: 0 4pt; }
+
+  /* Sections */
+  h2 {
+    margin: 10pt 0 5pt; padding-bottom: 2.5pt; border-bottom: .75pt solid var(--rule);
+    color: var(--accent); font-size: 9.6pt; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; break-after: avoid;
+  }
+
+  /* Label / value grids (skills, awards) */
+  .grid { display: grid; grid-template-columns: 125pt 1fr; row-gap: 2pt; margin: 0; }
+  .grid dt { color: var(--accent); font-weight: 700; }
+  .grid dd { margin: 0; }
+  .grid--narrow { grid-template-columns: 70pt 1fr; }
+
+  /* Bullets */
+  .bullets > li { position: relative; padding-left: 13pt; margin-top: 1.5pt; break-inside: avoid; }
+  .bullets > li::before { content: "•"; position: absolute; left: 3pt; top: -.5pt; font-size: 11pt; line-height: 1.2; }
+  .sub { margin-top: 2pt; }
+  .bullets > li:has(> .sub) { break-inside: auto; }
+  .sub > li { position: relative; padding-left: 20pt; margin-top: 1pt; font-size: 9.2pt; break-inside: avoid; }
+  .sub > li::before { content: "–"; position: absolute; left: 10pt; color: var(--muted); }
+  .intro { color: var(--muted); font-style: italic; margin-bottom: 2pt; }
+
+  /* Experience & project entries */
+  .entry { margin-top: 7pt; }
+  .entry:first-of-type { margin-top: 0; }
+  .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; break-after: avoid; }
+  .entry-title { font-size: 10pt; font-weight: 700; }
+  .entry-date { color: var(--muted); font-size: 9pt; white-space: nowrap; }
+  .entry-sub { color: var(--muted); font-style: italic; font-size: 8.8pt; break-after: avoid; }
+  .kicker {
+    margin-top: 3pt; color: var(--accent); font-size: 7.6pt; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; break-after: avoid;
+  }
+  .meta { margin-top: 1.5pt; color: var(--muted); font-size: 8.8pt; }
+  .meta b { color: #3e4c57; margin-right: 3pt; }
+
+  .footer-note { margin-top: 14pt; padding-top: 5pt; border-top: .75pt solid var(--rule); color: var(--muted); font-size: 8.8pt; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="name">LÊ MINH NHẬT</h1>
+  <p class="tagline">AI Engineer<span class="sep">·</span>LLM &amp; RAG Systems<span class="sep">·</span>Computer Vision<span class="sep">·</span>Interactive Web</p>
+  <p class="contact">
+    0707 193 002<span class="sep">·</span><a href="mailto:lnhat1938@gmail.com">lnhat1938@gmail.com</a><span class="sep">·</span><a href="https://github.com/minhnhatdepzai">github.com/minhnhatdepzai</a><span class="sep">·</span><a href="https://leminhnhat-portfolio.lnhat1938.workers.dev/">leminhnhat-portfolio.lnhat1938.workers.dev</a>
+  </p>
+</header>
+
+<section>
+  <h2>Profile</h2>
+  <p>AI Engineer who ships the whole path from model to interface — LLM applications with retrieval-augmented generation (RAG) and LangGraph agents, computer-vision pipelines, LoRA fine-tuning of LLMs and diffusion models, Dockerised FastAPI services, GPU latency budgets, and the React / Three.js products that expose them. Three months as AI Engineer at STEM Education Technology building explainable mathematics software for grades 1–9, after four months as a Business Analyst turning stakeholder requirements into functional specifications. Trains and gates his own adapters, and ships solo: Android apps on React Native, live web experiences on Cloudflare Workers.</p>
+</section>
+
+<section>
+  <h2>Core Skills</h2>
+  <dl class="grid">
+    <dt>Languages</dt>
+    <dd>Python · TypeScript · JavaScript · Java · SQL · C++</dd>
+    <dt>LLM &amp; RAG</dt>
+    <dd>LLM integration · retrieval-augmented generation (RAG) · LangChain · LangGraph · agentic workflows · prompt engineering · embeddings · semantic search · vector search · BM25 retrieval · grounding &amp; citation enforcement · hallucination guardrails · OpenAI-compatible APIs · Anthropic Claude API · Qwen3 · Hugging Face Transformers</dd>
+    <dt>AI &amp; Computer Vision</dt>
+    <dd>PyTorch · TensorFlow / Keras · YOLOv8 (detection &amp; pose) · OpenCV · U2Net segmentation · MediaPipe · ByteTrack · face_recognition · NumPy · scikit-learn</dd>
+    <dt>Training &amp; Fine-tuning</dt>
+    <dd>LLM supervised fine-tuning (SFT) · PEFT LoRA / VeRA on Qwen3-4B · LoRA / DreamBooth on FLUX.2 Klein (img2img) · Hugging Face diffusers · temporal LoRA (Wan2.1) · BF16 · gradient checkpointing · 8-bit Adam · latent caching · CPU offload · early stopping on validation loss · identity-grouped dataset splits · checkpoint acceptance gates · baseline-vs-adapter benchmarking</dd>
+    <dt>Generative &amp; Multimodal</dt>
+    <dd>Vision-language models (VLM) · Google Gemini API · FASHN VTON 1.5 · FLUX.2 Klein 4B · Wan2.1 One-to-All Animation · pose transfer · image quality gates</dd>
+    <dt>MLOps, LLMOps &amp; GPU</dt>
+    <dd>Model serving behind OpenAI-compatible APIs · adapter registry with gated promote &amp; rollback · Langfuse tracing · CUDA · VRAM budgeting · OOM pilot runs · model warm-up and caching · GPU arbitration · cold/warm P50–P90 latency profiling · Hugging Face Hub &amp; datasets · reproducible training logs</dd>
+    <dt>AI-Assisted Engineering</dt>
+    <dd>Claude Code · OpenAI Codex · MCP servers · authored Claude Code Skills · subagents · agent workflows · spec-driven prompting · AI code review</dd>
+    <dt>Backend &amp; Data</dt>
+    <dd>FastAPI · Flask · Django REST Framework · Node.js · Express · REST APIs · WebSocket · webhooks · async Python · Pydantic · SQLAlchemy · Alembic · PostgreSQL · MongoDB · Redis · IndexedDB · SymPy</dd>
+    <dt>Web</dt>
+    <dd>React 19 · TypeScript · JavaScript · Three.js / React Three Fiber · WebGL 2 · GSAP · Tailwind CSS · Vite · Web Audio · responsive and reduced-motion design</dd>
+    <dt>Mobile</dt>
+    <dd>React Native · Expo · Java</dd>
+    <dt>DevOps &amp; Deployment</dt>
+    <dd>Docker · Docker Compose · GitHub Actions (CI/CD) · Git · Linux (Ubuntu) · Cloudflare Workers · Cloudflare Tunnel</dd>
+    <dt>Testing &amp; Tooling</dt>
+    <dd>pytest · Playwright · regression gates · Ruff · uv · Figma · Power BI</dd>
+  </dl>
+</section>
+
+<section>
+  <h2>AI Engineering Tooling</h2>
+  <p class="intro">Agentic coding tools are daily practice, not an add-on — they are how I deliver multi-stack products at team scope on my own.</p>
+  <ul class="bullets">
+    <li><b>Claude Code (Anthropic)</b> — run agentic sessions end to end: <b>CLAUDE.md</b> project memory, custom skills and slash commands, subagents for parallel exploration and code review, MCP servers connecting the agent to project tooling, and plan mode before large refactors.</li>
+    <li><b>OpenAI Codex</b> — delegate scoped, well-specified tasks to a sandboxed agent; used for second-opinion review, test generation and repetitive migration work across a codebase.</li>
+    <li><b>Authored five production Claude Code Skills</b> — packaged my own ML engineering discipline into reusable agent workflows, each enforcing what may and may not be claimed about a model:
+      <ul class="sub">
+        <li><b>japano-fit-trainer</b> — end-to-end LoRA fine-tuning workflow for FLUX.2 Klein: dataset provenance and licensing, credential hygiene, VRAM-budgeted pilot runs, resumable training, and a hard rule that “fine-tuned” may only be claimed with a licensed dataset, a training log, a checkpoint, validation images from it and a baseline benchmark — otherwise the status stays MODEL_NOT_TRAINED.</li>
+        <li><b>japano-motion-trainer</b> — temporal LoRA for Wan2.1 One-to-All Animation: conditioning contract, per-frame identity and garment-consistency gates, joint identity/garment/source-video dataset splits and video licensing rules.</li>
+        <li><b>japano-body-measurement</b> — calibrated anthropometric regression from a single image, returning evidence-bearing confidence intervals instead of false precision, with out-of-distribution rejection and named regression cases.</li>
+        <li><b>japano-gpu-performance</b> — cold and warm P50/P90 latency budgets across every pipeline stage, VRAM ceilings, model warm-up, caching and GPU arbitration, with a rule that inference-only time is never reported as total latency.</li>
+        <li><b>img2threejs</b> — image-to-procedural-Three.js reconstruction through a staged sculpt pipeline and an AI-vision self-correction loop; published Apache-2.0.</li>
+      </ul>
+    </li>
+    <li><b>Working method</b> — specification first, then generation, then verification. Every generated change is read, run and tested before it lands; AI output is treated as a draft to challenge, never a result to trust.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Professional Experience</h2>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">AI Engineer — STEM Education Technology Co., Ltd.</span><span class="entry-date">May 2026 – Aug 2026</span></div>
+    <ul class="bullets">
+      <li>Built Math Vision Lab, an explainable learning engine for grade 1–9 mathematics that turns a typed or photographed problem into a semantic model, a step-by-step pedagogy plan and a synchronised visual scene — so learners see the quantities, relationships and transformations, not only the final answer.</li>
+      <li>Designed the deterministic scene pipeline — semantic analysis → decision engine → pedagogy plan → scene → React renderer — covering bar models, fractions, algebra tiles, graphs, Oxyz and 3D geometry, with one shared playback state keeping every representation on the same teaching step.</li>
+      <li>Added regression gates and an isolated demo workflow so a change to one visual family cannot silently break another, and unsupported input explains its limit instead of rendering a diagram that contradicts the problem.</li>
+      <li>Shipped the EduVision Smart Classroom product front-end: a cinematic Three.js experience — classroom, characters, camera work, digital-twin view and effects — constructed entirely in code with no external 3D asset downloads, deployed on Cloudflare Workers Static Assets and verified across desktop, tablet and mobile.</li>
+      <li>Built interactive digital Chemistry Lab experiences for science learning and practice.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> React · Three.js · Python · FastAPI · Pydantic · SymPy · PostgreSQL · Redis · Cloudflare Workers</p>
+    <p class="meta">Math Vision Lab demo <a href="https://youtu.be/Ee5RhmHy5AE">youtu.be/Ee5RhmHy5AE</a><span class="sep">·</span>EduVision source <a href="https://github.com/minhnhatdepzai/smartroom">github.com/minhnhatdepzai/smartroom</a></p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">Business Analyst Intern — Mesh, Smart Workplace</span><span class="entry-date">Mar 2023 – Jul 2023</span></div>
+    <ul class="bullets">
+      <li>Gathered and analysed requirements from clients and stakeholders, then documented business workflows and functional specifications used directly by the development team.</li>
+      <li>Built reporting and data-visualisation dashboards in Power BI, and kept requirements unambiguous between the business and engineering sides.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Selected Projects</h2>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">JAPANO — AI Fashion Commerce Ecosystem</span><span class="entry-date">2026</span></div>
+    <p class="entry-sub">Graduation project · 3 contributors · Android app, storefront, operations console, commerce backend and local GPU services</p>
+    <p class="kicker">AI / ML Engineering</p>
+    <ul class="bullets">
+      <li>Owned the virtual try-on pipeline: FASHN VTON 1.5 inference with FLUX.2 Klein 4B pose transfer, YOLOv8n-pose and U2Net pre-analysis, and a quality gate that withholds the result when identity, body structure or garment category drifts.</li>
+      <li>Fine-tuned a rank-8 / alpha-8 LoRA adapter on FLUX.2 Klein 4B (DreamBooth img2img via diffusers) for fit refinement inside a 16 GB VRAM budget — BF16, gradient checkpointing, cached latents, CPU offload, 8-bit Adam, gradient accumulation 4, at 512 px.</li>
+      <li>Ran a 14–28 sample pilot at 20–50 steps to prove real backward passes, finite loss and a loadable checkpoint before a 400–800 step run at LR 1e-4; VITON-HD split 70/15/15 by identity, test set never used to select a checkpoint.</li>
+      <li>Defined the acceptance gate — baseline against adapter on identical identity, condition, caption, seed and resolution, scored on identity preservation, body-shape preservation, garment fidelity, fit-effect correctness, artifact rate and p50/p95 latency. Checkpoint 400 accepted; 500 and 600 rejected for artifacts and left disabled by default.</li>
+      <li>Built image-based body estimation returning low/high/point intervals with confidence and supporting evidence rather than false precision, with out-of-distribution rejection and user-entered measurements always winning.</li>
+    </ul>
+    <p class="kicker">Product Engineering</p>
+    <ul class="bullets">
+      <li>Delivered across an Android app (Expo SDK 51 / React Native 0.74), a React 19 storefront, an operations console and a Node 20 + Express + MongoDB backend sharing a single source of commerce truth, with commerce rules enforced server-side.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> React Native · Expo · React 19 · TypeScript · Node.js · Express · MongoDB · PyTorch · diffusers · FASHN VTON 1.5 · FLUX.2 Klein · YOLOv8-pose · U2Net</p>
+    <p class="meta">Showcase <a href="https://japano-golden-ticket-showcase.lnhat1938.workers.dev/">japano-golden-ticket-showcase.lnhat1938.workers.dev</a><span class="sep">·</span>App demo <a href="https://youtu.be/D8jqwvPUfFc">youtu.be/D8jqwvPUfFc</a><span class="sep">·</span>Web module <a href="https://github.com/minhnhatdepzai/JAPANO_web">github.com/minhnhatdepzai/JAPANO_web</a></p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">FANPAGE AI CHATBOT — Grounded Vietnamese LLM Assistant for Messenger</span><span class="entry-date">2026</span></div>
+    <p class="entry-sub">Solo build · self-hosted Qwen3-4B on a local GPU · FastAPI, LangGraph and PostgreSQL, containerised with Docker Compose</p>
+    <ul class="bullets">
+      <li>Built an end-to-end LLM service: a signed FastAPI webhook with idempotent de-duplication → durable PostgreSQL job queue → async worker → LangGraph conversation graph → Qwen3-4B-Instruct served behind an OpenAI-compatible API → output guardrails → Messenger Send API.</li>
+      <li>Implemented retrieval-augmented generation over a source-attributed knowledge base with BM25 ranking: citations resolve to real source links, fabricated links and unsupported “verified” claims are stripped, and a strict grounding mode declines unsourced knowledge questions instead of guessing.</li>
+      <li>Fine-tuned LoRA (r 16 across all attention and MLP projections) and VeRA adapters on Qwen3-4B with Hugging Face PEFT, cutting validation loss from 3.06 (base model) to 1.42 at 12.3 GB peak VRAM; adapters ship through a registry whose promote step requires a passing evaluation report, with rollback.</li>
+      <li>Kept multi-turn memory in LangGraph’s PostgreSQL checkpointer with per-user isolation, human handoff and redacted, pseudonymised logs; ran API, worker, migrations and PostgreSQL as a non-root Docker Compose stack covered by 135 pytest tests.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> Python · FastAPI · LangGraph · LangChain · Qwen3 · Hugging Face Transformers · PEFT · PostgreSQL · SQLAlchemy · Alembic · Docker Compose · pytest</p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">SAIGON // 77 — Browser-Native 3D Open World</span><span class="entry-date">2026</span></div>
+    <p class="entry-sub">Solo build · playable desktop demo · original procedural systems, no extracted commercial assets</p>
+    <ul class="bullets">
+      <li>Built a WebGL 2 open-world vertical slice inspired by contemporary Ho Chi Minh City where walking, driving, traffic, pedestrians, street interactions and city missions all share one continuous playable world.</li>
+      <li>Implemented seven playable activities — racing, construction escape, memory bridge, football, prop hunt and maze combat — linked by a shared settlement loop and local career persistence in IndexedDB.</li>
+      <li>Added adaptive graphics that respond to the detected renderer and sustained frame performance, keeping a dense simulation readable inside a browser, and validated builds with Playwright.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> React · TypeScript · Three.js · React Three Fiber · WebGL 2 · IndexedDB · Playwright</p>
+    <p class="meta">Play <a href="https://saigon-77-open-world.lnhat1938.workers.dev/">saigon-77-open-world.lnhat1938.workers.dev</a></p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">K’HO DIGITAL HERITAGE — Interactive Cultural Experience</span><span class="entry-date">2026</span></div>
+    <p class="entry-sub">Solo build · live on Cloudflare Workers · Identity Award, Bản địa Khởi sinh competition</p>
+    <ul class="bullets">
+      <li>Developed a procedural Langbiang landscape and a first-person knowledge world in React Three Fiber, with collectible Flagcards, a digital passport and a 3D brocade service layer for local-value tourism.</li>
+      <li>Built a source-aware K’ho cultural atlas — costume, brocade, cuisine, festivals and language chapters — with step-based presentation controls replacing static slides.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> React 19 · TypeScript · Three.js · React Three Fiber · Web Audio · Cloudflare Workers</p>
+    <p class="meta">Live <a href="https://k-ho.lnhat1938.workers.dev/">k-ho.lnhat1938.workers.dev</a><span class="sep">·</span>Source <a href="https://github.com/minhnhatdepzai/K-ho">github.com/minhnhatdepzai/K-ho</a></p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">TASK1 COACH — Local-First English Learning Workspace</span><span class="entry-date">2026</span></div>
+    <p class="entry-sub">Solo build · live · vocabulary, grammar and all four IELTS skills in one workspace</p>
+    <ul class="bullets">
+      <li>Built a responsive English practice workspace covering 30 Reading lessons, 30 Listening lessons, 30 Speaking topics and 31 Writing prompts, replacing the scattered documents, audio players and note apps learners normally juggle.</li>
+      <li>Kept every draft, answer, playback position, recording and preference on the learner’s own device in IndexedDB — no account required — with JSON backup and restore for portability.</li>
+      <li>Covered responsive layout, real audio playback, persistence, reduced motion and keyboard-friendly interaction with Playwright regression tests run against the production build.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> React 19 · TypeScript · Expo · IndexedDB · Playwright · GitHub Pages</p>
+    <p class="meta">Live <a href="https://minhnhatdepzai.github.io/task1-coach-pages/#home">minhnhatdepzai.github.io/task1-coach-pages</a><span class="sep">·</span>Source <a href="https://github.com/minhnhatdepzai/task1-coach-pages">github.com/minhnhatdepzai/task1-coach-pages</a></p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">PICKO247 — Pickleball Tournament &amp; Fan-Play Hub</span><span class="entry-date">2026</span></div>
+    <p class="entry-sub">Solo product architecture and front-end · live demo</p>
+    <ul class="bullets">
+      <li>Implemented the tournament engine: teams and players, group standings recomputed from match results rather than hard-coded, and knockout brackets where winners advance through explicit next-match relationships.</li>
+      <li>Integrated Rally 247, a Three.js rally game with ball ballistics, an AI opponent and mobile controls, opening as an overlay so the spectator journey is never cut.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> React 18 · TypeScript · Three.js · Web Audio · Tailwind CSS · Cloudflare Workers</p>
+    <p class="meta">Live <a href="https://pickleball247.senaaifptpolytechnic.workers.dev/">pickleball247.senaaifptpolytechnic.workers.dev</a><span class="sep">·</span>Source <a href="https://github.com/minhnhatdepzai/Pickleball247">github.com/minhnhatdepzai/Pickleball247</a></p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">HAPPYTOPLAY — Inclusive Social Game Hub</span><span class="entry-date">2026</span></div>
+    <p class="entry-sub">Game Jam entry, FPT Polytechnic · First Prize, Poly Web Game Championship</p>
+    <ul class="bullets">
+      <li>Built a mobile-shaped social space with voice rooms, messaging, profiles, rewards and leaderboards, alongside 2D, 3D, microphone- and hand-controlled mini-games.</li>
+      <li>Added sign-phrase and speech tools on the Web Speech API and MediaPipe, with local-first fallbacks so the app stays fully explorable when services are offline.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> React 19 · TypeScript · Three.js · Motion · Web Speech API · MediaPipe · Flask</p>
+    <p class="meta">Source <a href="https://github.com/minhnhatdepzai/GameJamFPTPolytechnic">github.com/minhnhatdepzai/GameJamFPTPolytechnic</a></p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">PORTFOLIO — Bilingual Interactive Site</span><span class="entry-date">2026</span></div>
+    <p class="entry-sub">Solo build · live on Cloudflare Workers · English / Vietnamese</p>
+    <ul class="bullets">
+      <li>Built a bilingual portfolio around a lazy-loaded procedural 3D garden — chameleon, roaming gecko, butterflies, birds and flowers — all code-native, with no remote model or texture downloads.</li>
+      <li>Made performance and accessibility explicit: WebGL suspends offscreen and in hidden tabs, mobile and WebGL-unavailable sessions fall back to an animated SVG/CSS habitat, and audio never autoplays.</li>
+      <li>Shipped nine deep-linked case-study dialogs and a Cloudflare Workers Static Assets pipeline with a parallel GitHub Pages build.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> React 19 · TypeScript · Three.js · GSAP · Tailwind CSS 4 · Vite 6 · Cloudflare Workers</p>
+    <p class="meta">Live <a href="https://leminhnhat-portfolio.lnhat1938.workers.dev/">leminhnhat-portfolio.lnhat1938.workers.dev</a></p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">VEHICLE COUNTING — Detection, Tracking &amp; Line-Zone Counting</span><span class="entry-date">2026</span></div>
+    <ul class="bullets">
+      <li>Detects vehicles and pedestrians with YOLOv8n, tracks them across frames with ByteTrack, and counts each direction across a line zone, writing an annotated output video.</li>
+    </ul>
+    <p class="meta"><b>Stack</b> Python · YOLOv8 (Ultralytics) · Supervision / ByteTrack · OpenCV · NumPy<span class="sep">·</span>Source <a href="https://github.com/minhnhatdepzai/Count_vehicles">github.com/minhnhatdepzai/Count_vehicles</a></p>
+  </div>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <div class="entry">
+    <div class="entry-head"><span class="entry-title">FPT Polytechnic College — Mobile Application Development</span><span class="entry-date">2024 – 2026</span></div>
+  </div>
+  <div class="entry" style="margin-top:3pt">
+    <div class="entry-head"><span class="entry-title">University of Information Technology — Computer Science</span><span class="entry-date">2020 – 2023</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Awards &amp; Recognition</h2>
+  <dl class="grid grid--narrow">
+    <dt>Winner</dt>
+    <dd>First Prize, Poly Web Game Championship<span class="sep">·</span>Identity Award, Bản địa Khởi sinh Competition</dd>
+    <dt>Placed</dt>
+    <dd>Second Prize, FPT Polytechnic Language School<span class="sep">·</span>Third Prize, Poly Coder Club Chatbot Design<span class="sep">·</span>Top 5, FPT Polytechnic UI/UX<span class="sep">·</span>Top 8, Poly Coder Web Design Hackathon<span class="sep">·</span>Top 8, Viet My College Vibe Coding<span class="sep">·</span>Semifinalist, EVC Competition (UEF)</dd>
+  </dl>
+</section>
+
+<section>
+  <h2>Knowledge Sharing</h2>
+  <ul class="bullets">
+    <li><b>AI-Assisted Development tutoring session</b> — self-organised, researched and written independently: using AI for ideation and prototyping, then reviewing and challenging the output. <a href="https://www.facebook.com/share/p/1B7zthh3KC">Post</a></li>
+    <li><b>Information Security seminar — Broken Authentication</b> — self-researched and delivered: the phishing attack lifecycle, spoofed-website recognition and defences, demonstrated in a controlled lab. <a href="https://www.facebook.com/share/p/1AFrzzHZ5m">Post</a></li>
+  </ul>
+</section>
+
+<p class="footer-note">Further work — computer vision, real-time translation, accessibility AI and coursework<span class="sep">·</span><a href="https://github.com/minhnhatdepzai">github.com/minhnhatdepzai</a></p>
+
+</body>
+</html>

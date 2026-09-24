@@ -9,7 +9,7 @@ export interface ProjectLink {
 }
 
 export interface FeaturedProject {
-  slug: 'japano' | 'saigon-77' | 'math-lab' | 'smart-classroom' | 'kho' | 'picko247' | 'happytoplay' | 'vehicle-counting' | 'task1-coach';
+  slug: 'japano' | 'fanpage-chatbot' | 'saigon-77' | 'math-lab' | 'smart-classroom' | 'kho' | 'picko247' | 'happytoplay' | 'vehicle-counting' | 'task1-coach';
   order: string;
   year: string;
   title: string;
@@ -97,8 +97,54 @@ export const featuredProjects: FeaturedProject[] = [
     },
   },
   {
-    slug: 'saigon-77',
+    slug: 'fanpage-chatbot',
     order: '02',
+    year: '2026',
+    title: 'FANPAGE AI CHATBOT',
+    eyebrow: { en: 'Grounded Vietnamese LLM assistant', vi: 'Trợ lý LLM tiếng Việt có căn cứ' },
+    statement: {
+      en: 'Answer in Vietnamese. Cite the source. Say so when there is none.',
+      vi: 'Trả lời bằng tiếng Việt. Dẫn nguồn. Nói rõ khi chưa có nguồn.',
+    },
+    summary: {
+      en: 'A self-hosted AI assistant for a Facebook Fanpage and a website chat widget: a fine-tuned Qwen3-4B on a local GPU, retrieval over sourced knowledge and PDF/Word documents, and image understanding through OCR and a custom-trained YOLO detector.',
+      vi: 'Trợ lý AI tự vận hành cho Fanpage Facebook và khung chat website: Qwen3-4B đã fine-tune chạy trên GPU local, truy xuất từ kho kiến thức có nguồn và tài liệu PDF/Word, hiểu ảnh bằng OCR và detector YOLO tự huấn luyện.',
+    },
+    problem: {
+      en: 'A small 4B model answering the public will state outdated or invented facts with confidence — wrong dates, fake links, “verified” claims — and a page cannot afford that.',
+      vi: 'Model 4B nhỏ trả lời công chúng sẽ tự tin nói điều cũ hoặc bịa — sai ngày, link giả, tự nhận “đã kiểm chứng” — điều một fanpage không thể chấp nhận.',
+    },
+    solution: {
+      en: 'Grounding at every layer: facts may only come from a sourced knowledge base or ingested documents, a model-independent output check strips fabricated links and claims, arithmetic and dates are computed in code, and a fine-tuned adapter teaches the grounded style.',
+      vi: 'Căn cứ ở mọi tầng: sự kiện chỉ lấy từ kho kiến thức có nguồn hoặc tài liệu đã nạp, bộ kiểm tra đầu ra độc lập với model xóa link và khẳng định bịa, phép tính và ngày tháng tính bằng code, còn adapter fine-tune dạy cách trả lời có căn cứ.',
+    },
+    contribution: {
+      en: 'Solo build — architecture, signed webhook and durable queue, LangGraph conversation graph, RAG, LoRA/VeRA fine-tuning and evaluation, YOLO training, model serving, website widget, 246 tests and an operations CLI.',
+      vi: 'Làm một mình — kiến trúc, webhook ký số và hàng đợi bền, conversation graph LangGraph, RAG, fine-tune và đánh giá LoRA/VeRA, huấn luyện YOLO, phục vụ model, widget website, 246 test và CLI vận hành.',
+    },
+    status: 'source',
+    statusLabel: { en: 'GitHub source · local GPU', vi: 'Mã nguồn GitHub · chạy GPU local' },
+    accent: '#2f6bff',
+    accentSoft: '#dfe7ff',
+    ink: '#0b1640',
+    stack: ['Qwen3-4B + VeRA', 'LangGraph', 'RAG · pgvector', 'FastAPI', 'PEFT', 'YOLO26', 'EasyOCR', 'PostgreSQL', 'Docker Compose', 'TypeScript'],
+    highlights: [
+      { en: 'A VeRA adapter training only 0.03% of the weights lifted the 50-scenario evaluation from 43 to 46 passes and cut fabrication signals from 7 to 3.', vi: 'Adapter VeRA chỉ huấn luyện 0,03% trọng số đã nâng kết quả 50 kịch bản từ 43 lên 46 và giảm tín hiệu bịa từ 7 xuống 3.' },
+      { en: 'Messenger and the website widget share one signed webhook → durable PostgreSQL queue → worker → LangGraph → guardrail path.', vi: 'Messenger và widget website dùng chung một đường webhook ký số → hàng đợi PostgreSQL bền → worker → LangGraph → kiểm tra đầu ra.' },
+      { en: 'Document search fuses Vietnamese embeddings in pgvector with keyword search through Reciprocal Rank Fusion, behind a calibrated similarity floor.', vi: 'Tìm tài liệu gộp embedding tiếng Việt trong pgvector với tìm từ khóa bằng Reciprocal Rank Fusion, có ngưỡng tương đồng đã hiệu chỉnh.' },
+      { en: 'A custom YOLO26n detector for 91 classroom and game objects reaches mAP50 0.930 on 1,149 unseen test images.', vi: 'Detector YOLO26n tự huấn luyện cho 91 lớp đồ vật lớp học và trò chơi đạt mAP50 0,930 trên 1.149 ảnh test chưa từng thấy.' },
+    ],
+    links: [
+      {
+        label: { en: 'Source code', vi: 'Mã nguồn' },
+        url: 'https://github.com/minhnhatdepzai/fanpage-chatbot',
+        kind: 'github',
+      },
+    ],
+  },
+  {
+    slug: 'saigon-77',
+    order: '03',
     year: '2026',
     title: 'SAIGON // 77',
     eyebrow: { en: 'Browser-native 3D open world', vi: 'Thế giới mở 3D trên trình duyệt' },
@@ -141,7 +187,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'math-lab',
-    order: '03',
+    order: '04',
     year: '2026',
     title: 'MATH VISION LAB',
     eyebrow: { en: 'Explainable EdTech', vi: 'EdTech trực quan và giải thích được' },
@@ -158,8 +204,8 @@ export const featuredProjects: FeaturedProject[] = [
       vi: 'Một đáp án đúng vẫn chưa đủ khi người học không nhìn thấy đại lượng, quan hệ và từng phép biến đổi.',
     },
     solution: {
-      en: 'A deterministic scene pipeline with family-specific visual models, shared playback and explicit unsupported fallbacks instead of misleading diagrams.',
-      vi: 'Pipeline scene xác định với mô hình trực quan theo từng họ bài, playback dùng chung và fallback rõ ràng thay vì dựng biểu đồ sai nghĩa.',
+      en: 'A hybrid pipeline: Qwen3-VL reads images and fills semantic JSON when grammar needs help; deterministic solvers, 29 visual types and shared playback keep each teaching step verifiable.',
+      vi: 'Pipeline lai: Qwen3-VL đọc ảnh và bổ sung JSON ngữ nghĩa khi grammar cần hỗ trợ; bộ giải xác định, 29 kiểu trực quan và playback dùng chung giúp kiểm chứng từng bước giảng.',
     },
     contribution: {
       en: 'Math-scene architecture, visualization coverage, renderer integration, regression gates and isolated demo workflow.',
@@ -170,7 +216,7 @@ export const featuredProjects: FeaturedProject[] = [
     accent: '#4f7cff',
     accentSoft: '#78e7ff',
     ink: '#0a1430',
-    stack: ['React', 'Three.js', 'Python', 'FastAPI', 'Pydantic', 'SymPy', 'PostgreSQL', 'Redis'],
+    stack: ['React 19', 'Three.js', 'Python', 'FastAPI', 'Pydantic', 'Qwen3-VL 8B', 'Ollama', 'QLoRA (pilot)', 'PostgreSQL', 'Redis'],
     highlights: [
       { en: 'Semantic model → decision engine → pedagogy → scene → renderer.', vi: 'Semantic model → decision engine → pedagogy → scene → renderer.' },
       { en: 'Bar models, fractions, algebra tiles, graphs, Oxyz and 3D geometry.', vi: 'Bar model, phân số, algebra tiles, đồ thị, Oxyz và hình học 3D.' },
@@ -182,6 +228,11 @@ export const featuredProjects: FeaturedProject[] = [
         label: { en: 'Watch case demo', vi: 'Xem video demo' },
         url: 'https://youtu.be/Ee5RhmHy5AE',
         kind: 'video',
+      },
+      {
+        label: { en: 'Source code', vi: 'Mã nguồn' },
+        url: 'https://github.com/minhnhatdepzai/EduVisionAI-Math-Lab',
+        kind: 'github',
       },
     ],
     media: {
@@ -196,7 +247,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'smart-classroom',
-    order: '04',
+    order: '05',
     year: '2026',
     title: 'EDUVISION AI',
     eyebrow: { en: 'Cinematic smart-classroom story', vi: 'Câu chuyện lớp học thông minh cinematic' },
@@ -238,7 +289,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'kho',
-    order: '05',
+    order: '06',
     year: '2026',
     title: "K’HO DIGITAL HERITAGE",
     eyebrow: { en: 'Cultural storytelling & tourism', vi: 'Kể chuyện văn hóa và du lịch' },
@@ -290,7 +341,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'picko247',
-    order: '06',
+    order: '07',
     year: '2026',
     title: 'PICKO 247',
     eyebrow: { en: 'Sports, data & play', vi: 'Thể thao, dữ liệu và game' },
@@ -342,7 +393,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'happytoplay',
-    order: '07',
+    order: '08',
     year: '2026',
     title: 'HAPPYTOPLAY',
     eyebrow: { en: 'Inclusive social game hub', vi: 'Nền tảng social game hòa nhập' },
@@ -384,7 +435,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'vehicle-counting',
-    order: '08',
+    order: '09',
     year: '2026',
     title: 'VEHICLE COUNTING',
     eyebrow: { en: 'Computer vision traffic prototype', vi: 'Prototype thị giác máy tính giao thông' },
@@ -426,7 +477,7 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: 'task1-coach',
-    order: '09',
+    order: '10',
     year: '2026',
     title: 'TASK1 COACH',
     eyebrow: { en: 'Local-first IELTS practice workspace', vi: 'Không gian luyện IELTS local-first' },

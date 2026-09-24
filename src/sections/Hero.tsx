@@ -88,8 +88,8 @@ export const Hero = ({ gardenPaused = false, motionAllowed = true }: { gardenPau
       <div className="hero-preview" aria-label={lang === 'vi' ? 'Điểm nhấn dự án' : 'Project highlights'}>
         <div className="hero-preview__intro"><span>{lang === 'vi' ? 'TỪ Ý TƯỞNG ĐẾN SẢN PHẨM' : 'FROM CONCEPT TO EXPERIENCE'}</span><strong>{String(featuredProjects.length).padStart(2, '0')} <i>{lang === 'vi' ? 'thế giới để khám phá.' : 'worlds to explore.'}</i></strong></div>
         <a className="hero-preview__item" href="#case-japano" data-cursor="view"><img src={`${import.meta.env.BASE_URL}projects/japano-showcase.webp`} alt="" width="64" height="76" /><span><small>01 / AI × FASHION</small><strong>JAPANO</strong></span><ArrowUpRight /></a>
-        <a className="hero-preview__item" href="#case-math-lab" data-cursor="view"><img src={`${import.meta.env.BASE_URL}projects/mathlab-video.jpg`} alt="" width="64" height="76" /><span><small>03 / AI × LEARNING</small><strong>Math Vision Lab</strong></span><ArrowUpRight /></a>
-        <a className="hero-preview__item hero-preview__item--game" href="#case-saigon-77" data-cursor="view"><span className="hero-preview__game" aria-hidden="true">77</span><span><small>02 / CODE × PLAY</small><strong>SAIGON // 77</strong></span><ArrowUpRight /></a>
+        <a className="hero-preview__item" href="#case-math-lab" data-cursor="view"><img src={`${import.meta.env.BASE_URL}projects/mathlab-video.jpg`} alt="" width="64" height="76" /><span><small>04 / AI × LEARNING</small><strong>Math Vision Lab</strong></span><ArrowUpRight /></a>
+        <a className="hero-preview__item hero-preview__item--game" href="#case-saigon-77" data-cursor="view"><span className="hero-preview__game" aria-hidden="true">77</span><span><small>03 / CODE × PLAY</small><strong>SAIGON // 77</strong></span><ArrowUpRight /></a>
       </div>
     </section>
   );

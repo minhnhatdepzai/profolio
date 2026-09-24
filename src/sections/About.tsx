@@ -12,8 +12,8 @@ export const About = ({ gardenPaused = false, motionAllowed = true }: { gardenPa
         <h2 data-reveal>{lang === 'vi' ? 'Tư duy hệ thống.' : 'A systems mind.'}<br /><em>{lang === 'vi' ? 'Cảm quan sáng tạo.' : 'A creative instinct.'}</em></h2>
         <div className="perspective__details" data-reveal>
           <p>{lang === 'vi'
-            ? 'Một ứng dụng thử đồ AI. Một bài toán trở thành mô phỏng. Một thành phố có thể chơi. Tôi bắt đầu từ nhu cầu của người dùng, rồi kết nối công nghệ với trải nghiệm.'
-            : 'An AI fitting room. A math problem you can explore. A city you can play. I start with what people need, then connect the technology to the experience.'}</p>
+            ? 'Một ứng dụng thử đồ AI. Một chatbot biết dẫn nguồn. Một bài toán trở thành mô phỏng. Một thành phố có thể chơi. Tôi bắt đầu từ nhu cầu của người dùng, rồi kết nối công nghệ với trải nghiệm.'
+            : 'An AI fitting room. A chatbot that cites its sources. A math problem you can explore. A city you can play. I start with what people need, then connect the technology to the experience.'}</p>
           <a className="perspective__experience" href="#journey"><span>{lang === 'vi' ? 'KINH NGHIỆM THỰC TẾ' : 'PROFESSIONAL EXPERIENCE'}</span><strong>{lang === 'vi' ? 'KỸ SƯ AI · THỬ VIỆC' : 'AI ENGINEER · PROBATION'}</strong><p>STEM · 05—08 / 2026</p><ArrowUpRight size={21} /></a>
         </div>
       </div>
