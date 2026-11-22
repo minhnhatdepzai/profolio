@@ -8,6 +8,14 @@ export interface ProjectLink {
   kind: 'demo' | 'github' | 'video' | 'showcase';
 }
 
+export interface ProjectPreviewMedia {
+  poster: string;
+  video: string;
+  alt: LangStr;
+  sourceLabel: LangStr;
+  sourceUrl?: string;
+}
+
 export interface FeaturedProject {
   slug: 'japano' | 'fanpage-chatbot' | 'saigon-77' | 'math-lab' | 'smart-classroom' | 'kho' | 'picko247' | 'happytoplay' | 'vehicle-counting' | 'task1-coach' | 'hostora-ai' | 'vocalab' | 'vector-vu-tru' | 'run-fpl';
   order: string;
@@ -27,6 +35,7 @@ export interface FeaturedProject {
   stack: string[];
   highlights: LangStr[];
   links: ProjectLink[];
+  preview: ProjectPreviewMedia;
   media?: {
     file: string;
     alt: LangStr;
@@ -86,6 +95,13 @@ export const featuredProjects: FeaturedProject[] = [
         kind: 'video',
       },
     ],
+    preview: {
+      poster: 'projects/previews/japano.webp',
+      video: 'projects/previews/japano.mp4',
+      alt: { en: 'JAPANO mobile fashion app showing its shopping and AI try-on journey.', vi: 'Ứng dụng thời trang JAPANO hiển thị hành trình mua sắm và thử đồ AI.' },
+      sourceLabel: { en: 'Real JAPANO app demo', vi: 'Demo ứng dụng JAPANO thật' },
+      sourceUrl: 'https://youtu.be/D8jqwvPUfFc',
+    },
     media: {
       file: 'projects/japano-showcase.webp',
       alt: {
@@ -141,6 +157,13 @@ export const featuredProjects: FeaturedProject[] = [
         kind: 'github',
       },
     ],
+    preview: {
+      poster: 'projects/previews/fanpage-chatbot.webp',
+      video: 'projects/previews/fanpage-chatbot.mp4',
+      alt: { en: 'Fanpage AI Chatbot website widget answering a grounded Vietnamese question.', vi: 'Widget Fanpage AI Chatbot trả lời một câu hỏi tiếng Việt có căn cứ.' },
+      sourceLabel: { en: 'Product UI walkthrough', vi: 'Video giới thiệu giao diện sản phẩm' },
+      sourceUrl: 'https://github.com/minhnhatdepzai/fanpage-chatbot',
+    },
   },
   {
     slug: 'saigon-77',
@@ -184,6 +207,13 @@ export const featuredProjects: FeaturedProject[] = [
       { label: { en: 'Play the game', vi: 'Chơi thử game' }, url: 'https://saigon-77-open-world.lnhat1938.workers.dev/', kind: 'demo' },
       { label: { en: 'View private repository', vi: 'Mở kho mã nguồn riêng tư' }, url: 'https://github.com/minhnhatdepzai/saigon-77-open-world', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/saigon-77.webp',
+      video: 'projects/previews/saigon-77.mp4',
+      alt: { en: 'SAIGON 77 browser game showing its open-world city and driving interface.', vi: 'Game trình duyệt SAIGON 77 hiển thị thành phố thế giới mở và giao diện lái xe.' },
+      sourceLabel: { en: 'Live game capture', vi: 'Video quay từ game đang chạy' },
+      sourceUrl: 'https://saigon-77-open-world.lnhat1938.workers.dev/',
+    },
   },
   {
     slug: 'math-lab',
@@ -235,6 +265,13 @@ export const featuredProjects: FeaturedProject[] = [
         kind: 'github',
       },
     ],
+    preview: {
+      poster: 'projects/previews/math-lab.webp',
+      video: 'projects/previews/math-lab.mp4',
+      alt: { en: 'Math Vision Lab turning a mathematics problem into a synchronized visual lesson.', vi: 'Math Vision Lab biến một bài toán thành bài giảng trực quan đồng bộ.' },
+      sourceLabel: { en: 'Real Math Lab demo', vi: 'Demo Math Lab thật' },
+      sourceUrl: 'https://youtu.be/Ee5RhmHy5AE',
+    },
     media: {
       file: 'projects/mathlab-video.jpg',
       alt: {
@@ -286,6 +323,13 @@ export const featuredProjects: FeaturedProject[] = [
     links: [
       { label: { en: 'Explore source', vi: 'Xem mã nguồn' }, url: 'https://github.com/minhnhatdepzai/smartroom', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/smart-classroom.webp',
+      video: 'projects/previews/smart-classroom.mp4',
+      alt: { en: 'EduVision AI cinematic 3D classroom with teaching and vision systems.', vi: 'Lớp học 3D cinematic EduVision AI với hệ thống giảng dạy và thị giác.' },
+      sourceLabel: { en: 'Product UI walkthrough', vi: 'Video giới thiệu sản phẩm' },
+      sourceUrl: 'https://github.com/minhnhatdepzai/smartroom',
+    },
   },
   {
     slug: 'kho',
@@ -329,6 +373,13 @@ export const featuredProjects: FeaturedProject[] = [
       { label: { en: 'Open live experience', vi: 'Mở trải nghiệm' }, url: 'https://k-ho.lnhat1938.workers.dev/', kind: 'demo' },
       { label: { en: 'Explore source', vi: 'Xem mã nguồn' }, url: 'https://github.com/minhnhatdepzai/K-ho', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/kho.webp',
+      video: 'projects/previews/kho.mp4',
+      alt: { en: 'K Ho Digital Heritage live experience presenting its cultural atlas and mountain story.', vi: 'Trải nghiệm K Ho Digital Heritage giới thiệu atlas văn hóa và câu chuyện núi rừng.' },
+      sourceLabel: { en: 'Live product capture', vi: 'Video quay từ sản phẩm đang chạy' },
+      sourceUrl: 'https://k-ho.lnhat1938.workers.dev/',
+    },
     media: {
       file: 'projects/kho-live.jpg',
       alt: {
@@ -381,6 +432,13 @@ export const featuredProjects: FeaturedProject[] = [
       { label: { en: 'Play the live demo', vi: 'Chơi bản demo' }, url: 'https://pickleball247.senaaifptpolytechnic.workers.dev/', kind: 'demo' },
       { label: { en: 'Explore source', vi: 'Xem mã nguồn' }, url: 'https://github.com/minhnhatdepzai/Pickleball247', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/picko247.webp',
+      video: 'projects/previews/picko247.mp4',
+      alt: { en: 'PICKO 247 sports hub showing its live event dashboard and playable rally game.', vi: 'Sports Hub PICKO 247 hiển thị bảng sự kiện trực tiếp và game rally có thể chơi.' },
+      sourceLabel: { en: 'Live product capture', vi: 'Video quay từ sản phẩm đang chạy' },
+      sourceUrl: 'https://pickleball247.senaaifptpolytechnic.workers.dev/',
+    },
     media: {
       file: 'projects/picko247-live.jpg',
       alt: {
@@ -432,6 +490,13 @@ export const featuredProjects: FeaturedProject[] = [
     links: [
       { label: { en: 'Explore source', vi: 'Xem mã nguồn' }, url: 'https://github.com/minhnhatdepzai/GameJamFPTPolytechnic', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/happytoplay.webp',
+      video: 'projects/previews/happytoplay.mp4',
+      alt: { en: 'HappyToPlay inclusive social game hub with rooms, rewards and accessible games.', vi: 'Nền tảng game hòa nhập HappyToPlay với phòng chơi, phần thưởng và game dễ tiếp cận.' },
+      sourceLabel: { en: 'Product UI walkthrough', vi: 'Video giới thiệu giao diện sản phẩm' },
+      sourceUrl: 'https://github.com/minhnhatdepzai/GameJamFPTPolytechnic',
+    },
   },
   {
     slug: 'vehicle-counting',
@@ -474,6 +539,13 @@ export const featuredProjects: FeaturedProject[] = [
     links: [
       { label: { en: 'Open prototype guide', vi: 'Mở hướng dẫn prototype' }, url: 'https://github.com/minhnhatdepzai/Count_vehicles', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/vehicle-counting.webp',
+      video: 'projects/previews/vehicle-counting.mp4',
+      alt: { en: 'Vehicle Counting pipeline walkthrough with tracked vehicles, crossing line and live totals.', vi: 'Video quy trình Vehicle Counting với phương tiện được theo dõi, vạch đếm và tổng số trực tiếp.' },
+      sourceLabel: { en: 'Verified pipeline walkthrough', vi: 'Video giới thiệu pipeline đã kiểm chứng' },
+      sourceUrl: 'https://github.com/minhnhatdepzai/Count_vehicles',
+    },
   },
   {
     slug: 'task1-coach',
@@ -517,6 +589,13 @@ export const featuredProjects: FeaturedProject[] = [
       { label: { en: 'Open live learning app', vi: 'Mở web học trực tiếp' }, url: 'https://minhnhatdepzai.github.io/task1-coach-pages/#home', kind: 'demo' },
       { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/task1-coach-pages', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/task1-coach.webp',
+      video: 'projects/previews/task1-coach.mp4',
+      alt: { en: 'Task1 Coach live IELTS workspace moving through lessons and practice tools.', vi: 'Không gian IELTS Task1 Coach đang chạy với các bài học và công cụ luyện tập.' },
+      sourceLabel: { en: 'Live learning app capture', vi: 'Video quay từ ứng dụng học đang chạy' },
+      sourceUrl: 'https://minhnhatdepzai.github.io/task1-coach-pages/#home',
+    },
     media: {
       file: 'projects/task1-coach-live.webp',
       alt: {
@@ -568,6 +647,13 @@ export const featuredProjects: FeaturedProject[] = [
     links: [
       { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/HOSTORA-AI', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/hostora-ai.webp',
+      video: 'projects/previews/hostora-ai.mp4',
+      alt: { en: 'HOSTORA AI commerce platform showing its customer and AI shopping experience.', vi: 'Nền tảng thương mại HOSTORA AI hiển thị trải nghiệm mua sắm và trợ lý AI.' },
+      sourceLabel: { en: 'Real HOSTORA demo', vi: 'Demo HOSTORA thật' },
+      sourceUrl: 'https://youtu.be/-17sYrbp7pU',
+    },
   },
   {
     slug: 'vocalab',
@@ -610,6 +696,13 @@ export const featuredProjects: FeaturedProject[] = [
     links: [
       { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/voice-deeplearning', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/vocalab.webp',
+      video: 'projects/previews/vocalab.mp4',
+      alt: { en: 'Vocalab local studio interface showing its consent-gated synthetic voice workflow.', vi: 'Giao diện studio Vocalab hiển thị quy trình giọng nói tổng hợp local có kiểm soát đồng thuận.' },
+      sourceLabel: { en: 'Safe local studio walkthrough', vi: 'Video giới thiệu studio local an toàn' },
+      sourceUrl: 'https://github.com/minhnhatdepzai/voice-deeplearning',
+    },
   },
   {
     slug: 'vector-vu-tru',
@@ -653,6 +746,13 @@ export const featuredProjects: FeaturedProject[] = [
       { label: { en: 'Play the game', vi: 'Chơi thử game' }, url: 'https://minhnhatdepzai.github.io/kaga-tama-game/', kind: 'demo' },
       { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/kaga-tama-game', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/vector-vu-tru.webp',
+      video: 'projects/previews/vector-vu-tru.mp4',
+      alt: { en: 'Vector Vu Tru browser game showing a first-person spacecraft cockpit in combat.', vi: 'Game trình duyệt Vector Vũ Trụ hiển thị buồng lái phi thuyền góc nhìn thứ nhất trong trận chiến.' },
+      sourceLabel: { en: 'Live game capture', vi: 'Video quay từ game đang chạy' },
+      sourceUrl: 'https://minhnhatdepzai.github.io/kaga-tama-game/',
+    },
   },
   {
     slug: 'run-fpl',
@@ -696,6 +796,13 @@ export const featuredProjects: FeaturedProject[] = [
       { label: { en: 'Play the game', vi: 'Chơi thử game' }, url: 'https://minhnhatdepzai.github.io/run-fpl/', kind: 'demo' },
       { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/run-fpl', kind: 'github' },
     ],
+    preview: {
+      poster: 'projects/previews/run-fpl.webp',
+      video: 'projects/previews/run-fpl.mp4',
+      alt: { en: 'Run FPL browser adventure showing its colorful 3D platforming world.', vi: 'Game phiêu lưu Run FPL hiển thị thế giới platform 3D đầy màu sắc.' },
+      sourceLabel: { en: 'Live game capture', vi: 'Video quay từ game đang chạy' },
+      sourceUrl: 'https://minhnhatdepzai.github.io/run-fpl/',
+    },
   },
 ];
 
