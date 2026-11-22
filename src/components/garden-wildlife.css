@@ -31,3 +31,6 @@
   .wildlife-bird { width: 33px; height: 25px; }
   .wildlife-bird--2 { width: 27px; height: 21px; }
 }
+@media (max-width: 480px) {
+  .wildlife-squirrel, .wildlife-bird { display: none; }
+}

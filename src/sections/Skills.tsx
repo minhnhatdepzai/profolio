@@ -1,4 +1,4 @@
-import { Bot, Braces, Component, Cpu, Database, Layers3, MessagesSquare, PenTool, ScanFace, Smartphone, Terminal } from 'lucide-react';
+import { Bot, Braces, ChevronDown, Component, Cpu, Database, Layers3, MessagesSquare, PenTool, ScanFace, Smartphone, Terminal } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const capabilities = [
@@ -65,13 +65,21 @@ export const Skills = () => {
         {capabilities.map(({ number, title, text, tools, icon: Icon }, index) => {
           const Signal = signalIcons[index];
           return (
-            <article className="capability-card" key={number} data-reveal>
-              <div className="capability-card__top"><span>{number}</span><Icon aria-hidden="true" /></div>
-              <div className="capability-card__signal" aria-hidden="true"><Signal /></div>
-              <h3>{title[lang]}</h3>
-              <p>{text[lang]}</p>
-              <ul>{tools.map((tool) => <li key={tool}>{tool}</li>)}</ul>
-            </article>
+            <details className="capability-card" key={number} data-reveal>
+              <summary>
+                <span className="capability-card__top"><span>{number}</span><Icon aria-hidden="true" /></span>
+                <span className="capability-card__signal" aria-hidden="true"><Signal /></span>
+                <span className="capability-card__title">{title[lang]}</span>
+                <span className="capability-card__hint">
+                  {lang === 'vi' ? 'Nhấn để xem chi tiết' : 'Open for details'}
+                  <ChevronDown aria-hidden="true" />
+                </span>
+              </summary>
+              <div className="capability-card__details">
+                <p>{text[lang]}</p>
+                <ul>{tools.map((tool) => <li key={tool}>{tool}</li>)}</ul>
+              </div>
+            </details>
           );
         })}
       </div>

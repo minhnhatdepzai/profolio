@@ -153,6 +153,9 @@
   .hero-stage { height: 21rem; }
   .perspective > .garden-flora { opacity: .5; }
   .footer > .garden-flora { opacity: .7; }
+  .garden-controls { padding:.25rem;border-radius:99px; }
+  .garden-control__hint, .garden-control > span, .garden-auto > span { display:none; }
+  .garden-control, .garden-auto { min-width:2.75rem;min-height:2.75rem;justify-content:center;padding:.6rem; }
 }
 @media (prefers-reduced-motion: reduce) { .hero-stage .hero-visual-fallback, .hero-stage > .three-world { transition: none; } }
 

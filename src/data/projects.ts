@@ -537,6 +537,10 @@ export interface ArchiveProject {
 }
 
 export const archiveProjects: ArchiveProject[] = [
+  { name: 'HOSTORA AI', category: 'Web & Mobile', year: '2026', url: 'https://github.com/minhnhatdepzai/HOSTORA-AI' },
+  { name: 'Vector Vũ Trụ', category: 'Games', year: '2026', url: 'https://github.com/minhnhatdepzai/kaga-tama-game' },
+  { name: 'Vocalab · AI Voice Studio', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/voice-deeplearning' },
+  { name: 'Run FPL', category: 'Games', year: '2026', url: 'https://github.com/minhnhatdepzai/run-fpl' },
   { name: 'AI for Deaf People', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/AI_for_deaf_people' },
   { name: 'Đại Chiến Ngôn Ngữ', category: 'Games', year: '2026', url: 'https://github.com/minhnhatdepzai/DaiChienNgonNgu' },
   { name: 'Realtime Translation', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/translate_web_realtime' },

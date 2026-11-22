@@ -25,7 +25,7 @@ export const GardenControl = ({ mode, phase, onToggle, onAuto }: GardenControlPr
     <div className="garden-controls">
       <p className="garden-control__hint" role="status" aria-live="polite">{hint}</p>
       <div className="garden-controls__buttons">
-        <button type="button" className={`garden-control${running ? '' : ' garden-control--resting'}`} onClick={onToggle} aria-pressed={running}>
+        <button type="button" className={`garden-control${running ? '' : ' garden-control--resting'}`} onClick={onToggle} aria-pressed={running} aria-label={label}>
           <Leaf size={15} aria-hidden="true" /><span>{label}</span>
           {running ? <Pause size={13} aria-hidden="true" /> : <Play size={13} aria-hidden="true" />}
         </button>
