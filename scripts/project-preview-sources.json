@@ -1,0 +1,72 @@
+{
+  "japano": {
+    "type": "youtube",
+    "source": "https://youtu.be/D8jqwvPUfFc",
+    "label": "JAPANO APP demo"
+  },
+  "fanpage-chatbot": {
+    "type": "product-walkthrough",
+    "source": "https://github.com/minhnhatdepzai/fanpage-chatbot",
+    "label": "Verified local product UI"
+  },
+  "saigon-77": {
+    "type": "live-capture",
+    "source": "https://saigon-77-open-world.lnhat1938.workers.dev/",
+    "label": "Live browser game"
+  },
+  "math-lab": {
+    "type": "youtube",
+    "source": "https://youtu.be/Ee5RhmHy5AE",
+    "label": "Math Lab demo"
+  },
+  "smart-classroom": {
+    "type": "product-walkthrough",
+    "source": "https://github.com/minhnhatdepzai/smartroom",
+    "label": "Verified product UI"
+  },
+  "kho": {
+    "type": "live-capture",
+    "source": "https://k-ho.lnhat1938.workers.dev/",
+    "label": "Live product"
+  },
+  "picko247": {
+    "type": "live-capture",
+    "source": "https://pickleball247.senaaifptpolytechnic.workers.dev/",
+    "label": "Live product"
+  },
+  "happytoplay": {
+    "type": "product-walkthrough",
+    "source": "https://github.com/minhnhatdepzai/GameJamFPTPolytechnic",
+    "label": "Verified product UI"
+  },
+  "vehicle-counting": {
+    "type": "product-walkthrough",
+    "source": "https://github.com/minhnhatdepzai/Count_vehicles",
+    "label": "Verified computer-vision UI"
+  },
+  "task1-coach": {
+    "type": "live-capture",
+    "source": "https://minhnhatdepzai.github.io/task1-coach-pages/#home",
+    "label": "Live learning product"
+  },
+  "hostora-ai": {
+    "type": "youtube",
+    "source": "https://youtu.be/-17sYrbp7pU",
+    "label": "HOSTORA demo"
+  },
+  "vocalab": {
+    "type": "product-walkthrough",
+    "source": "/home/admin123/Downloads/voice-deeplearning",
+    "label": "Local studio UI only; no person or voice-source media"
+  },
+  "vector-vu-tru": {
+    "type": "live-capture",
+    "source": "https://minhnhatdepzai.github.io/kaga-tama-game/",
+    "label": "Live browser game"
+  },
+  "run-fpl": {
+    "type": "live-capture",
+    "source": "https://minhnhatdepzai.github.io/run-fpl/",
+    "label": "Live browser game"
+  }
+}
