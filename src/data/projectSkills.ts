@@ -659,4 +659,147 @@ export const projectSkills: Record<FeaturedProject['slug'], ProjectSkillProfile>
       ]),
     ],
   },
+  'hostora-ai': {
+    depth: 'trained',
+    verdict: {
+      en: 'A mixed AI stack. The deployed HOSTORA chatbot is a versioned fine-tuned artifact; Qwen3.5 9B performs pretrained structured extraction, and source-aware retrieval grounds catalog and pricing answers. Candidate Studio adapters remain clearly separated from the production model.',
+      vi: 'AI stack dạng kết hợp. Chatbot HOSTORA đang triển khai là artifact fine-tune có phiên bản; Qwen3.5 9B thực hiện trích xuất có cấu trúc bằng inference pretrained, còn truy xuất theo nguồn giữ câu trả lời danh mục và giá có căn cứ. Các adapter Studio đang thử nghiệm được tách rõ khỏi model production.',
+    },
+    models: [
+      m('hostora-chatbot:4b-q8-20261023-v2', 'fine-tuned',
+        'Versioned deployed chatbot model for HOSTORA support conversations.',
+        'Model chatbot đã triển khai có phiên bản cho hội thoại hỗ trợ HOSTORA.'),
+      m('Qwen3.5 9B', 'pretrained',
+        'Structured extraction and orchestration through local Ollama inference; not trained in this project.',
+        'Trích xuất có cấu trúc và điều phối qua Ollama local; không được huấn luyện trong dự án.'),
+      m('Source-aware retrieval', 'algorithm',
+        'Fetches catalog, pricing and supporting context before response generation.',
+        'Lấy danh mục, giá và ngữ cảnh hỗ trợ trước khi sinh câu trả lời.'),
+    ],
+    groups: [
+      g('AI & grounding', 'AI & căn cứ', [
+        s('Ollama · Qwen3.5', 'Local structured inference and assistant orchestration.', 'Suy luận có cấu trúc và điều phối trợ lý ngay trên máy.'),
+        s('Fine-tuned chatbot', 'A versioned production artifact kept separate from candidate adapters.', 'Artifact production có phiên bản, tách riêng khỏi các adapter đang thử nghiệm.'),
+        s('RAG', 'Source-aware context for catalog, pricing and support answers.', 'Ngữ cảnh theo nguồn cho câu trả lời về danh mục, giá và hỗ trợ.'),
+        s({ en: 'Grounding guards', vi: 'Guardrail căn cứ' }, 'Commerce facts come from shared product data rather than model memory.', 'Thông tin thương mại lấy từ dữ liệu sản phẩm dùng chung thay vì trí nhớ model.'),
+      ], true),
+      g('Web & operations', 'Web & vận hành', [
+        s('Next.js · React', 'Customer storefront and operational interfaces.', 'Storefront khách hàng và các giao diện vận hành.'),
+        s('TypeScript', 'Typed data contracts across the web application.', 'Hợp đồng dữ liệu có kiểu xuyên suốt ứng dụng web.'),
+        s({ en: 'Admin workflows', vi: 'Luồng quản trị' }, 'Catalog and commerce operations share the same backend truth.', 'Danh mục và vận hành thương mại dùng chung dữ liệu backend.'),
+      ]),
+      g('Android & commerce', 'Android & thương mại', [
+        s('Expo · React Native', 'Android client connected to the shared commerce backend.', 'Ứng dụng Android kết nối với backend thương mại dùng chung.'),
+        s('SQLite', 'Local product and application data where offline access is needed.', 'Dữ liệu sản phẩm và ứng dụng local khi cần truy cập offline.'),
+        s({ en: 'Shared commerce rules', vi: 'Luật thương mại dùng chung' }, 'Customer, mobile and admin surfaces stay aligned.', 'Giao diện khách hàng, mobile và admin luôn nhất quán.'),
+      ]),
+      g('Delivery & quality', 'Triển khai & chất lượng', [
+        s('Docker', 'Repeatable local services and model runtime.', 'Dịch vụ local và model runtime có thể tái lập.'),
+        s({ en: 'Model versioning', vi: 'Quản lý phiên bản model' }, 'Production and candidate adapters are labelled separately.', 'Model production và adapter đang thử nghiệm được ghi nhãn riêng.'),
+      ]),
+    ],
+  },
+  vocalab: {
+    depth: 'trained',
+    verdict: {
+      en: 'Yes — the project fine-tunes VieNeu-TTS speaker LoRA adapters and tracks fifteen released adapters. It does not retrain the base model. faster-whisper, Demucs and ClearVoice remain pretrained processing components, and there is no RAG layer.',
+      vi: 'Có — dự án fine-tune speaker LoRA adapter cho VieNeu-TTS và theo dõi 15 adapter đã phát hành. Dự án không huấn luyện lại base model. faster-whisper, Demucs và ClearVoice vẫn là thành phần xử lý pretrained, và không có lớp RAG.',
+    },
+    models: [
+      m('VieNeu-TTS speaker adapters', 'fine-tuned',
+        'LoRA speaker adaptation with fifteen released adapter artifacts; the base model remains unchanged.',
+        'LoRA thích ứng người nói với 15 artifact adapter đã phát hành; base model không thay đổi.'),
+      m('faster-whisper', 'pretrained',
+        'Local speech transcription for dataset preparation and review.',
+        'Phiên âm giọng nói local để chuẩn bị và rà soát dataset.'),
+      m('Demucs · ClearVoice', 'pretrained',
+        'Pretrained media cleanup stages used before training or synthesis evaluation.',
+        'Các bước làm sạch media pretrained dùng trước huấn luyện hoặc đánh giá tổng hợp.'),
+    ],
+    groups: [
+      g('Voice AI & training', 'AI giọng nói & huấn luyện', [
+        s('VieNeu-TTS', 'Base speech synthesis model adapted through speaker LoRA.', 'Model tổng hợp giọng nói nền được thích ứng qua speaker LoRA.'),
+        s('LoRA', 'Parameter-efficient speaker adaptation without retraining the base model.', 'Thích ứng người nói hiệu quả tham số, không huấn luyện lại base model.'),
+        s('PyTorch · CUDA', 'Local GPU training and inference runtime.', 'Runtime huấn luyện và suy luận trên GPU local.'),
+        s({ en: 'Adapter release tracking', vi: 'Theo dõi adapter phát hành' }, 'Fifteen released adapters are versioned as concrete artifacts.', '15 adapter đã phát hành được quản lý phiên bản như artifact cụ thể.'),
+      ], true),
+      g('Media pipeline', 'Pipeline media', [
+        s('FFmpeg', 'Audio extraction, normalization and format conversion.', 'Tách audio, chuẩn hóa và chuyển đổi định dạng.'),
+        s('faster-whisper', 'Transcription for dataset preparation.', 'Phiên âm để chuẩn bị dataset.'),
+        s('Demucs · ClearVoice', 'Pretrained separation and cleanup stages.', 'Các bước tách nguồn và làm sạch bằng model pretrained.'),
+      ]),
+      g('Backend & jobs', 'Backend & job', [
+        s('FastAPI', 'Typed endpoints for preparation, training and synthesis.', 'Endpoint có kiểu cho chuẩn bị, huấn luyện và tổng hợp.'),
+        s({ en: 'Queued jobs', vi: 'Hàng đợi job' }, 'Long media and training tasks run outside request lifetimes.', 'Tác vụ media và huấn luyện dài chạy ngoài vòng đời request.'),
+        s('React 19', 'Studio interface for datasets, adapters and results.', 'Giao diện studio cho dataset, adapter và kết quả.'),
+        s('Docker', 'Reproducible local service packaging.', 'Đóng gói dịch vụ local có thể tái lập.'),
+      ]),
+      g('Safety & provenance', 'An toàn & provenance', [
+        s({ en: 'Consent gates', vi: 'Cổng đồng thuận' }, 'Training workflows require consented or synthetic identity-free material.', 'Quy trình huấn luyện yêu cầu dữ liệu đã đồng thuận hoặc tổng hợp không gắn danh tính.'),
+        s({ en: 'Generated-media provenance', vi: 'Nguồn gốc media tổng hợp' }, 'Outputs carry a fixed generated-media provenance marker.', 'Đầu ra mang nhãn provenance cố định cho media tổng hợp.'),
+      ]),
+    ],
+  },
+  'vector-vu-tru': {
+    depth: 'rules',
+    verdict: {
+      en: 'No machine-learning model. Enemy pilots use hand-authored combat rules and state, while adaptive graphics responds to measured browser performance.',
+      vi: 'Không dùng model học máy. Phi công đối thủ dùng luật chiến đấu và trạng thái viết tay, còn đồ họa thích ứng phản ứng theo hiệu năng trình duyệt đo được.',
+    },
+    models: [
+      m('Enemy pilot behavior', 'algorithm',
+        'Rule-based pursuit, attack and evasion behavior for solo campaign opponents.',
+        'Hành vi truy đuổi, tấn công và né tránh theo luật cho đối thủ trong chiến dịch chơi đơn.'),
+      m('Adaptive quality controller', 'algorithm',
+        'Scales rendering cost to keep the campaign usable across browser hardware.',
+        'Điều chỉnh chi phí kết xuất để chiến dịch dùng được trên nhiều cấu hình trình duyệt.'),
+    ],
+    groups: [
+      g('Three.js & WebGL', 'Three.js & WebGL', [
+        s('Three.js', 'Browser-native 3D scene, cockpit and combat effects.', 'Cảnh 3D, buồng lái và hiệu ứng chiến đấu trên trình duyệt.'),
+        s('WebGL 2', 'Real-time rendering for the space campaign.', 'Kết xuất thời gian thực cho chiến dịch không gian.'),
+        s({ en: 'Procedural arenas', vi: 'Đấu trường procedural' }, 'Code-built space encounters for a lightweight static build.', 'Giao tranh không gian dựng bằng code cho bản build tĩnh gọn nhẹ.'),
+      ]),
+      g('Combat & game AI', 'Chiến đấu & game AI', [
+        s({ en: 'Rule-based opponents', vi: 'Đối thủ theo luật' }, 'Hand-authored pursuit, attack and evasion decisions.', 'Quyết định truy đuổi, tấn công và né tránh được viết tay.'),
+        s({ en: 'Cockpit combat', vi: 'Chiến đấu buồng lái' }, 'First-person aiming and flight feedback.', 'Ngắm bắn góc nhìn thứ nhất và phản hồi bay.'),
+      ], true),
+      g('Progression & state', 'Tiến trình & trạng thái', [
+        s({ en: 'Vertical campaign', vi: 'Chiến dịch dọc' }, 'A complete sequence of encounters and progression.', 'Chuỗi giao tranh và tiến trình hoàn chỉnh.'),
+        s('Vite', 'Fast static build for the browser game.', 'Bản build tĩnh nhanh cho game trình duyệt.'),
+      ]),
+      g('Input & delivery', 'Điều khiển & triển khai', [
+        s({ en: 'Mobile controls', vi: 'Điều khiển mobile' }, 'Touch input preserves the campaign on phones.', 'Input cảm ứng giữ nguyên chiến dịch trên điện thoại.'),
+        s({ en: 'Adaptive graphics', vi: 'Đồ họa thích ứng' }, 'Rendering quality scales to available performance.', 'Chất lượng kết xuất thay đổi theo hiệu năng khả dụng.'),
+        s('GitHub Pages', 'Public static deployment.', 'Triển khai tĩnh công khai.'),
+      ]),
+    ],
+  },
+  'run-fpl': {
+    depth: 'none',
+    verdict: {
+      en: 'No AI model. Run FPL is a code-native 3D platform game with deterministic gameplay, bilingual interface, touch controls and browser-local persistence.',
+      vi: 'Không dùng model AI. Run FPL là game platform 3D thuần code với gameplay xác định, giao diện song ngữ, điều khiển cảm ứng và lưu tiến độ trong trình duyệt.',
+    },
+    models: [],
+    groups: [
+      g('Platform gameplay', 'Gameplay platform', [
+        s({ en: 'Eight-world campaign', vi: 'Chiến dịch tám thế giới' }, 'Eight themed worlds form the full progression path.', 'Tám thế giới theo chủ đề tạo thành lộ trình tiến triển hoàn chỉnh.'),
+        s({ en: 'Platform systems', vi: 'Hệ thống platform' }, 'Movement, obstacles, checkpoints and level completion are implemented in code.', 'Di chuyển, chướng ngại, checkpoint và hoàn thành màn được triển khai bằng code.'),
+        s({ en: 'Bilingual UI', vi: 'Giao diện song ngữ' }, 'Vietnamese and English are available throughout the game.', 'Tiếng Việt và tiếng Anh có trong toàn bộ trò chơi.'),
+      ]),
+      g('3D web', 'Web 3D', [
+        s('WebGL', 'Real-time 3D rendering in the browser.', 'Kết xuất 3D thời gian thực trong trình duyệt.'),
+        s('JavaScript · Vite', 'Game logic and static build tooling.', 'Logic game và công cụ build tĩnh.'),
+      ]),
+      g('Mobile controls', 'Điều khiển mobile', [
+        s({ en: 'Virtual joystick', vi: 'Joystick ảo' }, 'Touch movement for phone play.', 'Điều khiển di chuyển cảm ứng trên điện thoại.'),
+        s({ en: 'Action buttons', vi: 'Nút hành động' }, 'On-screen controls for platform actions.', 'Điều khiển trên màn hình cho các hành động platform.'),
+      ]),
+      g('Persistence & delivery', 'Lưu trữ & triển khai', [
+        s('localStorage', 'Progress stays in the browser without an account or cloud save.', 'Tiến độ nằm trong trình duyệt, không cần tài khoản hay cloud save.'),
+        s('GitHub Pages', 'Public static deployment.', 'Triển khai tĩnh công khai.'),
+      ]),
+    ],
+  },
 };

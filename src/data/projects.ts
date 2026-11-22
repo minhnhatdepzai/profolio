@@ -9,7 +9,7 @@ export interface ProjectLink {
 }
 
 export interface FeaturedProject {
-  slug: 'japano' | 'fanpage-chatbot' | 'saigon-77' | 'math-lab' | 'smart-classroom' | 'kho' | 'picko247' | 'happytoplay' | 'vehicle-counting' | 'task1-coach';
+  slug: 'japano' | 'fanpage-chatbot' | 'saigon-77' | 'math-lab' | 'smart-classroom' | 'kho' | 'picko247' | 'happytoplay' | 'vehicle-counting' | 'task1-coach' | 'hostora-ai' | 'vocalab' | 'vector-vu-tru' | 'run-fpl';
   order: string;
   year: string;
   title: string;
@@ -527,6 +527,176 @@ export const featuredProjects: FeaturedProject[] = [
       source: 'minhnhatdepzai.github.io/task1-coach-pages',
     },
   },
+  {
+    slug: 'hostora-ai',
+    order: '11',
+    year: '2026',
+    title: 'HOSTORA AI',
+    eyebrow: { en: 'Local-first AI commerce platform', vi: 'Nền tảng bán hàng AI local-first' },
+    statement: {
+      en: 'One commerce core for customers, operators and a grounded AI assistant.',
+      vi: 'Một lõi thương mại cho khách hàng, đội vận hành và trợ lý AI có căn cứ.',
+    },
+    summary: {
+      en: 'A full-stack commerce product connecting a Next.js storefront, Android app, admin operations and a shared backend with local AI services.',
+      vi: 'Sản phẩm thương mại full-stack kết nối storefront Next.js, ứng dụng Android, trang quản trị và backend dùng chung với các dịch vụ AI chạy local.',
+    },
+    problem: {
+      en: 'Commerce experiences drift when customer, mobile and admin surfaces each invent their own catalog, pricing and support answers.',
+      vi: 'Trải nghiệm bán hàng dễ lệch khi giao diện khách hàng, mobile và quản trị tự dùng danh mục, giá và câu trả lời hỗ trợ riêng.',
+    },
+    solution: {
+      en: 'Shared product data and commerce rules keep every surface aligned, while structured Qwen extraction and source-aware retrieval constrain the assistant to grounded catalog and pricing facts.',
+      vi: 'Dữ liệu sản phẩm và luật thương mại dùng chung giữ mọi giao diện nhất quán; Qwen trích xuất có cấu trúc và truy xuất theo nguồn giới hạn trợ lý trong thông tin danh mục, giá đã có căn cứ.',
+    },
+    contribution: {
+      en: 'Product architecture, customer and admin web, Android integration, local model serving, retrieval, quality gates and deployment workflows.',
+      vi: 'Kiến trúc sản phẩm, web khách hàng và quản trị, tích hợp Android, phục vụ model local, truy xuất, cổng chất lượng và quy trình triển khai.',
+    },
+    status: 'source',
+    statusLabel: { en: 'Public source · local AI runtime', vi: 'Mã nguồn công khai · AI chạy local' },
+    accent: '#3f6f56',
+    accentSoft: '#dce8da',
+    ink: '#12251b',
+    stack: ['Next.js', 'React', 'TypeScript', 'Expo', 'React Native', 'SQLite', 'Ollama', 'Qwen3.5', 'RAG', 'Docker'],
+    highlights: [
+      { en: 'Customer web, Android and admin operate on one shared commerce backend.', vi: 'Web khách hàng, Android và admin vận hành trên cùng một backend thương mại.' },
+      { en: 'The deployed chatbot is versioned separately from candidate Studio adapters.', vi: 'Chatbot đã triển khai được quản lý phiên bản riêng với các adapter Studio đang thử nghiệm.' },
+      { en: 'Catalog and pricing answers remain tied to source data instead of model memory.', vi: 'Câu trả lời về danh mục và giá luôn bám dữ liệu nguồn thay vì trí nhớ của model.' },
+      { en: 'Local model serving keeps the AI stack inspectable and under operator control.', vi: 'Model chạy local giúp toàn bộ AI stack có thể kiểm tra và nằm trong quyền kiểm soát của người vận hành.' },
+    ],
+    links: [
+      { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/HOSTORA-AI', kind: 'github' },
+    ],
+  },
+  {
+    slug: 'vocalab',
+    order: '12',
+    year: '2026',
+    title: 'VOCALAB',
+    eyebrow: { en: 'Consent-gated local voice studio', vi: 'Studio giọng nói local có kiểm soát đồng thuận' },
+    statement: {
+      en: 'Prepare, adapt and evaluate a voice locally — with provenance attached.',
+      vi: 'Chuẩn bị, tinh chỉnh và đánh giá giọng nói ngay trên máy — luôn kèm nguồn gốc.',
+    },
+    summary: {
+      en: 'A local voice-AI workspace for dataset preparation, VieNeu-TTS speaker-adapter fine-tuning, transcription, media cleanup and provenance-aware output.',
+      vi: 'Không gian AI giọng nói chạy local để chuẩn bị dataset, fine-tune speaker adapter VieNeu-TTS, phiên âm, làm sạch media và xuất kết quả có ghi nguồn gốc.',
+    },
+    problem: {
+      en: 'Voice experiments become risky and irreproducible when consent, source audio, adapter versions and generated output are mixed together.',
+      vi: 'Thử nghiệm giọng nói trở nên rủi ro và khó tái lập khi đồng thuận, audio nguồn, phiên bản adapter và đầu ra tổng hợp bị trộn lẫn.',
+    },
+    solution: {
+      en: 'A queued FastAPI pipeline separates preparation, training and synthesis, records provenance and constrains the workflow to consented or synthetic identity-free material.',
+      vi: 'Pipeline FastAPI có hàng đợi tách riêng khâu chuẩn bị, huấn luyện và tổng hợp, ghi provenance và giới hạn quy trình trong dữ liệu đã đồng thuận hoặc dữ liệu tổng hợp không gắn danh tính.',
+    },
+    contribution: {
+      en: 'Voice-data pipeline, LoRA training workflow, media processing, API jobs, safety constraints, evaluation artifacts and local deployment.',
+      vi: 'Pipeline dữ liệu giọng nói, quy trình huấn luyện LoRA, xử lý media, API job, ràng buộc an toàn, artifact đánh giá và triển khai local.',
+    },
+    status: 'source',
+    statusLabel: { en: 'Public source · local GPU studio', vi: 'Mã nguồn công khai · studio GPU local' },
+    accent: '#b34d6d',
+    accentSoft: '#f1d9df',
+    ink: '#35121f',
+    stack: ['React 19', 'FastAPI', 'FFmpeg', 'faster-whisper', 'VieNeu-TTS', 'LoRA', 'PyTorch', 'Docker'],
+    highlights: [
+      { en: 'Fine-tunes speaker adapters for VieNeu-TTS instead of retraining the base model.', vi: 'Fine-tune speaker adapter cho VieNeu-TTS thay vì huấn luyện lại base model.' },
+      { en: 'Fifteen released adapters are tracked as concrete training artifacts.', vi: '15 adapter đã phát hành được theo dõi như artifact huấn luyện cụ thể.' },
+      { en: 'Transcription, separation and cleanup are explicit pretrained processing stages, not claimed as new models.', vi: 'Phiên âm, tách nguồn và làm sạch là các bước xử lý pretrained rõ ràng, không được nhận là model mới.' },
+      { en: 'Consent and generated-media provenance are enforced as part of the product workflow.', vi: 'Đồng thuận và provenance của media tổng hợp được áp dụng ngay trong quy trình sản phẩm.' },
+    ],
+    links: [
+      { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/voice-deeplearning', kind: 'github' },
+    ],
+  },
+  {
+    slug: 'vector-vu-tru',
+    order: '13',
+    year: '2026',
+    title: 'VECTOR VŨ TRỤ',
+    eyebrow: { en: 'Browser-native cockpit shooter', vi: 'Game bắn phi thuyền góc lái trên trình duyệt' },
+    statement: {
+      en: 'Launch from the cockpit. Read the field. Break through the campaign.',
+      vi: 'Cất cánh từ buồng lái. Đọc chiến trường. Vượt qua toàn bộ chiến dịch.',
+    },
+    summary: {
+      en: 'A Three.js vertical campaign with a first-person cockpit, solo AI opponents, mobile controls and adaptive rendering for the browser.',
+      vi: 'Chiến dịch dọc bằng Three.js với buồng lái góc nhìn thứ nhất, đối thủ AI chơi đơn, điều khiển mobile và kết xuất thích ứng trên trình duyệt.',
+    },
+    problem: {
+      en: 'A fast 3D shooter must make combat readable on both desktop and touch devices without overwhelming weaker GPUs.',
+      vi: 'Game bắn súng 3D tốc độ cao phải giữ giao tranh dễ đọc trên cả desktop lẫn cảm ứng mà không quá tải GPU yếu.',
+    },
+    solution: {
+      en: 'Procedural space arenas, rule-based enemy behaviors, responsive input and adaptive quality create a complete solo campaign in a lightweight web build.',
+      vi: 'Đấu trường không gian procedural, hành vi địch theo luật, input responsive và chất lượng thích ứng tạo thành chiến dịch chơi đơn hoàn chỉnh trong bản web gọn nhẹ.',
+    },
+    contribution: {
+      en: 'Game direction, Three.js rendering, cockpit combat, enemy behavior, campaign progression, touch controls and GitHub Pages delivery.',
+      vi: 'Định hướng game, kết xuất Three.js, chiến đấu trong buồng lái, hành vi kẻ địch, tiến trình chiến dịch, điều khiển cảm ứng và triển khai GitHub Pages.',
+    },
+    status: 'live',
+    statusLabel: { en: 'Live playable game', vi: 'Game đang chơi được' },
+    accent: '#df5f31',
+    accentSoft: '#f3dfbf',
+    ink: '#31150c',
+    stack: ['JavaScript', 'Three.js', 'WebGL 2', 'Vite', 'GitHub Pages'],
+    highlights: [
+      { en: 'A full vertical campaign unfolds from a first-person spacecraft cockpit.', vi: 'Chiến dịch dọc hoàn chỉnh diễn ra từ buồng lái phi thuyền góc nhìn thứ nhất.' },
+      { en: 'Enemy pilots use hand-authored combat behavior rather than a machine-learning model.', vi: 'Phi công đối thủ dùng hành vi chiến đấu viết tay thay vì model học máy.' },
+      { en: 'Touch controls preserve the same campaign on mobile devices.', vi: 'Điều khiển cảm ứng giữ nguyên chiến dịch trên thiết bị mobile.' },
+      { en: 'Adaptive rendering scales visual cost for browser hardware.', vi: 'Kết xuất thích ứng điều chỉnh chi phí đồ họa theo phần cứng trình duyệt.' },
+    ],
+    links: [
+      { label: { en: 'Play the game', vi: 'Chơi thử game' }, url: 'https://minhnhatdepzai.github.io/kaga-tama-game/', kind: 'demo' },
+      { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/kaga-tama-game', kind: 'github' },
+    ],
+  },
+  {
+    slug: 'run-fpl',
+    order: '14',
+    year: '2026',
+    title: 'RUN FPL',
+    eyebrow: { en: 'Bilingual 3D platform adventure', vi: 'Phiêu lưu platform 3D song ngữ' },
+    statement: {
+      en: 'Eight worlds, quick runs and progress that stays in your browser.',
+      vi: 'Tám thế giới, những lượt chạy gọn và tiến độ được giữ ngay trong trình duyệt.',
+    },
+    summary: {
+      en: 'A bilingual 3D platform game spanning eight worlds, with keyboard and mobile controls plus browser-local progress.',
+      vi: 'Game platform 3D song ngữ gồm tám thế giới, hỗ trợ bàn phím, điều khiển mobile và lưu tiến độ ngay trên trình duyệt.',
+    },
+    problem: {
+      en: 'A web platformer needs to remain immediately playable across devices while preserving a meaningful sense of progression without an account system.',
+      vi: 'Game platform trên web cần chơi ngay trên nhiều thiết bị nhưng vẫn giữ cảm giác tiến triển rõ ràng mà không cần hệ thống tài khoản.',
+    },
+    solution: {
+      en: 'Compact 3D stages, bilingual interface, virtual joystick and buttons, and localStorage persistence turn the static build into a portable eight-world campaign.',
+      vi: 'Màn chơi 3D gọn, giao diện song ngữ, joystick cùng nút ảo và lưu localStorage biến bản build tĩnh thành chiến dịch tám thế giới có thể mang đi.',
+    },
+    contribution: {
+      en: 'World and platform gameplay, responsive controls, bilingual interface, local progression and static deployment.',
+      vi: 'Thế giới và gameplay platform, điều khiển responsive, giao diện song ngữ, tiến trình local và triển khai tĩnh.',
+    },
+    status: 'live',
+    statusLabel: { en: 'Live playable game', vi: 'Game đang chơi được' },
+    accent: '#34779a',
+    accentSoft: '#d7e9e9',
+    ink: '#102631',
+    stack: ['JavaScript', 'Vite', 'WebGL', 'localStorage', 'GitHub Pages'],
+    highlights: [
+      { en: 'Eight themed worlds form one continuous browser campaign.', vi: 'Tám thế giới theo chủ đề tạo thành một chiến dịch liền mạch trên trình duyệt.' },
+      { en: 'Vietnamese and English are both available throughout the game.', vi: 'Tiếng Việt và tiếng Anh đều có trong toàn bộ trò chơi.' },
+      { en: 'A virtual joystick and action buttons make the platforming playable on phones.', vi: 'Joystick ảo và các nút hành động giúp chơi platform trên điện thoại.' },
+      { en: 'Progress stays in the browser; there is no backend account or cloud save.', vi: 'Tiến độ nằm trong trình duyệt; không có tài khoản backend hay cloud save.' },
+    ],
+    links: [
+      { label: { en: 'Play the game', vi: 'Chơi thử game' }, url: 'https://minhnhatdepzai.github.io/run-fpl/', kind: 'demo' },
+      { label: { en: 'Open GitHub repository', vi: 'Mở repository GitHub' }, url: 'https://github.com/minhnhatdepzai/run-fpl', kind: 'github' },
+    ],
+  },
 ];
 
 export interface ArchiveProject {
@@ -537,10 +707,6 @@ export interface ArchiveProject {
 }
 
 export const archiveProjects: ArchiveProject[] = [
-  { name: 'HOSTORA AI', category: 'Web & Mobile', year: '2026', url: 'https://github.com/minhnhatdepzai/HOSTORA-AI' },
-  { name: 'Vector Vũ Trụ', category: 'Games', year: '2026', url: 'https://github.com/minhnhatdepzai/kaga-tama-game' },
-  { name: 'Vocalab · AI Voice Studio', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/voice-deeplearning' },
-  { name: 'Run FPL', category: 'Games', year: '2026', url: 'https://github.com/minhnhatdepzai/run-fpl' },
   { name: 'AI for Deaf People', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/AI_for_deaf_people' },
   { name: 'Đại Chiến Ngôn Ngữ', category: 'Games', year: '2026', url: 'https://github.com/minhnhatdepzai/DaiChienNgonNgu' },
   { name: 'Realtime Translation', category: 'AI & Vision', year: '2026', url: 'https://github.com/minhnhatdepzai/translate_web_realtime' },

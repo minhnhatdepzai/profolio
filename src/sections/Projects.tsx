@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { ArrowUpRight, Film, Github, Globe, Play, Plus, X } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, Film, Github, Globe, Play, Plus, X } from 'lucide-react';
 import { featuredProjects, type FeaturedProject, type ProjectLink } from '../data/projects';
 import { aiDepthLabels, countSkills, modelKindLabels, projectSkills } from '../data/projectSkills';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -142,6 +142,20 @@ const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
         </div>
         <div className="traffic-count"><span>UP</span><strong>—</strong><span>DOWN</span><strong>—</strong></div>
         <div className="traffic-model">YOLOv8 × ByteTrack</div>
+      </div>
+    );
+  }
+
+  if (['hostora-ai', 'vocalab', 'vector-vu-tru', 'run-fpl'].includes(project.slug)) {
+    return (
+      <div className={`artifact artifact--portfolio artifact--portfolio-${project.slug}`}>
+        <div className="artifact-label">NEW BUILD / {project.order}</div>
+        <div className="portfolio-artifact__index">{project.order}</div>
+        <div className="portfolio-artifact__title">{project.title}</div>
+        <div className="portfolio-artifact__signal" aria-hidden="true"><i /><i /><i /></div>
+        <div className="portfolio-artifact__stack">
+          {project.stack.slice(0, 3).map((tool) => <span key={tool}>{tool}</span>)}
+        </div>
       </div>
     );
   }
@@ -325,16 +339,24 @@ export const Projects = () => {
                   </a>
                 ))}
               </div>
-              <div className="project-card__skills" aria-label={lang === 'vi' ? 'Toàn bộ kỹ năng áp dụng' : 'All applied skills'}>
-                {projectSkills[project.slug].groups.map((group) => (
-                  <section className={`project-card__skill-group${group.ai ? ' project-card__skill-group--ai' : ''}`} key={group.title.en}>
-                    <h4>{getStr(group.title)}</h4>
-                    <ul>
-                      {group.skills.map((skill) => <li key={getStr(skill.name)}>{getStr(skill.name)}</li>)}
-                    </ul>
-                  </section>
-                ))}
-              </div>
+              <details className="project-card__skills">
+                <summary>
+                  <span className="project-card__skills-show">{lang === 'vi' ? 'Xem kỹ năng' : 'View skills'}</span>
+                  <span className="project-card__skills-hide">{lang === 'vi' ? 'Thu gọn kỹ năng' : 'Hide skills'}</span>
+                  <span>{countSkills(projectSkills[project.slug])}</span>
+                  <ChevronDown aria-hidden="true" />
+                </summary>
+                <div className="project-card__skills-body" aria-label={lang === 'vi' ? 'Toàn bộ kỹ năng áp dụng' : 'All applied skills'}>
+                  {projectSkills[project.slug].groups.map((group) => (
+                    <section className={`project-card__skill-group${group.ai ? ' project-card__skill-group--ai' : ''}`} key={group.title.en}>
+                      <h4>{getStr(group.title)}</h4>
+                      <ul>
+                        {group.skills.map((skill) => <li key={getStr(skill.name)}>{getStr(skill.name)}</li>)}
+                      </ul>
+                    </section>
+                  ))}
+                </div>
+              </details>
             </div>
           </article>
         ))}
