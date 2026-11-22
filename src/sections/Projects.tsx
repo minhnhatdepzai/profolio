@@ -3,7 +3,24 @@ import { ArrowUpRight, ChevronDown, Film, Github, Globe, Play, Plus, X } from 'l
 import { featuredProjects, type FeaturedProject, type ProjectLink } from '../data/projects';
 import { aiDepthLabels, countSkills, modelKindLabels, projectSkills } from '../data/projectSkills';
 import { useLanguage } from '../contexts/LanguageContext';
+import { ProjectPreview } from '../components/ProjectPreview';
+import { autoplayMode, pickCenteredPreview, type ProjectPreviewMode } from '../components/projectPreviewPolicy';
 import './projects-gallery.css';
+
+type NavigatorWithConnection = Navigator & {
+  connection?: EventTarget & { saveData?: boolean; effectiveType?: string };
+};
+
+const readPreviewMode = (): ProjectPreviewMode => {
+  const connection = (navigator as NavigatorWithConnection).connection;
+  return autoplayMode({
+    finePointer: window.matchMedia('(pointer: fine)').matches,
+    touch: navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches,
+    reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    saveData: connection?.saveData === true,
+    effectiveType: connection?.effectiveType,
+  });
+};
 
 const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   const { getStr } = useLanguage();
@@ -223,10 +240,83 @@ export const Projects = () => {
   const [openSlug, setOpenSlug] = useState<FeaturedProject['slug'] | null>(() => (
     featuredProjects.find((project) => location.hash === `#case-${project.slug}`)?.slug ?? null
   ));
+  const [previewMode, setPreviewMode] = useState<ProjectPreviewMode>(readPreviewMode);
+  const [activePreviewSlug, setActivePreviewSlug] = useState<FeaturedProject['slug'] | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const returnHashRef = useRef(location.hash.startsWith('#case-') ? '#selected-work' : location.hash);
   const openProject = featuredProjects.find((project) => project.slug === openSlug);
+
+  useEffect(() => {
+    const queries = [
+      window.matchMedia('(pointer: fine)'),
+      window.matchMedia('(pointer: coarse)'),
+      window.matchMedia('(prefers-reduced-motion: reduce)'),
+    ];
+    const connection = (navigator as NavigatorWithConnection).connection;
+    const updateMode = () => setPreviewMode(readPreviewMode());
+    queries.forEach((query) => query.addEventListener('change', updateMode));
+    connection?.addEventListener('change', updateMode);
+    return () => {
+      queries.forEach((query) => query.removeEventListener('change', updateMode));
+      connection?.removeEventListener('change', updateMode);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (openSlug) {
+      setActivePreviewSlug(null);
+      return;
+    }
+    if (previewMode !== 'scroll') return;
+
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-preview-card]'));
+    const ratios = new Map<string, number>();
+    let frame = 0;
+    const selectCentered = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const candidates = cards.map((card) => {
+          const bounds = card.getBoundingClientRect();
+          return {
+            slug: card.dataset.previewCard ?? '',
+            top: bounds.top,
+            bottom: bounds.bottom,
+            intersectionRatio: ratios.get(card.dataset.previewCard ?? '') ?? 0,
+          };
+        });
+        setActivePreviewSlug(pickCenteredPreview(candidates, window.innerHeight) as FeaturedProject['slug'] | null);
+      });
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const slug = (entry.target as HTMLElement).dataset.previewCard;
+        if (slug) ratios.set(slug, entry.intersectionRatio);
+      });
+      selectCentered();
+    }, { threshold: [0, .15, .35, .55, .75, 1] });
+    cards.forEach((card) => observer.observe(card));
+    window.addEventListener('scroll', selectCentered, { passive: true });
+    window.addEventListener('resize', selectCentered);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener('scroll', selectCentered);
+      window.removeEventListener('resize', selectCentered);
+    };
+  }, [openSlug, previewMode]);
+
+  useEffect(() => {
+    if (previewMode === 'poster') setActivePreviewSlug(null);
+  }, [previewMode]);
+
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.hidden) setActivePreviewSlug(null);
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
 
   useEffect(() => {
     const syncHash = (event: Event) => {
@@ -305,11 +395,35 @@ export const Projects = () => {
             key={project.slug}
             style={{ '--accent': project.accent, '--accent-soft': project.accentSoft, '--case-ink': project.ink } as CSSProperties}
             aria-labelledby={`project-title-${project.slug}`}
+            data-preview-card={project.slug}
             data-reveal
           >
             <div className="project-card__topline"><span>{project.order} / {project.year}</span><span>{getStr(project.eyebrow)}</span></div>
-            <div className="project-card__visual">
-              <ProjectArtifact project={project} />
+            <div
+              className="project-card__visual"
+              onPointerEnter={() => {
+                if (previewMode === 'hover' && !openSlug) setActivePreviewSlug(project.slug);
+              }}
+              onPointerLeave={() => {
+                if (previewMode === 'hover') setActivePreviewSlug((current) => current === project.slug ? null : current);
+              }}
+              onFocusCapture={() => {
+                if (previewMode === 'hover' && !openSlug) setActivePreviewSlug(project.slug);
+              }}
+              onBlurCapture={(event) => {
+                if (previewMode === 'hover' && !event.currentTarget.contains(event.relatedTarget)) {
+                  setActivePreviewSlug((current) => current === project.slug ? null : current);
+                }
+              }}
+            >
+              <ProjectPreview
+                project={project}
+                active={activePreviewSlug === project.slug && !openSlug}
+                onActivate={() => {
+                  if (!openSlug) setActivePreviewSlug(project.slug);
+                }}
+                onDeactivate={() => setActivePreviewSlug((current) => current === project.slug ? null : current)}
+              />
               <button
                 className="project-card__visual-action"
                 onClick={(event) => openCase(project, event.currentTarget)}

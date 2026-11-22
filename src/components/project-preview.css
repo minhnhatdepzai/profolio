@@ -1,0 +1,121 @@
+.project-preview {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--accent-soft);
+}
+
+.project-preview__poster,
+.project-preview__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-preview__poster { z-index: 1; }
+
+.project-preview__video {
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .32s ease;
+}
+
+.project-preview__video.is-ready { opacity: 1; }
+
+.project-preview__status,
+.project-preview__source,
+.project-preview__control {
+  position: absolute;
+  z-index: 3;
+}
+
+.project-preview__status {
+  top: .85rem;
+  left: .85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .42rem;
+  padding: .42rem .55rem;
+  border: 1px solid #ffffff52;
+  border-radius: 99px;
+  color: #fff;
+  background: #10110fa8;
+  backdrop-filter: blur(8px);
+  font: 700 .46rem/1 ui-monospace, monospace;
+  letter-spacing: .1em;
+}
+
+.project-preview__status i {
+  width: .38rem;
+  height: .38rem;
+  border-radius: 50%;
+  background: #f0eee6;
+}
+
+.project-preview.is-active .project-preview__status i {
+  background: #c9ff4a;
+  box-shadow: 0 0 0 .2rem #c9ff4a2b;
+}
+
+.project-preview__source {
+  right: 4.7rem;
+  bottom: 1.15rem;
+  max-width: min(55%, 18rem);
+  overflow: hidden;
+  color: #fff;
+  filter: drop-shadow(0 1px 5px #000b);
+  font: 650 .47rem/1.3 ui-monospace, monospace;
+  letter-spacing: .05em;
+  text-align: right;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.project-preview__control {
+  bottom: 1rem;
+  left: 1rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid #ffffff80;
+  border-radius: 50%;
+  color: #fff;
+  background: #10110fc7;
+  box-shadow: 0 .35rem 1.5rem #0004;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: color .2s, background .2s, transform .2s;
+}
+
+.project-preview__control:hover {
+  color: #10110f;
+  background: #c9ff4a;
+  transform: scale(1.05);
+}
+
+.project-preview__control:focus-visible {
+  outline: 2px solid #c9ff4a;
+  outline-offset: 4px;
+}
+
+.project-preview__control svg { width: 1rem; height: 1rem; }
+.project-preview.has-failed .project-preview__status { opacity: .72; }
+
+@media (max-width: 700px) {
+  .project-preview__status { top: .7rem; left: .7rem; font-size: .42rem; }
+  .project-preview__control { bottom: .75rem; left: .75rem; width: 2.65rem; height: 2.65rem; }
+  .project-preview__source { right: 4.25rem; bottom: .98rem; font-size: .42rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-preview__video,
+  .project-preview__control { transition: none; }
+}
