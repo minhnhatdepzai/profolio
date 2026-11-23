@@ -56,7 +56,7 @@
   },
   "vocalab": {
     "type": "product-walkthrough",
-    "source": "/home/admin123/Downloads/voice-deeplearning",
+    "source": "https://github.com/minhnhatdepzai/voice-deeplearning",
     "label": "Local studio UI only; no person or voice-source media"
   },
   "vector-vu-tru": {

@@ -8,34 +8,35 @@ import './project-preview.css';
 interface ProjectPreviewProps {
   project: FeaturedProject;
   active: boolean;
+  preload?: boolean;
   onActivate: () => void;
   onDeactivate: () => void;
 }
 
-export const ProjectPreview = ({ project, active, onActivate, onDeactivate }: ProjectPreviewProps) => {
+export const ProjectPreview = ({ project, active, preload = false, onActivate, onDeactivate }: ProjectPreviewProps) => {
   const { getStr, lang } = useLanguage();
   const rootRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const activationTokenRef = useRef(0);
-  const [sourceLoaded, setSourceLoaded] = useState(false);
+  const explicitStartRef = useRef(false);
+  const [explicitRequested, setExplicitRequested] = useState(false);
   const [ready, setReady] = useState(false);
   const [paused, setPaused] = useState(true);
   const [playbackFailed, setPlaybackFailed] = useState(false);
   const poster = resolvePreviewUrl(project.preview.poster, import.meta.env.BASE_URL);
   const videoSource = resolvePreviewUrl(project.preview.video, import.meta.env.BASE_URL);
+  const sourceLoaded = preload || active || explicitRequested;
 
-  const startPlayback = useCallback(() => {
+  const startPlayback = useCallback((explicit = false) => {
     const video = videoRef.current;
     if (!video) return;
+    if (!explicit && playbackFailed) return;
 
     const token = ++activationTokenRef.current;
-    setPlaybackFailed(false);
+    if (explicit) setPlaybackFailed(false);
     const playPromise = video.play();
     playPromise?.then(() => {
-      if (token !== activationTokenRef.current) {
-        video.pause();
-        return;
-      }
+      if (token !== activationTokenRef.current) return;
       setPaused(false);
     }).catch(() => {
       if (token !== activationTokenRef.current) return;
@@ -44,7 +45,7 @@ export const ProjectPreview = ({ project, active, onActivate, onDeactivate }: Pr
       setPaused(true);
       onDeactivate();
     });
-  }, [onDeactivate]);
+  }, [onDeactivate, playbackFailed]);
 
   const resetPlayback = useCallback(() => {
     activationTokenRef.current += 1;
@@ -58,30 +59,25 @@ export const ProjectPreview = ({ project, active, onActivate, onDeactivate }: Pr
   }, []);
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (!root || sourceLoaded || typeof IntersectionObserver === 'undefined') return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry?.isIntersecting) {
-        setSourceLoaded(true);
-        observer.disconnect();
-      }
-    }, { rootMargin: '480px 0px' });
-    observer.observe(root);
-    return () => observer.disconnect();
-  }, [sourceLoaded]);
-
-  useEffect(() => {
     if (!active) {
       resetPlayback();
+      if (!preload) setExplicitRequested(false);
       return;
     }
-    if (!sourceLoaded) {
-      setSourceLoaded(true);
+    if (explicitStartRef.current) {
+      explicitStartRef.current = false;
       return;
     }
     startPlayback();
-  }, [active, resetPlayback, sourceLoaded, startPlayback]);
+  }, [active, preload, resetPlayback, startPlayback]);
+
+  useEffect(() => {
+    if (sourceLoaded) return;
+    const video = videoRef.current;
+    if (!video) return;
+    video.removeAttribute('src');
+    video.load();
+  }, [sourceLoaded]);
 
   useEffect(() => {
     const handleVisibility = () => {
@@ -110,9 +106,14 @@ export const ProjectPreview = ({ project, active, onActivate, onDeactivate }: Pr
       return;
     }
 
-    if (!sourceLoaded) setSourceLoaded(true);
+    if (!sourceLoaded) {
+      setExplicitRequested(true);
+      video.src = videoSource;
+      video.load();
+    }
+    explicitStartRef.current = true;
     onActivate();
-    if (active && video) startPlayback();
+    startPlayback(true);
   };
 
   const controlLabel = active && !paused

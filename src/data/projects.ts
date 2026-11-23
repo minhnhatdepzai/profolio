@@ -749,7 +749,7 @@ export const featuredProjects: FeaturedProject[] = [
     preview: {
       poster: 'projects/previews/vector-vu-tru.webp',
       video: 'projects/previews/vector-vu-tru.mp4',
-      alt: { en: 'Vector Vu Tru browser game showing a first-person spacecraft cockpit in combat.', vi: 'Game trình duyệt Vector Vũ Trụ hiển thị buồng lái phi thuyền góc nhìn thứ nhất trong trận chiến.' },
+      alt: { en: 'Vector Vu Tru browser game showing a spacecraft combat mission in the Ash Belt.', vi: 'Game trình duyệt Vector Vũ Trụ hiển thị nhiệm vụ chiến đấu phi thuyền tại Vành Đai Tro.' },
       sourceLabel: { en: 'Live game capture', vi: 'Video quay từ game đang chạy' },
       sourceUrl: 'https://minhnhatdepzai.github.io/kaga-tama-game/',
     },

@@ -21,6 +21,9 @@ test('playback is guarded against stale async play promises and rejected playbac
   assert.match(component, /\.play\(\)/);
   assert.match(component, /catch/);
   assert.match(component, /setPlaybackFailed\(true\)/);
+  assert.doesNotMatch(component, /token !== activationTokenRef\.current\) \{\s*video\.pause/);
+  assert.match(component, /startPlayback\(true\)/);
+  assert.match(component, /if \(!explicit && playbackFailed\) return/);
 });
 
 test('preview has accessible pause and replay controls', () => {
@@ -47,6 +50,15 @@ test('gallery coordinates one active preview across pointer, focus and centered 
   assert.match(projects, /onPointerEnter/);
   assert.match(projects, /onFocusCapture/);
   assert.match(projects, /<ProjectPreview/);
+  assert.match(projects, /preload=\{/);
+  assert.match(projects, /activePreviewIndex/);
+});
+
+test('distant cards detach video sources instead of retaining all fourteen files', () => {
+  assert.match(component, /preload\?: boolean/);
+  assert.match(component, /preload \|\| active \|\| explicitRequested/);
+  assert.match(component, /video\.removeAttribute\('src'\)/);
+  assert.match(component, /video\.load\(\)/);
 });
 
 test('preview styling preserves the card frame and honors reduced motion', () => {

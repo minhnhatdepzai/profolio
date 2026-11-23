@@ -49,4 +49,7 @@ test('center selection is stable for ties and returns null with no eligible card
   assert.equal(policy.pickCenteredPreview([
     { slug: 'offscreen', top: 900, bottom: 1200, intersectionRatio: 0.1 },
   ], 800), null);
+  assert.equal(policy.pickCenteredPreview([
+    { slug: 'edge-sliver', top: 760, bottom: 1040, intersectionRatio: 0.1 },
+  ], 800), null);
 });

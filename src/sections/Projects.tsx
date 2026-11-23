@@ -246,6 +246,7 @@ export const Projects = () => {
   const triggerRef = useRef<HTMLElement | null>(null);
   const returnHashRef = useRef(location.hash.startsWith('#case-') ? '#selected-work' : location.hash);
   const openProject = featuredProjects.find((project) => project.slug === openSlug);
+  const activePreviewIndex = featuredProjects.findIndex((project) => project.slug === activePreviewSlug);
 
   useEffect(() => {
     const queries = [
@@ -388,7 +389,7 @@ export const Projects = () => {
       </header>
 
       <div className="work-gallery__grid">
-        {featuredProjects.map((project) => (
+        {featuredProjects.map((project, projectIndex) => (
           <article
             id={`work-${project.slug}`}
             className={`project-card project-card--${project.slug}`}
@@ -419,6 +420,7 @@ export const Projects = () => {
               <ProjectPreview
                 project={project}
                 active={activePreviewSlug === project.slug && !openSlug}
+                preload={previewMode !== 'poster' && activePreviewIndex >= 0 && Math.abs(projectIndex - activePreviewIndex) <= 1}
                 onActivate={() => {
                   if (!openSlug) setActivePreviewSlug(project.slug);
                 }}

@@ -44,7 +44,7 @@ export function pickCenteredPreview(candidates: PreviewCandidate[], viewportHeig
   let selected: { slug: string; distance: number } | null = null;
 
   for (const candidate of candidates) {
-    const visible = candidate.intersectionRatio > 0 && candidate.bottom > 0 && candidate.top < viewportHeight;
+    const visible = candidate.intersectionRatio >= 0.15 && candidate.bottom > 0 && candidate.top < viewportHeight;
     if (!visible) continue;
 
     const center = (candidate.top + candidate.bottom) / 2;
