@@ -7,11 +7,9 @@ import { SoundToggle } from './BrandExperience';
 import { cvFileName, cvPath } from '../data/cvFile';
 
 const navItems = [
-  { id: 'selected-work', label: { en: 'Latest work', vi: 'Dự án mới nhất' } },
-  { id: 'capabilities', label: { en: 'Capabilities', vi: 'Năng lực' } },
-  { id: 'lab', label: { en: 'Lab', vi: 'Thí nghiệm' } },
-  { id: 'journey', label: { en: 'Journey', vi: 'Hành trình' } },
-  { id: 'archive', label: { en: 'Archive', vi: 'Lưu trữ' } },
+  { id: 'selected-work', label: { en: 'Selected work', vi: 'Dự án chính' } },
+  { id: 'capabilities', label: { en: 'Skills', vi: 'Kỹ năng' } },
+  { id: 'journey', label: { en: 'Experience', vi: 'Kinh nghiệm' } },
   { id: 'contact', label: { en: 'Contact', vi: 'Liên hệ' } },
 ];
 
@@ -23,7 +21,7 @@ export const Navigation = () => {
   const menuRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const sections = ['hero', 'selected-work', 'capabilities', 'lab', 'journey', 'archive', 'contact']
+    const sections = ['hero', ...navItems.map((item) => item.id)]
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver(

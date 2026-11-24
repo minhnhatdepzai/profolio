@@ -22,6 +22,12 @@ const readPreviewMode = (): ProjectPreviewMode => {
   });
 };
 
+const spotlightSlugs: FeaturedProject['slug'][] = ['japano', 'fanpage-chatbot', 'math-lab', 'hostora-ai'];
+const orderedProjects = [
+  ...spotlightSlugs.map((slug) => featuredProjects.find((project) => project.slug === slug)!),
+  ...featuredProjects.filter((project) => !spotlightSlugs.includes(project.slug)),
+];
+
 const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   const { getStr } = useLanguage();
 
@@ -242,12 +248,14 @@ export const Projects = () => {
   ));
   const [previewMode, setPreviewMode] = useState<ProjectPreviewMode>(readPreviewMode);
   const [activePreviewSlug, setActivePreviewSlug] = useState<FeaturedProject['slug'] | null>(null);
+  const [showAllProjects, setShowAllProjects] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const hoverExitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const returnHashRef = useRef(location.hash.startsWith('#case-') ? '#selected-work' : location.hash);
   const openProject = featuredProjects.find((project) => project.slug === openSlug);
-  const activePreviewIndex = featuredProjects.findIndex((project) => project.slug === activePreviewSlug);
+  const activePreviewIndex = orderedProjects.findIndex((project) => project.slug === activePreviewSlug);
+  const visibleProjects = showAllProjects ? orderedProjects : orderedProjects.slice(0, spotlightSlugs.length);
 
   const cancelHoverExit = () => {
     if (hoverExitTimerRef.current !== null) {
@@ -330,7 +338,7 @@ export const Projects = () => {
       window.removeEventListener('scroll', selectCentered);
       window.removeEventListener('resize', selectCentered);
     };
-  }, [openSlug, previewMode]);
+  }, [openSlug, previewMode, showAllProjects]);
 
   useEffect(() => {
     if (previewMode === 'poster') setActivePreviewSlug(null);
@@ -407,14 +415,14 @@ export const Projects = () => {
           <span className="work-gallery__edition">2025—2026</span>
         </div>
         <div className="work-gallery__intro">
-          <h2 id="work-gallery-title">{lang === 'vi' ? 'Từ ý tưởng.' : 'From an idea.'}<br /><em>{lang === 'vi' ? 'Đến trải nghiệm.' : 'To an experience.'}</em><sup>{String(featuredProjects.length).padStart(2, '0')}</sup></h2>
-          <p>{lang === 'vi' ? `${featuredProjects.length} dự án, ${featuredProjects.length} thế giới riêng. Khám phá sản phẩm, chơi thử và nhìn sâu vào cách tôi xây dựng.` : `${featuredProjects.length} projects. ${featuredProjects.length} distinct worlds. Explore the products, press play, and see how I build.`}</p>
+          <h2 id="work-gallery-title">{lang === 'vi' ? 'Sản phẩm thật.' : 'Built to work.'}<br /><em>{lang === 'vi' ? 'Bằng chứng rõ.' : 'Proof in the details.'}</em><sup>{String(spotlightSlugs.length).padStart(2, '0')}</sup></h2>
+          <p>{lang === 'vi' ? 'Bốn dự án để xem nhanh: vai trò của tôi, demo và cách tôi giải bài toán. Mở thêm khi bạn muốn xem toàn bộ.' : 'Four projects to scan first: my role, a demo and how I solved the problem. Open the full collection if you want more.'}</p>
         </div>
         <div className="work-gallery__legend"><span>AI & PRODUCT ENGINEERING</span><span>WEB · MOBILE · INTERACTIVE 3D</span></div>
       </header>
 
       <div className="work-gallery__grid">
-        {featuredProjects.map((project, projectIndex) => (
+        {visibleProjects.map((project, projectIndex) => (
           <article
             id={`work-${project.slug}`}
             className={`project-card project-card--${project.slug}`}
@@ -476,9 +484,10 @@ export const Projects = () => {
                 <span className={`project-card__status project-card__status--${project.status}`}><i />{getStr(project.statusLabel)}</span>
               </div>
               <p className="project-card__summary">{getStr(project.summary)}</p>
+              <p className="project-card__contribution"><strong>{lang === 'vi' ? 'PHẦN VIỆC CỦA TÔI' : 'MY CONTRIBUTION'}</strong><span>{getStr(project.contribution)}</span></p>
               <p className={`project-card__ai project-card__ai--${projectSkills[project.slug].depth}`}>
                 <i /><span>{getStr(aiDepthLabels[projectSkills[project.slug].depth])}</span>
-                <span>{countSkills(projectSkills[project.slug])} {lang === 'vi' ? 'kỹ năng' : 'skills'}</span>
+                <span>{project.stack.slice(0, 3).join(' · ')}</span>
               </p>
               <div className="project-card__actions">
                 <button onClick={(event) => openCase(project, event.currentTarget)} aria-haspopup="dialog" data-cursor="view">
@@ -513,7 +522,20 @@ export const Projects = () => {
         ))}
       </div>
 
-      <div className="work-gallery__end"><span>{String(featuredProjects.length).padStart(2, '0')} / {String(featuredProjects.length).padStart(2, '0')}</span><span>{lang === 'vi' ? 'Mỗi dự án, một cách giải bài toán.' : 'Different worlds. The same drive to build.'}</span><ArrowUpRight aria-hidden="true" /></div>
+      <div className="work-gallery__more">
+        <p>{lang === 'vi' ? 'Muốn xem thêm game, công cụ học tập và thử nghiệm AI?' : 'Looking for games, learning tools and more AI experiments?'}</p>
+        <button type="button" aria-expanded={showAllProjects} onClick={() => {
+          setActivePreviewSlug(null);
+          setShowAllProjects((value) => !value);
+        }}>
+          {showAllProjects
+            ? (lang === 'vi' ? 'Thu gọn về 4 dự án chính' : 'Show four selected projects')
+            : (lang === 'vi' ? `Xem thêm ${featuredProjects.length - spotlightSlugs.length} dự án` : `Explore ${featuredProjects.length - spotlightSlugs.length} more projects`)}
+          <ChevronDown aria-hidden="true" />
+        </button>
+      </div>
+
+      <div className="work-gallery__end"><span>{String(visibleProjects.length).padStart(2, '0')} / {String(featuredProjects.length).padStart(2, '0')}</span><span>{lang === 'vi' ? 'Mỗi dự án đều có phần việc và bằng chứng riêng.' : 'Every project has a clear contribution and evidence.'}</span><ArrowUpRight aria-hidden="true" /></div>
 
       <dialog
         ref={dialogRef}

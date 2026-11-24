@@ -38,7 +38,8 @@ export const IntroReplay = () => {
 
 export const BrandExperience = ({ children }: { children: ReactNode }) => {
   const { lang } = useLanguage();
-  const [introOpen, setIntroOpen] = useState(() => !matchMedia('(prefers-reduced-motion: reduce)').matches && !location.hash);
+  // A recruiter can start reading immediately; the film remains available on replay.
+  const [introOpen, setIntroOpen] = useState(false);
   const [introVersion, setIntroVersion] = useState(0);
   const [filmReady, setFilmReady] = useState(false);
   const [soundOn, setSoundOn] = useState(false);

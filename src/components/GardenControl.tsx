@@ -22,7 +22,8 @@ export const GardenControl = ({ mode, phase, onToggle, onAuto }: GardenControlPr
         ? (running ? (vi ? 'Bạn đang nghỉ · khu vườn đang chơi' : 'You’re resting · the garden is playing') : (vi ? 'Tự thức sau 10 giây không tương tác' : 'Wakes after 10 seconds without interaction'))
         : (vi ? 'Đang chuyển động · bấm để tạm dừng' : 'Playing now · pause whenever you like');
   return (
-    <div className="garden-controls">
+    <details className="garden-controls">
+      <summary aria-label={vi ? 'Tùy chọn khu vườn' : 'Garden options'}><Leaf size={16} aria-hidden="true" /><span>{vi ? 'Khu vườn' : 'Garden'}</span></summary>
       <p className="garden-control__hint" role="status" aria-live="polite">{hint}</p>
       <div className="garden-controls__buttons">
         <button type="button" className={`garden-control${running ? '' : ' garden-control--resting'}`} onClick={onToggle} aria-pressed={running} aria-label={label}>
@@ -33,6 +34,6 @@ export const GardenControl = ({ mode, phase, onToggle, onAuto }: GardenControlPr
           <Timer size={13} aria-hidden="true" /><span>Auto · 10s</span>
         </button>
       </div>
-    </div>
+    </details>
   );
 };
