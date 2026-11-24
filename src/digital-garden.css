@@ -130,7 +130,9 @@
 .garden-control--resting { color: #a0b092; }
 .garden-control:disabled { cursor: default; }
 .nav-is-open .garden-controls, .dialog-is-open .garden-controls,
-.nav-is-open .garden-companions, .dialog-is-open .garden-companions { visibility: hidden; }
+.nav-is-open .garden-companions, .dialog-is-open .garden-companions,
+.work-gallery-in-view .garden-controls, .work-gallery-in-view .garden-companions,
+.work-gallery-in-view .garden-wildlife { visibility: hidden; }
 .garden-is-paused .hero-spark, .garden-is-paused .hero-scroll svg { animation-play-state: paused; }
 @media (min-width: 1700px) { .hero-stage { left: 49%; width: 52%; } }
 @media (max-width: 1100px) and (min-width: 801px) { .hero-stage { left: 48%; width: 59%; } .habitat-note { right: 13%; font-size: .42rem; } }

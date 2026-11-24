@@ -244,9 +244,34 @@ export const Projects = () => {
   const [activePreviewSlug, setActivePreviewSlug] = useState<FeaturedProject['slug'] | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const hoverExitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const returnHashRef = useRef(location.hash.startsWith('#case-') ? '#selected-work' : location.hash);
   const openProject = featuredProjects.find((project) => project.slug === openSlug);
   const activePreviewIndex = featuredProjects.findIndex((project) => project.slug === activePreviewSlug);
+
+  const cancelHoverExit = () => {
+    if (hoverExitTimerRef.current !== null) {
+      clearTimeout(hoverExitTimerRef.current);
+      hoverExitTimerRef.current = null;
+    }
+  };
+
+  useEffect(() => () => {
+    if (hoverExitTimerRef.current !== null) clearTimeout(hoverExitTimerRef.current);
+  }, []);
+
+  useEffect(() => {
+    const gallery = document.getElementById('selected-work');
+    if (!gallery) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      document.body.classList.toggle('work-gallery-in-view', entry.isIntersecting);
+    });
+    observer.observe(gallery);
+    return () => {
+      observer.disconnect();
+      document.body.classList.remove('work-gallery-in-view');
+    };
+  }, []);
 
   useEffect(() => {
     const queries = [
@@ -403,12 +428,22 @@ export const Projects = () => {
             <div
               className="project-card__visual"
               onPointerEnter={() => {
+                cancelHoverExit();
                 if (previewMode === 'hover' && !openSlug) setActivePreviewSlug(project.slug);
               }}
-              onPointerLeave={() => {
-                if (previewMode === 'hover') setActivePreviewSlug((current) => current === project.slug ? null : current);
+              onPointerLeave={(event) => {
+                if (previewMode !== 'hover') return;
+                const visual = event.currentTarget;
+                cancelHoverExit();
+                hoverExitTimerRef.current = setTimeout(() => {
+                  hoverExitTimerRef.current = null;
+                  if (!visual.matches(':hover') && !visual.contains(document.activeElement)) {
+                    setActivePreviewSlug((current) => current === project.slug ? null : current);
+                  }
+                }, 180);
               }}
               onFocusCapture={() => {
+                cancelHoverExit();
                 if (previewMode === 'hover' && !openSlug) setActivePreviewSlug(project.slug);
               }}
               onBlurCapture={(event) => {

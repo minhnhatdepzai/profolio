@@ -9,7 +9,6 @@ export const ScrollExperience = () => {
     const hero = document.querySelector<HTMLElement>('.hero');
     const heroCopy = document.querySelector<HTMLElement>('.hero-copy');
     let frame = 0;
-    let activeCard: HTMLElement | null = null;
     let activeMagnet: HTMLElement | null = null;
     const reveals = new Set<HTMLElement>();
 
@@ -61,31 +60,13 @@ export const ScrollExperience = () => {
     });
     mutations.observe(document.querySelector('.site-shell') ?? document.body, { childList: true, subtree: true });
 
-    const resetCard = () => {
-      activeCard?.classList.remove('is-pointer-active');
-      ['--tilt-x', '--tilt-y', '--pointer-x', '--pointer-y'].forEach((property) => activeCard?.style.removeProperty(property));
-      activeCard = null;
-    };
     const resetMagnet = () => {
       if (activeMagnet) activeMagnet.style.translate = '';
       activeMagnet = null;
     };
-    const resetPointer = () => { resetCard(); resetMagnet(); };
+    const resetPointer = () => { resetMagnet(); };
     const onPointer = (event: PointerEvent) => {
       if (motion.matches || !desktop.matches || document.hidden || !(event.target instanceof Element)) return;
-      const card = event.target.closest<HTMLElement>('.project-card')?.querySelector<HTMLElement>('.project-card__visual') ?? null;
-      if (card !== activeCard) resetCard();
-      if (card) {
-        activeCard = card;
-        const rect = card.getBoundingClientRect();
-        const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
-        const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
-        card.style.setProperty('--tilt-x', `${(0.5 - y) * 4}deg`);
-        card.style.setProperty('--tilt-y', `${(x - 0.5) * 4}deg`);
-        card.style.setProperty('--pointer-x', `${x * 100}%`);
-        card.style.setProperty('--pointer-y', `${y * 100}%`);
-        card.classList.add('is-pointer-active');
-      }
       const magnet = event.target.closest<HTMLElement>('[data-magnetic]');
       if (magnet !== activeMagnet) resetMagnet();
       if (magnet) {
