@@ -21,6 +21,21 @@ export function resolvePreviewUrl(path: string, baseUrl: string): string {
   return `${base}/${path.replace(/^\/+/, '')}`;
 }
 
+export function youtubeEmbedUrl(youtubeId: string): string {
+  const params = new URLSearchParams({
+    autoplay: '1',
+    mute: '1',
+    controls: '0',
+    loop: '1',
+    playlist: youtubeId,
+    playsinline: '1',
+    rel: '0',
+    modestbranding: '1',
+  });
+
+  return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(youtubeId)}?${params}`;
+}
+
 export function autoplayMode(environment: PreviewEnvironment): ProjectPreviewMode {
   const constrainedConnection = environment.effectiveType === '2g' || environment.effectiveType === 'slow-2g';
 

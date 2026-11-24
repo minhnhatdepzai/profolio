@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pause, Play, RotateCcw } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import type { FeaturedProject } from '../data/projects';
-import { resolvePreviewUrl } from './projectPreviewPolicy';
+import { resolvePreviewUrl, youtubeEmbedUrl } from './projectPreviewPolicy';
 import './project-preview.css';
 
 interface ProjectPreviewProps {
@@ -23,17 +23,26 @@ export const ProjectPreview = ({ project, active, preload = false, onActivate, o
   const [ready, setReady] = useState(false);
   const [paused, setPaused] = useState(true);
   const [playbackFailed, setPlaybackFailed] = useState(false);
+  const isYoutube = project.preview.kind === 'youtube';
   const poster = resolvePreviewUrl(project.preview.poster, import.meta.env.BASE_URL);
-  const videoSource = resolvePreviewUrl(project.preview.video, import.meta.env.BASE_URL);
-  const sourceLoaded = preload || active || explicitRequested;
+  const videoSource = project.preview.kind === 'local'
+    ? resolvePreviewUrl(project.preview.video, import.meta.env.BASE_URL)
+    : undefined;
+  const sourceLoaded = project.preview.kind === 'local' && (preload || active || explicitRequested);
 
   const startPlayback = useCallback((explicit = false) => {
+    if (!explicit && playbackFailed) return;
+    if (explicit) setPlaybackFailed(false);
+
+    if (isYoutube) {
+      setReady(false);
+      setPaused(false);
+      return;
+    }
+
     const video = videoRef.current;
     if (!video) return;
-    if (!explicit && playbackFailed) return;
-
     const token = ++activationTokenRef.current;
-    if (explicit) setPlaybackFailed(false);
     const playPromise = video.play();
     playPromise?.then(() => {
       if (token !== activationTokenRef.current) return;
@@ -45,7 +54,7 @@ export const ProjectPreview = ({ project, active, preload = false, onActivate, o
       setPaused(true);
       onDeactivate();
     });
-  }, [onDeactivate, playbackFailed]);
+  }, [isYoutube, onDeactivate, playbackFailed]);
 
   const resetPlayback = useCallback(() => {
     activationTokenRef.current += 1;
@@ -72,21 +81,22 @@ export const ProjectPreview = ({ project, active, preload = false, onActivate, o
   }, [active, preload, resetPlayback, startPlayback]);
 
   useEffect(() => {
+    if (isYoutube) return;
     if (sourceLoaded) return;
     const video = videoRef.current;
     if (!video) return;
     video.removeAttribute('src');
     video.load();
-  }, [sourceLoaded]);
+  }, [isYoutube, sourceLoaded]);
 
   useEffect(() => {
     const handleVisibility = () => {
       if (document.hidden) resetPlayback();
-      else if (active && sourceLoaded) startPlayback();
+      else if (active && (isYoutube || sourceLoaded)) startPlayback();
     };
     document.addEventListener('visibilitychange', handleVisibility);
     return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [active, resetPlayback, sourceLoaded, startPlayback]);
+  }, [active, isYoutube, resetPlayback, sourceLoaded, startPlayback]);
 
   useEffect(() => () => {
     activationTokenRef.current += 1;
@@ -99,14 +109,15 @@ export const ProjectPreview = ({ project, active, preload = false, onActivate, o
 
   const togglePlayback = () => {
     const video = videoRef.current;
-    if (active && video && !video.paused) {
+    if (active && !paused) {
       activationTokenRef.current += 1;
-      video.pause();
+      if (video && !video.paused) video.pause();
+      setReady(false);
       setPaused(true);
       return;
     }
 
-    if (!sourceLoaded) {
+    if (!isYoutube && !sourceLoaded && video && videoSource) {
       setExplicitRequested(true);
       video.src = videoSource;
       video.load();
@@ -135,33 +146,61 @@ export const ProjectPreview = ({ project, active, preload = false, onActivate, o
         loading="lazy"
         decoding="async"
       />
-      <video
-        ref={videoRef}
-        className={`project-preview__video${ready ? ' is-ready' : ''}`}
-        src={sourceLoaded ? videoSource : undefined}
-        poster={poster}
-        muted
-        playsInline
-        loop
-        preload="none"
-        aria-hidden="true"
-        tabIndex={-1}
-        onPlaying={() => {
-          if (!active) return;
-          setReady(true);
-          setPaused(false);
-        }}
-        onPause={() => setPaused(true)}
-        onError={() => {
-          setPlaybackFailed(true);
-          setReady(false);
-          setPaused(true);
-          onDeactivate();
-        }}
-      />
+      {project.preview.kind === 'youtube' ? (
+        active && !paused && (
+          <iframe
+            className={`project-preview__youtube${ready ? ' is-ready' : ''}`}
+            src={youtubeEmbedUrl(project.preview.youtubeId)}
+            title={`${project.title} — ${getStr(project.preview.sourceLabel)}`}
+            allow="autoplay; encrypted-media; picture-in-picture"
+            referrerPolicy="strict-origin-when-cross-origin"
+            loading="eager"
+            aria-hidden="true"
+            tabIndex={-1}
+            onLoad={() => {
+              if (!active) return;
+              setReady(true);
+              setPaused(false);
+            }}
+            onError={() => {
+              setPlaybackFailed(true);
+              setReady(false);
+              setPaused(true);
+              onDeactivate();
+            }}
+          />
+        )
+      ) : (
+        <video
+          ref={videoRef}
+          className={`project-preview__video${ready ? ' is-ready' : ''}`}
+          src={sourceLoaded ? videoSource : undefined}
+          poster={poster}
+          muted
+          playsInline
+          loop
+          preload="none"
+          aria-hidden="true"
+          tabIndex={-1}
+          onPlaying={() => {
+            if (!active) return;
+            setReady(true);
+            setPaused(false);
+          }}
+          onPause={() => setPaused(true)}
+          onError={() => {
+            setPlaybackFailed(true);
+            setReady(false);
+            setPaused(true);
+            onDeactivate();
+          }}
+        />
+      )}
       <div className="project-preview__status" aria-hidden="true">
         <i />
-        <span>{lang === 'vi' ? 'VIDEO GIỚI THIỆU' : 'VIDEO PREVIEW'}</span>
+        <span>{project.preview.kind === 'youtube'
+          ? (lang === 'vi' ? 'YOUTUBE · VIDEO THẬT' : 'YOUTUBE · REAL DEMO')
+          : (lang === 'vi' ? 'VIDEO GIỚI THIỆU' : 'VIDEO PREVIEW')}</span>
       </div>
       <span className="project-preview__source">{getStr(project.preview.sourceLabel)}</span>
       <button

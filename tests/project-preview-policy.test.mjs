@@ -15,6 +15,13 @@ test('resolves preview assets under both root and GitHub Pages bases', () => {
   assert.equal(policy.resolvePreviewUrl('projects/previews/japano.mp4', '/profolio'), '/profolio/projects/previews/japano.mp4');
 });
 
+test('builds a muted looping privacy-enhanced YouTube autoplay URL', () => {
+  assert.equal(
+    policy.youtubeEmbedUrl('D8jqwvPUfFc'),
+    'https://www.youtube-nocookie.com/embed/D8jqwvPUfFc?autoplay=1&mute=1&controls=0&loop=1&playlist=D8jqwvPUfFc&playsinline=1&rel=0&modestbranding=1',
+  );
+});
+
 test('reduced motion, Save-Data and 2G remain poster-only', () => {
   const base = { finePointer: true, touch: false, reducedMotion: false, saveData: false, effectiveType: '4g' };
   assert.equal(policy.autoplayMode({ ...base, reducedMotion: true }), 'poster');

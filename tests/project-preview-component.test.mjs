@@ -15,6 +15,17 @@ test('video is silent, inline, lazy and uses a stable poster fallback', () => {
   assert.match(component, /resolvePreviewUrl/);
 });
 
+test('owner-supplied previews mount a direct YouTube player only while active', () => {
+  assert.match(component, /project\.preview\.kind === 'youtube'/);
+  assert.match(component, /youtubeEmbedUrl\(project\.preview\.youtubeId\)/);
+  assert.match(component, /active && !paused/);
+  assert.match(component, /<iframe/);
+  assert.match(component, /allow="autoplay; encrypted-media; picture-in-picture"/);
+  assert.match(component, /referrerPolicy="strict-origin-when-cross-origin"/);
+  assert.match(component, /project-preview__youtube/);
+  assert.match(styles, /\.project-preview__youtube\.is-ready/);
+});
+
 test('playback is guarded against stale async play promises and rejected playback', () => {
   assert.match(component, /activationTokenRef/);
   assert.match(component, /token !== activationTokenRef\.current/);
