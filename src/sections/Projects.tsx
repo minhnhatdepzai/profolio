@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { Fragment, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { ArrowUpRight, ChevronDown, Film, Github, Globe, Play, Plus, X } from 'lucide-react';
 import { featuredProjects, type FeaturedProject, type ProjectLink } from '../data/projects';
 import { aiDepthLabels, countSkills, modelKindLabels, projectSkills } from '../data/projectSkills';
@@ -27,6 +27,8 @@ const orderedProjects = [
   ...spotlightSlugs.map((slug) => featuredProjects.find((project) => project.slug === slug)!),
   ...featuredProjects.filter((project) => !spotlightSlugs.includes(project.slug)),
 ];
+const morePreviewProjects = (['saigon-77', 'vocalab', 'vector-vu-tru'] as const)
+  .map((slug) => featuredProjects.find((project) => project.slug === slug)!);
 
 const ProjectArtifact = ({ project }: { project: FeaturedProject }) => {
   const { getStr } = useLanguage();
@@ -421,12 +423,62 @@ export const Projects = () => {
         <div className="work-gallery__legend"><span>AI & PRODUCT ENGINEERING</span><span>WEB · MOBILE · INTERACTIVE 3D</span></div>
       </header>
 
-      <div className="work-gallery__grid">
-        {visibleProjects.map((project, projectIndex) => (
+      <div id="work-gallery-grid" className="work-gallery__grid">
+        {orderedProjects.map((project, projectIndex) => (
+          <Fragment key={project.slug}>
+          {projectIndex === spotlightSlugs.length && (
+            <section className="work-gallery__more" data-expanded={showAllProjects} aria-labelledby="work-gallery-more-title" data-reveal>
+              <div className="work-gallery__more-copy">
+                <span className="work-gallery__more-kicker"><i />{lang === 'vi' ? 'CHO NGƯỜI MUỐN XEM KỸ' : 'FOR A CLOSER LOOK'}</span>
+                <div className="work-gallery__more-heading">
+                  <strong aria-hidden="true">{String(showAllProjects ? featuredProjects.length : featuredProjects.length - spotlightSlugs.length).padStart(2, '0')}</strong>
+                  <div>
+                    <h3 id="work-gallery-more-title">{showAllProjects
+                      ? (lang === 'vi' ? 'Đã mở toàn bộ dự án.' : 'The full collection is open.')
+                      : (lang === 'vi' ? 'Còn nhiều điều để khám phá.' : 'There is more to explore.')}</h3>
+                    <p>{lang === 'vi'
+                      ? 'Từ game 3D có thể chơi đến công cụ AI chạy local. Mỗi case ghi rõ bài toán, cách làm, phần việc của tôi và link kiểm chứng khi có.'
+                      : 'From playable 3D worlds to local AI tools. Each case shows the problem, my approach, my contribution and available proof.'}</p>
+                  </div>
+                </div>
+                <div className="work-gallery__more-proof" aria-hidden="true"><span>{lang === 'vi' ? 'BÀI TOÁN' : 'PROBLEM'}</span><span>{lang === 'vi' ? 'CÁCH LÀM' : 'APPROACH'}</span><span>{lang === 'vi' ? 'VAI TRÒ & BẰNG CHỨNG' : 'ROLE & EVIDENCE'}</span></div>
+              </div>
+              <div className="work-gallery__more-action">
+                <div className="work-gallery__more-previews" aria-hidden="true">
+                  {morePreviewProjects.map((previewProject) => (
+                    <figure key={previewProject.slug}>
+                      <img src={`${import.meta.env.BASE_URL}${previewProject.preview.poster}`} alt="" loading="lazy" decoding="async" width="160" height="100" />
+                      <figcaption>{previewProject.title}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+                <button type="button" aria-controls="work-gallery-grid" aria-expanded={showAllProjects} onClick={() => {
+                  setActivePreviewSlug(null);
+                  if (!showAllProjects) {
+                    requestAnimationFrame(() => {
+                      const nextProject = document.getElementById(`work-${orderedProjects[spotlightSlugs.length].slug}`);
+                      nextProject?.focus({ preventScroll: true });
+                      nextProject?.scrollIntoView({
+                        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+                        block: 'start',
+                      });
+                    });
+                  }
+                  setShowAllProjects((value) => !value);
+                }}>
+                  <span>{showAllProjects
+                    ? (lang === 'vi' ? 'Thu gọn về 4 dự án chính' : 'Show four selected projects')
+                    : (lang === 'vi' ? `Mở thêm ${featuredProjects.length - spotlightSlugs.length} dự án` : `Open ${featuredProjects.length - spotlightSlugs.length} more projects`)}</span>
+                  <span className="work-gallery__more-arrow"><ArrowUpRight aria-hidden="true" /></span>
+                </button>
+              </div>
+            </section>
+          )}
+          {(showAllProjects || projectIndex < spotlightSlugs.length) && (
           <article
             id={`work-${project.slug}`}
             className={`project-card project-card--${project.slug}`}
-            key={project.slug}
+            tabIndex={projectIndex === spotlightSlugs.length ? -1 : undefined}
             style={{ '--accent': project.accent, '--accent-soft': project.accentSoft, '--case-ink': project.ink } as CSSProperties}
             aria-labelledby={`project-title-${project.slug}`}
             data-preview-card={project.slug}
@@ -519,20 +571,9 @@ export const Projects = () => {
               </details>
             </div>
           </article>
+          )}
+          </Fragment>
         ))}
-      </div>
-
-      <div className="work-gallery__more">
-        <p>{lang === 'vi' ? 'Muốn xem thêm game, công cụ học tập và thử nghiệm AI?' : 'Looking for games, learning tools and more AI experiments?'}</p>
-        <button type="button" aria-expanded={showAllProjects} onClick={() => {
-          setActivePreviewSlug(null);
-          setShowAllProjects((value) => !value);
-        }}>
-          {showAllProjects
-            ? (lang === 'vi' ? 'Thu gọn về 4 dự án chính' : 'Show four selected projects')
-            : (lang === 'vi' ? `Xem thêm ${featuredProjects.length - spotlightSlugs.length} dự án` : `Explore ${featuredProjects.length - spotlightSlugs.length} more projects`)}
-          <ChevronDown aria-hidden="true" />
-        </button>
       </div>
 
       <div className="work-gallery__end"><span>{String(visibleProjects.length).padStart(2, '0')} / {String(featuredProjects.length).padStart(2, '0')}</span><span>{lang === 'vi' ? 'Mỗi dự án đều có phần việc và bằng chứng riêng.' : 'Every project has a clear contribution and evidence.'}</span><ArrowUpRight aria-hidden="true" /></div>
@@ -540,6 +581,7 @@ export const Projects = () => {
       <dialog
         ref={dialogRef}
         className="project-dialog"
+        data-project={openProject?.slug}
         aria-labelledby="project-dialog-title"
         aria-describedby="project-dialog-summary"
         onCancel={(event) => { event.preventDefault(); closeCase(); }}
